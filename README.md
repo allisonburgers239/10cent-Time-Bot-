@@ -47,7 +47,16 @@ single sleeve.
 
 ## Status
 
-Phase 0 - scaffolding. Sleeve A (ORB) implemented; B and C pending.
+Phase 0 - scaffolding. Sleeves A (ORB) and B (TSMOM) implemented; C pending.
+
+**Sleeve B backtest (2007-2026, 229 months, 10-ETF basket, net of 10bps
+round-trip):** Sharpe 0.71, CAGR 4.06% (at 10% vol/position), MaxDD -14.3%,
+monthly win rate 57%. Consistent with published TSMOM evidence (AQR
+Hurst/Ooi/Pedersen 2017; Moskowitz-Ooi-Pedersen 2012).
+
+**Sleeve A on real data:** validated against QQQ + 7-ETF basket over the last
+~60 days (only window where free 5-min data is available). Portfolio Sharpe
+near zero on that window; longer history needed before tuning filters.
 
 ## Quick start
 
