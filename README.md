@@ -47,16 +47,24 @@ single sleeve.
 
 ## Status
 
-Phase 0 - scaffolding. Sleeves A (ORB) and B (TSMOM) implemented; C pending.
+Phase 0 - scaffolding. All three sleeves implemented with real-data
+backtests.
 
-**Sleeve B backtest (2007-2026, 229 months, 10-ETF basket, net of 10bps
-round-trip):** Sharpe 0.71, CAGR 4.06% (at 10% vol/position), MaxDD -14.3%,
-monthly win rate 57%. Consistent with published TSMOM evidence (AQR
-Hurst/Ooi/Pedersen 2017; Moskowitz-Ooi-Pedersen 2012).
+**Sleeve B - TSMOM** (10-ETF basket, 2007-2026, 229 months, net of 10bps
+round-trip): Sharpe 0.71, CAGR 4.06% (at 10% vol/position), MaxDD -14.3%,
+monthly win rate 57%. Consistent with AQR Hurst/Ooi/Pedersen 2017 and
+Moskowitz-Ooi-Pedersen 2012.
 
-**Sleeve A on real data:** validated against QQQ + 7-ETF basket over the last
-~60 days (only window where free 5-min data is available). Portfolio Sharpe
-near zero on that window; longer history needed before tuning filters.
+**Sleeve C - Crypto basis** (BTC+ETH equal-weight, 2020-2026, 6.4 years
+of Deribit funding history, 5bps per position change): portfolio Sharpe
+1.29, CAGR 0.99%, MaxDD -12.4% at 1x notional. BTC standalone Sharpe
+2.07; ETH 0.24. Delta-neutral, so the strategy is leverage-scalable -
+5x notional brings CAGR into the 5% range at similar Sharpe.
+
+**Sleeve A - ORB** validated against QQQ + 7-ETF basket over ~60 days
+(only window with free 5-min data). Portfolio Sharpe near zero on that
+sample; longer 5-min history is required before iterating on filters,
+otherwise filter selection is just overfitting to noise.
 
 ## Quick start
 
@@ -73,11 +81,17 @@ python scripts/run_orb_backtest.py      # synthetic data smoke test
 src/ten_cent_bot/
   data.py        # OHLCV loader + synthetic data generator
   orb.py         # Sleeve A: Opening Range Breakout signal generation
+  tsmom.py       # Sleeve B: Time-Series Momentum on multi-asset basket
+  basis.py       # Sleeve C: Crypto cash-and-carry on perp funding rates
   risk.py        # Position sizing (1% rule)
-  backtest.py    # Backtest engine (signals -> equity curve)
+  backtest.py    # ORB backtest engine (signals -> equity curve)
   metrics.py     # Sharpe, Sortino, max drawdown, Calmar, win rate
 scripts/
-  run_orb_backtest.py
+  run_orb_backtest.py        # ORB on synthetic data
+  fetch_and_run_qqq.py       # ORB on QQQ via yfinance
+  multi_ticker_orb.py        # ORB cross-sectional check across ETF basket
+  run_tsmom_backtest.py      # TSMOM on 10-ETF basket via yfinance
+  run_basis_backtest.py      # Crypto basis on BTC/ETH via Deribit
 tests/
   test_orb.py
 ```
