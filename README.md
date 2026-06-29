@@ -4,13 +4,14 @@ A systematic, multi-sleeve trading bot for index futures, futures baskets,
 and crypto perpetuals. Built around three of the best-documented
 retail-accessible edges in derivatives markets.
 
-## Strategy (original design)
+## Strategy (original design + iteration)
 
 | Sleeve | Edge | Instrument | Audit status |
 |---|---|---|---|
 | A - Opening Range Breakout | Intraday momentum on NY open | MNQ / liquid ETFs | Incomplete (needs longer 5-min data) |
 | B - Time-Series Momentum   | 12-month trend on multi-asset basket | ~10 liquid ETFs | **Deployable** - all 7 robustness checks pass |
 | C - Crypto Cash-and-Carry  | Funding-rate arbitrage | BTC/ETH spot vs perp | **Shelved** - failed walk-forward |
+| D - Cross-Sectional Momentum | Sector ETF rotation | 9 SPDR sectors | **Shelved** - no real edge (signal weaker than equal-weight) |
 
 Each sleeve has published out-of-sample evidence in the academic
 literature. Robustness auditing in this repo is what determines whether
@@ -102,6 +103,32 @@ with a regime filter (e.g. only trade when 30-day mean funding >
 threshold), but that's parameter-tuning to past data unless validated
 out-of-sample on fresh data.
 
+### Sleeve D - Cross-sectional sector momentum (shelved)
+
+Attempted as an additional sleeve uncorrelated with B. Universe: 9 SPDR
+sector ETFs (XLB, XLE, XLF, XLI, XLK, XLP, XLU, XLV, XLY), 1998-2026
+(331 months). Long top-3 by trailing 12-month return, short bottom-3.
+
+Audit (`scripts/audit_xsmom.py`) finds no real edge:
+
+- Baseline Sharpe -0.06 over 28 years (MaxDD -54.5%)
+- 84-config grid: only 21% positive, 0% above Sharpe 0.3
+- Cost sensitivity: Sharpe is only +0.015 even at zero cost - the
+  signal itself carries essentially no edge before transaction costs
+- Placebo (random ranks): p-value 0.11, not significant
+- Long-only variant: equal-weight benchmark across all 9 sectors has
+  Sharpe 0.67; best long-only momentum variant has Sharpe 0.60. The
+  momentum selection subtracts edge vs holding the basket equally.
+
+Lesson: the cross-sectional momentum literature (Jegadeesh-Titman 1993,
+Asness-Moskowitz-Pedersen 2013) is about **individual stocks** ranked
+across hundreds of names. Sector-level aggregates are too coarse for
+the same effect to survive - consistent with Moskowitz-Grinblatt 1999
+findings that industry momentum is much weaker than stock momentum.
+
+A more ambitious version would rank individual stocks (e.g. S&P 500
+constituents). Operationally heavier and out of scope for v1.
+
 ### Sleeve A - ORB (incomplete)
 
 Validated against QQQ + 7-ETF basket over ~60 days (the only window
@@ -127,6 +154,7 @@ src/ten_cent_bot/
   orb.py         # Sleeve A: Opening Range Breakout signal generation
   tsmom.py       # Sleeve B: Time-Series Momentum on multi-asset basket
   basis.py       # Sleeve C: Crypto cash-and-carry on perp funding rates
+  xsmom.py       # Sleeve D: Cross-sectional momentum (shelved - kept for evidence)
   risk.py        # Position sizing (1% rule)
   backtest.py    # ORB backtest engine (signals -> equity curve)
   metrics.py     # Sharpe, Sortino, max drawdown, Calmar, win rate
@@ -136,8 +164,10 @@ scripts/
   multi_ticker_orb.py        # ORB cross-sectional check across ETF basket
   run_tsmom_backtest.py      # TSMOM on 10-ETF basket via yfinance
   run_basis_backtest.py      # Crypto basis on BTC/ETH via Deribit
+  run_xsmom_backtest.py      # Cross-sectional sector momentum
   audit_tsmom.py             # 7-section robustness audit (PASSES)
   audit_basis.py             # 7-section robustness audit (FAILS walk-forward)
+  audit_xsmom.py             # 7-section robustness audit (no real edge)
 tests/
   test_orb.py
 ```
