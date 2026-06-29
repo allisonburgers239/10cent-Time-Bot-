@@ -157,10 +157,84 @@ filter selection is overfitting to a 60-day noise window.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
+pip install -e ".[dev,data]"
 pytest                                  # run unit tests
 python scripts/run_orb_backtest.py      # synthetic data smoke test
 ```
+
+## Running the bot (Sleeve B, monthly rebalance)
+
+Two modes:
+
+### Mode 1 - Manual execution (no credentials needed)
+
+```bash
+# First run: pass starting equity. Outputs a trade ticket you execute
+# manually on the Tradovate UI.
+python scripts/monthly_rebalance.py --source file --equity-override 25000
+
+# Subsequent runs: reads current positions + equity from data/state.json,
+# updates the file after computing the new month's orders.
+python scripts/monthly_rebalance.py --source file
+```
+
+Output is a human-readable trade ticket like:
+
+```
+Sleeve B monthly rebalance
+As of:           2026-06-30
+Account equity:  $25,000.00
+
+Symbol  Current  Target  Action
+----------------------------------------
+    6E       +0      +0  HOLD
+   MCL       +0      +1  BUY 1
+   MES       +0      +1  BUY 1
+   ZC       +0      +1  BUY 1
+...
+----------------------------------------
+3 order(s) to enter
+```
+
+Execute the orders on Tradovate, then update `data/state.json` with the
+actual fills (the script writes its computed end state automatically;
+adjust the file if fills differ from intent).
+
+### Mode 2 - Automated via Tradovate REST API
+
+Request API access from Tradovate support to get `cid` + `sec`. Then:
+
+```bash
+export TRADOVATE_NAME="your_tradovate_login"
+export TRADOVATE_PASSWORD="..."
+export TRADOVATE_CID=12345
+export TRADOVATE_SEC="..."
+
+# Dry-run against demo account (always safe)
+python scripts/monthly_rebalance.py --source tradovate --paper
+
+# Live, but still dry-run by default (no orders sent)
+python scripts/monthly_rebalance.py --source tradovate
+
+# Actually place orders on the demo account
+python scripts/monthly_rebalance.py --source tradovate --paper --auto-fire
+
+# Live trading on real money (only after paper validation)
+python scripts/monthly_rebalance.py --source tradovate --auto-fire
+```
+
+Cron suggestion (1st trading day of month, 5pm ET):
+
+```cron
+0 17 1 * 1-5  /path/to/.venv/bin/python /path/to/scripts/monthly_rebalance.py --source tradovate
+```
+
+### Deployment basket
+
+`src/ten_cent_bot/contracts.py:DEPLOYMENT_BASKET` defines the 10
+contracts the bot trades. Default uses micros where available (MES,
+MNQ, MGC, MCL) so small accounts can size positions in integer
+contracts.
 
 ## Project layout
 
@@ -171,10 +245,14 @@ src/ten_cent_bot/
   tsmom.py       # Sleeve B: Time-Series Momentum on multi-asset basket
   basis.py       # Sleeve C: Crypto cash-and-carry on perp funding rates
   xsmom.py       # Sleeve D: Cross-sectional momentum (shelved - kept for evidence)
+  contracts.py   # CME futures contract specs (point value, tick size, yf symbol)
+  orchestrator.py # Monthly rebalance logic + position diff + risk gates
+  tradovate.py   # Tradovate REST client (auth, positions, orders)
   risk.py        # Position sizing (1% rule)
   backtest.py    # ORB backtest engine (signals -> equity curve)
   metrics.py     # Sharpe, Sortino, max drawdown, Calmar, win rate
 scripts/
+  monthly_rebalance.py       # Deployment entry: trade ticket (file mode) or auto-trade (Tradovate)
   run_orb_backtest.py        # ORB on synthetic data
   fetch_and_run_qqq.py       # ORB on QQQ via yfinance
   multi_ticker_orb.py        # ORB cross-sectional check across ETF basket
@@ -187,6 +265,7 @@ scripts/
   audit_xsmom.py             # Sleeve D audit (no real edge)
 tests/
   test_orb.py
+  test_orchestrator.py
 ```
 
 ## Disclaimer
