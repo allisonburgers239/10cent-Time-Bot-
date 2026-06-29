@@ -29,6 +29,7 @@ from ten_cent_bot.orchestrator import (
     plan_rebalance,
     save_state,
 )
+from ten_cent_bot.tsmom import TSMOMConfig
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_STATE_FILE = ROOT / "data" / "state.json"
@@ -66,7 +67,31 @@ def main() -> int:
         default=None,
         help="override account equity (file mode only)",
     )
+    parser.add_argument(
+        "--target-vol",
+        type=float,
+        default=0.20,
+        help="annualized vol target per position (default 0.20 = moderate aggressive)",
+    )
+    parser.add_argument(
+        "--max-leverage",
+        type=float,
+        default=2.0,
+        help="absolute cap on position leverage (default 2.0)",
+    )
+    parser.add_argument(
+        "--lookback-months",
+        type=int,
+        default=12,
+        help="TSMOM lookback (default 12). Audit sweet spot was 12-18.",
+    )
     args = parser.parse_args()
+
+    tsmom_cfg = TSMOMConfig(
+        lookback_months=args.lookback_months,
+        target_vol=args.target_vol,
+        max_leverage=args.max_leverage,
+    )
 
     basket = DEPLOYMENT_BASKET
     print(f"Sleeve B monthly rebalance ({args.source} mode, basket: {basket})")
@@ -110,12 +135,18 @@ def main() -> int:
             print(f"\nTradovate query failed: {e}")
             return 2
 
+    print(
+        f"\nConfig: target_vol={args.target_vol:.0%}, max_lev={args.max_leverage}, "
+        f"lookback={args.lookback_months}m"
+    )
+
     plan = plan_rebalance(
         monthly_prices=monthly_prices,
         last_prices=last_prices,
         current_positions=current_positions,
         account_equity=float(account_equity),
         basket=basket,
+        tsmom_config=tsmom_cfg,
     )
 
     print("\n" + plan.trade_ticket())
