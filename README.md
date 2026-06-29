@@ -4,17 +4,18 @@ A systematic, multi-sleeve trading bot for index futures, futures baskets,
 and crypto perpetuals. Built around three of the best-documented
 retail-accessible edges in derivatives markets.
 
-## Strategy
+## Strategy (original design)
 
-| Sleeve | Edge | Instrument | Timeframe | Weight |
-|---|---|---|---|---|
-| A - Opening Range Breakout | Intraday momentum on NY open | MNQ | 5-min, 1 trade/day | 40% |
-| B - Time-Series Momentum   | 12-month trend on futures basket | ~12 liquid futures | Daily, monthly rebalance | 45% |
-| C - Crypto Cash-and-Carry  | Funding-rate arbitrage | BTC/ETH spot vs perp | 8h funding | 15% |
+| Sleeve | Edge | Instrument | Audit status |
+|---|---|---|---|
+| A - Opening Range Breakout | Intraday momentum on NY open | MNQ / liquid ETFs | Incomplete (needs longer 5-min data) |
+| B - Time-Series Momentum   | 12-month trend on multi-asset basket | ~10 liquid ETFs | **Deployable** - all 7 robustness checks pass |
+| C - Crypto Cash-and-Carry  | Funding-rate arbitrage | BTC/ETH spot vs perp | **Shelved** - failed walk-forward |
 
-Each sleeve has published out-of-sample evidence; the three are
-weakly correlated, so the portfolio Sharpe meaningfully exceeds any
-single sleeve.
+Each sleeve has published out-of-sample evidence in the academic
+literature. Robustness auditing in this repo is what determines whether
+that evidence reproduces on our specific implementation and data window.
+See **Status** below for current results.
 
 ## Evidence
 
@@ -24,12 +25,20 @@ single sleeve.
 - **Cash-and-carry**: Standard derivatives arbitrage; basis = perp - spot,
   capture funding when basis > execution cost
 
-## Target profile (after costs)
+## Target profile (Sleeve B only, currently the only deployable sleeve)
 
-- Net Sharpe: 1.0 - 1.4
-- Max drawdown: 12 - 18%
-- Annual return: 15 - 25% on allocated capital
-- Daily trading effort: ~10 minutes (review + monitoring)
+At default config (10% vol per position, 19-year backtest, net of 10bps
+per rebalance):
+
+- Net Sharpe: 0.71
+- CAGR: 4.06% (scales roughly linearly with leverage on a vol-targeted
+  strategy; 2x leverage -> ~8% CAGR with ~13% vol)
+- Max drawdown: -14.3%
+- Expect multi-year flat stretches (e.g. 2015-2019 was Sharpe ~0)
+
+The original 3-sleeve target (Sharpe 1.0-1.4) assumed all sleeves working
+uncorrelated. With only Sleeve B deployable today, combined-portfolio
+targets are deferred until a second sleeve clears its audit.
 
 ## What's not in this bot
 
@@ -47,24 +56,59 @@ single sleeve.
 
 ## Status
 
-Phase 0 - scaffolding. All three sleeves implemented with real-data
-backtests.
+Phase 1 - validation. Three sleeves implemented, two audited, one passes.
 
-**Sleeve B - TSMOM** (10-ETF basket, 2007-2026, 229 months, net of 10bps
-round-trip): Sharpe 0.71, CAGR 4.06% (at 10% vol/position), MaxDD -14.3%,
-monthly win rate 57%. Consistent with AQR Hurst/Ooi/Pedersen 2017 and
-Moskowitz-Ooi-Pedersen 2012.
+### Sleeve B - TSMOM (deployable)
 
-**Sleeve C - Crypto basis** (BTC+ETH equal-weight, 2020-2026, 6.4 years
-of Deribit funding history, 5bps per position change): portfolio Sharpe
-1.29, CAGR 0.99%, MaxDD -12.4% at 1x notional. BTC standalone Sharpe
-2.07; ETH 0.24. Delta-neutral, so the strategy is leverage-scalable -
-5x notional brings CAGR into the 5% range at similar Sharpe.
+10-ETF basket (SPY/QQQ/IWM/EFA/EEM/TLT/IEF/GLD/USO/DBC), 2007-2026,
+229 months, net of 10bps round-trip:
 
-**Sleeve A - ORB** validated against QQQ + 7-ETF basket over ~60 days
-(only window with free 5-min data). Portfolio Sharpe near zero on that
-sample; longer 5-min history is required before iterating on filters,
-otherwise filter selection is just overfitting to noise.
+- Sharpe 0.71, CAGR 4.06% (at 10% vol/position), MaxDD -14.3%
+- Monthly win rate 57%
+- Consistent with AQR Hurst/Ooi/Pedersen 2017; Moskowitz-Ooi-Pedersen 2012
+
+Robustness audit (`scripts/audit_tsmom.py`) - all seven sections pass:
+
+1. Baseline (reproducibility)              OK   Sharpe 0.72
+2. Walk-forward train/test split           OK   0.82 -> 0.62 (delta 0.21)
+3. Parameter grid (63 configs)             OK   100% positive, mean 0.57
+4. Sub-period analysis (9x 4y windows)     OK   9/9 positive
+5. Leave-one-out asset drop                OK   max delta 0.12 (QQQ)
+6. Transaction-cost sensitivity            OK   breakeven at 200bps
+7. Randomized-signal placebo (100 seeds)   OK   real 0.72 vs placebo -0.26, p<0.001
+
+### Sleeve C - Crypto basis (shelved)
+
+Initial unaudited backtest looked great: BTC+ETH equal-weight, 2020-2026
+(6.4 years of Deribit funding history), portfolio Sharpe 1.29, BTC
+standalone 2.07. Robustness audit (`scripts/audit_basis.py`) showed
+the result is entirely a 2020-2021 bull-market funding-spike artifact:
+
+  Walk-forward BTC:  train (2020-2023) 4.01 -> test (2023-2026) -0.65
+  Walk-forward ETH:  train (2020-2023) 2.10 -> test (2023-2026) -2.81
+
+  Annual Sharpe (BTC / ETH):
+    2020  +7.9 / +5.0     (early bull)
+    2021  +11.5 / +9.1    (peak funding ~1.5 bps/8h)
+    2022  -11.8 / -13.5   (LUNA/FTX, funding flipped negative)
+    2023  +0.7 / +3.8
+    2024  +5.8 / +2.3
+    2025  -3.5 / -11.4    (funding mean ~0.5 bps/8h, costs dominate)
+    2026  -15.3 / -15.2   (partial year, bleeding)
+
+The strategy can't pay its own transaction costs when funding mean
+drops below ~1 bps per 8 hours. Do not deploy as-is. May be revisited
+with a regime filter (e.g. only trade when 30-day mean funding >
+threshold), but that's parameter-tuning to past data unless validated
+out-of-sample on fresh data.
+
+### Sleeve A - ORB (incomplete)
+
+Validated against QQQ + 7-ETF basket over ~60 days (the only window
+with free 5-min intraday data via yfinance). Portfolio Sharpe near
+zero on that sample. Longer 5-min history (Polygon, Databento, or
+a broker export) is required before iterating on filters; otherwise
+filter selection is overfitting to a 60-day noise window.
 
 ## Quick start
 
@@ -92,6 +136,8 @@ scripts/
   multi_ticker_orb.py        # ORB cross-sectional check across ETF basket
   run_tsmom_backtest.py      # TSMOM on 10-ETF basket via yfinance
   run_basis_backtest.py      # Crypto basis on BTC/ETH via Deribit
+  audit_tsmom.py             # 7-section robustness audit (PASSES)
+  audit_basis.py             # 7-section robustness audit (FAILS walk-forward)
 tests/
   test_orb.py
 ```
