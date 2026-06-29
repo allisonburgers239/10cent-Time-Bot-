@@ -78,6 +78,22 @@ Robustness audit (`scripts/audit_tsmom.py`) - all seven sections pass:
 6. Transaction-cost sensitivity            OK   breakeven at 200bps
 7. Randomized-signal placebo (100 seeds)   OK   real 0.72 vs placebo -0.26, p<0.001
 
+**Deployment basket (CME futures via Tradovate)** - audited separately
+(`scripts/audit_tsmom_futures.py`) since the user's broker is futures-only:
+
+  Basket: ES, NQ, ZN, ZB, GC, SI, HG, CL, 6E, ZC
+          (equity x2, rates x2, metals x3, energy, FX, grain)
+  Period: 2000-09 -> 2026-06 (310 months, 25.8 years)
+  Sharpe at 10bps: 0.46   At realistic ~3bps futures cost: ~0.49
+  Walk-forward:   Train 0.50 / Test 0.43, delta 0.07 (highly consistent)
+  Sub-periods:    10/11 positive (same 2015-2019 flat as ETF version)
+  Placebo:        p<0.001 -- real edge confirmed
+
+Sharpe is lower than the ETF version (0.46 vs 0.71) primarily due to
+basket composition (futures version trades intl/broad-commodity ETF
+exposures for FX/grain). The deployment-ready audit is the futures
+one - the ETF version remains the canonical reference implementation.
+
 ### Sleeve C - Crypto basis (shelved)
 
 Initial unaudited backtest looked great: BTC+ETH equal-weight, 2020-2026
@@ -165,9 +181,10 @@ scripts/
   run_tsmom_backtest.py      # TSMOM on 10-ETF basket via yfinance
   run_basis_backtest.py      # Crypto basis on BTC/ETH via Deribit
   run_xsmom_backtest.py      # Cross-sectional sector momentum
-  audit_tsmom.py             # 7-section robustness audit (PASSES)
-  audit_basis.py             # 7-section robustness audit (FAILS walk-forward)
-  audit_xsmom.py             # 7-section robustness audit (no real edge)
+  audit_tsmom.py             # Sleeve B audit on ETF basket (PASSES)
+  audit_tsmom_futures.py     # Sleeve B audit on Tradovate futures basket (PASSES)
+  audit_basis.py             # Sleeve C audit (FAILS walk-forward)
+  audit_xsmom.py             # Sleeve D audit (no real edge)
 tests/
   test_orb.py
 ```
