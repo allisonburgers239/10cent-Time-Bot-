@@ -8,7 +8,7 @@ retail-accessible edges in derivatives markets.
 
 | Sleeve | Edge | Instrument | Audit status |
 |---|---|---|---|
-| A - Opening Range Breakout | Intraday momentum on NY open | MNQ / liquid ETFs | Incomplete (needs longer 5-min data) |
+| A - Opening Range Breakout | Intraday momentum on NY open | MNQ / liquid ETFs | **Shelved** - failed audit on 12.5mo real 5-min sample (may revisit with 2-5y data) |
 | B - Time-Series Momentum   | 12-month trend on multi-asset basket | ~10 liquid ETFs | **Deployable** - all 7 robustness checks pass |
 | C - Crypto Cash-and-Carry  | Funding-rate arbitrage | BTC/ETH spot vs perp | **Shelved** - failed walk-forward |
 | D - Cross-Sectional Momentum | Sector ETF rotation | 9 SPDR sectors | **Shelved** - no real edge (signal weaker than equal-weight) |
@@ -248,6 +248,7 @@ src/ten_cent_bot/
   contracts.py   # CME futures contract specs (point value, tick size, yf symbol)
   orchestrator.py # Monthly rebalance logic + position diff + risk gates
   tradovate.py   # Tradovate REST client (auth, positions, orders)
+  tv_data.py     # TradingView CSV export loader
   risk.py        # Position sizing (1% rule)
   backtest.py    # ORB backtest engine (signals -> equity curve)
   metrics.py     # Sharpe, Sortino, max drawdown, Calmar, win rate
@@ -261,6 +262,7 @@ scripts/
   run_xsmom_backtest.py      # Cross-sectional sector momentum
   audit_tsmom.py             # Sleeve B audit on ETF basket (PASSES)
   audit_tsmom_futures.py     # Sleeve B audit on Tradovate futures basket (PASSES)
+  audit_orb.py               # Sleeve A audit on real 5-min TV data (FAILS walk-forward, 12mo sample)
   audit_basis.py             # Sleeve C audit (FAILS walk-forward)
   audit_xsmom.py             # Sleeve D audit (no real edge)
 tests/
