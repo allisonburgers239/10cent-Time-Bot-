@@ -9,9 +9,12 @@ retail-accessible edges in derivatives markets.
 | Sleeve | Edge | Instrument | Audit status |
 |---|---|---|---|
 | A - Opening Range Breakout | Intraday momentum on NY open | MNQ / liquid ETFs | **Shelved** - failed audit on 12.5mo real 5-min sample (may revisit with 2-5y data) |
-| B - Time-Series Momentum   | 12-month trend on multi-asset basket | ~10 liquid ETFs | **Deployable** - all 7 robustness checks pass |
+| B - Time-Series Momentum   | 12-month trend on multi-asset basket | ~10 liquid ETFs / futures | **Deployable** - 7/7 robustness checks pass |
+| B v2 - CTA-enhanced        | Multi-horizon + vol/corr filters on top of B | Same basket as B | **Shelved** - layers hurt on ETF basket (Sharpe 0.72 -> 0.31) |
 | C - Crypto Cash-and-Carry  | Funding-rate arbitrage | BTC/ETH spot vs perp | **Shelved** - failed walk-forward |
-| D - Cross-Sectional Momentum | Sector ETF rotation | 9 SPDR sectors | **Shelved** - no real edge (signal weaker than equal-weight) |
+| D - Sector XSMOM           | Sector ETF rotation | 9 SPDR sectors | **Shelved** - no real edge |
+| E - Overnight Drift        | Buy at close, sell at open next day | SPY/QQQ/IWM | **Deployable** - 7/7 pass, Sharpe 0.73 over 33y OOS |
+| F - Stock XSMOM (long-only) | Top-N momentum on large-caps | 25 US large-caps | **Shelved** - beats random selection but not SPY buy-and-hold |
 
 Each sleeve has published out-of-sample evidence in the academic
 literature. Robustness auditing in this repo is what determines whether
@@ -26,20 +29,31 @@ See **Status** below for current results.
 - **Cash-and-carry**: Standard derivatives arbitrage; basis = perp - spot,
   capture funding when basis > execution cost
 
-## Target profile (Sleeve B only, currently the only deployable sleeve)
+## Target profile
 
-At default config (10% vol per position, 19-year backtest, net of 10bps
-per rebalance):
+Two sleeves are audit-clean and deployable:
 
-- Net Sharpe: 0.71
-- CAGR: 4.06% (scales roughly linearly with leverage on a vol-targeted
-  strategy; 2x leverage -> ~8% CAGR with ~13% vol)
-- Max drawdown: -14.3%
-- Expect multi-year flat stretches (e.g. 2015-2019 was Sharpe ~0)
+**Sleeve B (TSMOM, monthly rebalance):**
+- Sharpe 0.71 net of 10bps (ETF basket), 0.46 net (futures basket)
+- CAGR 4-5% at 10% target vol (scales linearly with leverage)
+- Max drawdown -14% (ETF), -11% (futures)
+- Expect multi-year flat stretches (2015-2019 was Sharpe ~0)
 
-The original 3-sleeve target (Sharpe 1.0-1.4) assumed all sleeves working
-uncorrelated. With only Sleeve B deployable today, combined-portfolio
-targets are deferred until a second sleeve clears its audit.
+**Sleeve E (Overnight drift, daily hold-and-flip):**
+- Sharpe 0.73 net of 1bp/side (33y OOS, 1993-2026)
+- CAGR 8.8% at 1x notional
+- Max drawdown -29% (much better than SPY buy-and-hold's -55%)
+- Persistent through 7/7 five-year sub-periods including 2008 GFC and 2020 COVID
+- Beats SPY buy-and-hold on Sharpe and MaxDD
+
+**Combined B+E portfolio (projected):**
+- Different frequency (monthly vs daily), different asset class (multi-asset
+  futures/ETFs vs equity ETFs) - naturally uncorrelated
+- Expected combined Sharpe: ~0.9-1.0 (assumes ~0 correlation between sleeves)
+- Requires two execution paths: futures (Tradovate) for B, equity (Cobra/DAS
+  or IBKR) for E
+
+Combined-portfolio math and audit await paper-trade validation.
 
 ## What's not in this bot
 
@@ -93,6 +107,89 @@ Sharpe is lower than the ETF version (0.46 vs 0.71) primarily due to
 basket composition (futures version trades intl/broad-commodity ETF
 exposures for FX/grain). The deployment-ready audit is the futures
 one - the ETF version remains the canonical reference implementation.
+
+### Sleeve E - Overnight drift (deployable)
+
+Buy SPY / QQQ / IWM at the 4pm close, sell at 9:30am the following day's
+open. Flat during regular trading hours. Long-only.
+
+The "overnight vs intraday" anomaly is dramatic and clean across 33 years
+of daily bars (1993-2026):
+
+  SPY:  Overnight Sharpe 0.95 / Intraday 0.13 / Buy-Hold 0.65
+  QQQ:  Overnight 0.98 / Intraday 0.00 / Buy-Hold 0.52
+  IWM:  Overnight 1.01 / Intraday -0.10 / Buy-Hold 0.47
+
+Essentially all risk-adjusted return in these ETFs over the last 33
+years came from the overnight session. Being long intraday added vol
+without adding return.
+
+Portfolio (equal-weight SPY+QQQ+IWM, 1bp/side cost) audit
+(`scripts/audit_overnight.py`) - 7/7 sections pass:
+
+  1. Baseline               Sharpe 0.73, CAGR 8.8%, MaxDD -29%
+  2. Walk-forward           SPY delta 0.20, QQQ 0.01, IWM 0.003
+                            Very stable especially QQQ/IWM.
+  3. Parameter grid (32)    53% > 0.5 Sharpe, best 1.28
+  4. Sub-periods (5y wins)  7/7 positive, 6/7 > 0.5
+                            Weakest 2008-2012 (0.06), still positive.
+  5. Leave-one-out          Max delta 0.09 (IWM) - diversified
+  6. Cost sensitivity       Breakeven at ~3bps/side; retail is 0.5-1bp
+  7. Placebo (100 seeds)    Real 0.73 vs random 0.02 +/- 0.17, p<0.001
+
+Deployment: needs an equity broker with cheap execution. Cobra/DAS
+(pending API setup) or IBKR/Alpaca are the natural fits. Tradovate
+doesn't trade ETFs.
+
+### Sleeve B v2 - CTA-enhanced Sleeve B (shelved)
+
+Attempted to boost the audited Sleeve B with four CTA-industry-standard
+layers: multi-horizon signal blend (3/6/12m), trend-strength filter
+(z-score threshold), vol-regime filter (rolling percentile skip),
+correlation-adjusted gross exposure.
+
+Audit (`scripts/audit_tsmom_cta.py`) showed each layer either doesn't
+help or actively hurts on the 10-ETF basket:
+
+  v1 baseline                Sharpe 0.72
+  CTA: multi-horizon only    Sharpe 0.69  (-0.03)
+  CTA: trend-strength only   Sharpe 0.59  (-0.12)
+  CTA: vol-regime only       Sharpe 0.40  (-0.32)
+  CTA: corr-filter only      Sharpe 0.71  (-0.01)
+  CTA: FULL stack            Sharpe 0.31  (-0.40)
+
+Only 3% of the 64-config parameter grid beat baseline, and only
+marginally. Diagnosis: the ETF basket is already diversified and
+vol-scaled; the layers were designed for wider CTA baskets and mostly
+cut profitable trades on this universe. v1 remains the deployable
+version.
+
+### Sleeve F - Stock XSMOM (shelved)
+
+Long-only cross-sectional momentum on 25 US large-caps (AAPL/MSFT/JNJ/
+XOM/JPM/etc, all continuously listed 1993-2026). Both vanilla momentum
+and residual momentum (Blitz-Hanauer-Vidojevic 2020, market-beta-adjusted)
+tested. Long-short variant loses money on this universe (short side
+drags on always-up-drifting large-caps); long-only works nominally.
+
+Audit (`scripts/audit_stock_xsmom.py`), long-only variant:
+
+  Section 1 baseline           Sharpe 0.78, CAGR 16.4%
+  Section 4 sub-periods (15)   14/15 positive - persistent
+  Section 5 leave-one-out      Max delta 0.04 - not dominated
+  Section 6 SPY benchmark      **Sharpe 0.82** (over same 33y period)
+  Section 7 placebo (100)      Real 0.78 vs random-5-stocks 0.63 +/- 0.11
+                               P(random >= real) = 0.08 (WEAK)
+
+Verdict shelved. The 0.78 headline is misleading. SPY buy-and-hold has
+higher Sharpe over the same window (0.82). Random 5-stock selection
+from this universe already gets 0.63 - most of the "signal" is just
+long large-cap equity beta. Momentum selection adds ~0.15 Sharpe over
+random but doesn't clear p<0.05 significance AND doesn't beat SPY.
+
+Real learning: stock XSMOM in the published literature uses 500+
+stocks with monthly cross-sectional cap rebalancing. Retail-scale
+25-stock replication doesn't reproduce the effect.
 
 ### Sleeve C - Crypto basis (shelved)
 
@@ -241,13 +338,17 @@ contracts.
 ```
 src/ten_cent_bot/
   data.py        # OHLCV loader + synthetic data generator
-  orb.py         # Sleeve A: Opening Range Breakout signal generation
-  tsmom.py       # Sleeve B: Time-Series Momentum on multi-asset basket
-  basis.py       # Sleeve C: Crypto cash-and-carry on perp funding rates
-  xsmom.py       # Sleeve D: Cross-sectional momentum (shelved - kept for evidence)
-  contracts.py   # CME futures contract specs (point value, tick size, yf symbol)
+  orb.py         # Sleeve A: Opening Range Breakout (shelved)
+  tsmom.py       # Sleeve B: TSMOM on multi-asset basket (DEPLOYABLE)
+  tsmom_cta.py   # Sleeve B v2: CTA-enhanced TSMOM (shelved - layers didn't help)
+  basis.py       # Sleeve C: Crypto cash-and-carry (shelved)
+  xsmom.py       # Sleeve D: Sector cross-sectional momentum (shelved)
+  overnight.py   # Sleeve E: Overnight drift on equity ETFs (DEPLOYABLE)
+  stock_xsmom.py # Sleeve F: Stock-level XSMOM incl. residual momentum (shelved)
+  contracts.py   # CME futures contract specs
   orchestrator.py # Monthly rebalance logic + position diff + risk gates
   tradovate.py   # Tradovate REST client (auth, positions, orders)
+  das.py         # DAS Trader Pro CMD client (scaffold, awaits Cobra CMD access)
   tv_data.py     # TradingView CSV export loader
   risk.py        # Position sizing (1% rule)
   backtest.py    # ORB backtest engine (signals -> equity curve)
@@ -262,9 +363,12 @@ scripts/
   run_xsmom_backtest.py      # Cross-sectional sector momentum
   audit_tsmom.py             # Sleeve B audit on ETF basket (PASSES)
   audit_tsmom_futures.py     # Sleeve B audit on Tradovate futures basket (PASSES)
-  audit_orb.py               # Sleeve A audit on real 5-min TV data (FAILS walk-forward, 12mo sample)
+  audit_tsmom_cta.py         # Sleeve B v2 CTA-enhanced audit (SHELVED - no improvement)
+  audit_orb.py               # Sleeve A audit on real 5-min TV data (FAILS)
   audit_basis.py             # Sleeve C audit (FAILS walk-forward)
   audit_xsmom.py             # Sleeve D audit (no real edge)
+  audit_overnight.py         # Sleeve E audit on SPY/QQQ/IWM daily bars (PASSES)
+  audit_stock_xsmom.py       # Sleeve F audit on 25 large-caps (SHELVED - worse than SPY)
 tests/
   test_orb.py
   test_orchestrator.py
