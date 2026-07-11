@@ -17,6 +17,7 @@ retail-accessible edges in derivatives markets.
 | F - Stock XSMOM (long-only) | Top-N momentum on large-caps | 25 US large-caps | **Shelved** - beats random selection but not SPY buy-and-hold |
 | G - COT / AMDX bias | Weekly CFTC positioning phase-mapping on NQ | NQ futures via Tradovate | **Shelved** - systematic version fails audit (p=0.42 vs random) |
 | H - Commodity hedger pressure | Cross-sectional long-short on 12 commodities by CFTC Producer/Merchant HP | GC, SI, HG, CL, NG, ZC, ZS, ZW, SB, CT, KC, LE | **Weak-pass** - audit clean, Sharpe 0.15 LS (p<0.001 vs random) |
+| E variants - weekday filter / VIX regime / sectors | Conditioning or extending Sleeve E | SPY/QQQ/IWM, 9 SPDR sectors, ^VIX | **Shelved** - all three fail (see Status); E stays as designed |
 
 Each sleeve has published out-of-sample evidence in the academic
 literature. Robustness auditing in this repo is what determines whether
@@ -165,6 +166,35 @@ Portfolio (equal-weight SPY+QQQ+IWM, 1bp/side cost) audit
 Deployment: needs an equity broker with cheap execution. Cobra/DAS
 (pending API setup) or IBKR/Alpaca are the natural fits. Tradovate
 doesn't trade ETFs.
+
+### Sleeve E variants - weekday filter, VIX regime, sectors (all shelved)
+
+Three attempts to refine or extend the deployed E (2026-07-11); all
+fail, which is itself useful - E as designed is the robust version.
+
+**Weekday filter ("E-TWF": hold only into Tue/Wed/Fri opens).** Full-
+sample weekday Sharpe looked dramatic (Tue 1.5-1.8 vs Mon/Thu 0.5-0.6
+across all three ETFs). Audit (`scripts/audit_overnight_weekday.py`)
+kills it at walk-forward: re-deriving the "best 3 days" on the train
+half picks a *different* set (Mon/Tue/Fri - Wednesday was the worst
+day in H1 at 0.07 and among the best in H2), and the frozen selection
+scores 0.39 on the test half vs 0.58 for unfiltered E. Only 4% of the
+25 possible day-subsets beat unfiltered E; placebo p=0.08. Weekday
+ranking is noise, not structure. Same lesson as B v2: conditioning a
+clean edge subtracts.
+
+**VIX-regime filter.** Overnight drift by prior-day VIX expanding
+percentile is non-monotone (lowest bucket 0.83, 75-90th 1.24, >90th
+0.66); every "hold only when VIX elevated" variant underperforms
+unconditional E and decays in the second half (0.63 -> 0.36).
+
+**Sector extension.** The anomaly does generalize to all 9 SPDR
+sectors over 28y (`scripts/audit_sector_overnight.py`: EW-9 overnight
+Sharpe 0.55 vs intraday -0.02; XLU alone 0.93) - but correlation with
+the E portfolio is 0.91. Same trade, lower Sharpe, no diversification.
+Bonus from the same script: the repo's 11.5y 60-min sector CSVs
+cross-validate the daily-bar result, and hour-of-day decomposition
+finds no intraday seasonality that clears a 2bp round-trip.
 
 ### Sleeve B v2 - CTA-enhanced Sleeve B (shelved)
 
