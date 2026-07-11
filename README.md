@@ -16,6 +16,7 @@ retail-accessible edges in derivatives markets.
 | E - Overnight Drift        | Buy at close, sell at open next day | SPY/QQQ/IWM | **Deployable** - 7/7 pass, Sharpe 0.73 over 33y OOS |
 | F - Stock XSMOM (long-only) | Top-N momentum on large-caps | 25 US large-caps | **Shelved** - beats random selection but not SPY buy-and-hold |
 | G - COT / AMDX bias | Weekly CFTC positioning phase-mapping on NQ | NQ futures via Tradovate | **Shelved** - systematic version fails audit (p=0.42 vs random) |
+| H - Commodity hedger pressure | Cross-sectional long-short on 12 commodities by CFTC Producer/Merchant HP | GC, SI, HG, CL, NG, ZC, ZS, ZW, SB, CT, KC, LE | **Weak-pass** - audit clean, Sharpe 0.15 LS (p<0.001 vs random) |
 
 Each sleeve has published out-of-sample evidence in the academic
 literature. Robustness auditing in this repo is what determines whether
@@ -214,6 +215,47 @@ random but doesn't clear p<0.05 significance AND doesn't beat SPY.
 Real learning: stock XSMOM in the published literature uses 500+
 stocks with monthly cross-sectional cap rebalancing. Retail-scale
 25-stock replication doesn't reproduce the effect.
+
+### Sleeve H - Commodity hedger pressure (weak-pass)
+
+Fresh implementation of Hong-Yogo (2012) / Basu-Miffre (2013) hedger
+pressure on 12 commodity futures. Uses the Disaggregated COT report
+(different endpoint and trader categories than Sleeve G) - the
+Producer/Merchant category is the theoretically-motivated hedger group.
+
+  HP = (short_hedger - long_hedger) / (short_hedger + long_hedger)
+
+Positive HP -> commercials net short -> speculators demand risk premium
+             -> positive expected long-side return.
+
+Universe: GC, SI, HG, CL, NG, ZC, ZS, ZW, SB, CT, KC, LE
+Window: 2000-2026 (~26y, 1,384 weekly obs).
+
+Audit (`scripts/audit_commodity_cot.py`) - PASSES on core checks:
+
+  Cross-sectional variants (top-N ranked by HP each week):
+    top-2 long-only:  Sharpe 0.53, CAGR 10.5%
+    top-3 long-only:  Sharpe 0.52, CAGR 8.8%
+    top-3 long-short: Sharpe 0.15 (market-neutral baseline)
+
+  Walk-forward:       Train 0.23 / Test 0.09, CONSISTENT, both halves positive
+  Param grid (18):    100% positive Sharpe, mean 0.33
+  Placebo (100):      Real 0.15 vs random -0.68, p<0.001 - REAL EDGE
+
+Distinguishing marks vs the shelved sleeves (C, D, F, G):
+  - Walk-forward CONSISTENT and both halves positive
+  - Every parameter config positive Sharpe (100% of 18)
+  - Placebo decisively rejected at p<0.001
+  - Signal direction consistent across the asset class
+
+Distinguishing marks vs the deployable sleeves (B, E):
+  - Sharpe is much lower (0.15 LS vs 0.72-0.73)
+  - Doesn't beat equal-weight commodity buy-and-hold (0.65) on any variant
+
+Verdict: WEAK-PASS. Real edge but modest. First fresh strategy to
+survive placebo since Sleeve E. Include at modest weight - different
+asset class, different frequency, near-zero expected correlation with
+B and E. Fits naturally on Tradovate (futures broker).
 
 ### Sleeve G - CFTC COT / AMDX (shelved)
 
