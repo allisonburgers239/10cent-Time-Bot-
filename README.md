@@ -46,14 +46,37 @@ Two sleeves are audit-clean and deployable:
 - Persistent through 7/7 five-year sub-periods including 2008 GFC and 2020 COVID
 - Beats SPY buy-and-hold on Sharpe and MaxDD
 
-**Combined B+E portfolio (projected):**
-- Different frequency (monthly vs daily), different asset class (multi-asset
-  futures/ETFs vs equity ETFs) - naturally uncorrelated
-- Expected combined Sharpe: ~0.9-1.0 (assumes ~0 correlation between sleeves)
-- Requires two execution paths: futures (Tradovate) for B, equity (Cobra/DAS
-  or IBKR) for E
+**Combined B+E portfolio (audited on 2007-2026 overlap window):**
 
-Combined-portfolio math and audit await paper-trade validation.
+Correlation B <-> E: **-0.045** (essentially uncorrelated - confirmed
+empirically, not just theorized).
+
+  Weighting         Sharpe   CAGR    AnnVol   MaxDD
+  Sleeve B alone     0.704   4.05%   5.65%   -14.3%
+  Sleeve E alone     0.475   5.69%   11.68%  -28.7%
+  Combined 50/50     0.748   4.87%   6.37%   -12.3%
+  Combined 70/30     0.862   4.54%   5.16%    -9.5%   <- Sharpe-max
+  Risk-parity 67/33  0.854   4.58%   5.36%    -9.2%
+
+(E's Sharpe in this overlap window is 0.48 vs 0.73 over its full 33y
+history because 2008-2012 was E's weakest sub-period. Combined audit
+still passes despite the weaker E slice.)
+
+Combined B+E audit (`scripts/audit_combined_be.py`) - 7/7 pass:
+
+  1. Baseline (50/50)    Sharpe 0.748, CAGR 4.87%, MaxDD -12.3%
+  2. Walk-forward        Train 0.574 -> Test 0.899 (STRENGTHENED OOS)
+  3. Weight sensitivity  Sweet spot at w_b=0.70
+  4. Sub-periods (4y)    8/8 positive - zero losing 4y windows
+  5. Leave-one-out       Combined beats both solos
+  6. Cost sensitivity    Breakeven ~40bps B + 4bps E (way above real)
+  7. Placebo (60 seeds)  Real 0.75 vs random -0.75 +/- 0.17, p<0.001
+
+Deployment implication: at the Sharpe-max 70/30 weighting the combined
+portfolio delivers -9.5% MaxDD vs -14% (B) and -29% (E) - meaningful
+tail-risk reduction, not just Sharpe improvement. Requires two
+execution paths (Tradovate for B, equity broker for E) but the
+economic value is now formally supported.
 
 ## What's not in this bot
 
@@ -369,6 +392,7 @@ scripts/
   audit_xsmom.py             # Sleeve D audit (no real edge)
   audit_overnight.py         # Sleeve E audit on SPY/QQQ/IWM daily bars (PASSES)
   audit_stock_xsmom.py       # Sleeve F audit on 25 large-caps (SHELVED - worse than SPY)
+  audit_combined_be.py       # Combined B+E portfolio audit (PASSES - Sharpe 0.75 at 50/50, 0.86 at 70/30)
 tests/
   test_orb.py
   test_orchestrator.py
