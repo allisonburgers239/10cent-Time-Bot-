@@ -83,8 +83,7 @@ class TradovateClient:
         data = json.dumps(body).encode() if body is not None else None
         headers = {"Content-Type": "application/json"}
         if authed:
-            if self._token_expired():
-                self.authenticate()
+            self._ensure_token()
             headers["Authorization"] = f"Bearer {self.access_token}"
 
         req = urllib.request.Request(url, data=data, method=method, headers=headers)
@@ -98,14 +97,55 @@ class TradovateClient:
                 payload = {}
             raise TradovateError(f"{method} {path} -> HTTP {e.code}: {payload}") from e
 
-    def _token_expired(self) -> bool:
+    # -- Token lifecycle -----------------------------------------------
+
+    def _token_valid_for_seconds(self) -> float:
+        """Seconds remaining before the current token expires. Negative if expired."""
         if not self.access_token or not self.token_expiry:
-            return True
-        return datetime.now(tz=timezone.utc) >= (self.token_expiry - timedelta(minutes=2))
+            return -1.0
+        return (self.token_expiry - datetime.now(tz=timezone.utc)).total_seconds()
+
+    def _needs_authentication(self) -> bool:
+        """True when no token or token is fully expired -> full auth required."""
+        return self._token_valid_for_seconds() <= 0
+
+    def _needs_renewal(self) -> bool:
+        """True when token still valid but expiring within 15 minutes.
+
+        Per Tradovate docs the 2-concurrent-session cap makes re-authentication
+        expensive; renewing instead extends the current session without
+        creating a new one.
+        """
+        remaining = self._token_valid_for_seconds()
+        return 0 < remaining <= 15 * 60
+
+    def _ensure_token(self) -> None:
+        """Guarantee a fresh usable token, using renew where possible."""
+        if self._needs_authentication():
+            self.authenticate()
+        elif self._needs_renewal():
+            self.renew_access_token()
+
+    def _set_token_expiry(self, iso_str: str | None) -> None:
+        """Parse Tradovate's ISO expirationTime, or fall back to +90 minutes.
+
+        Docs state the natural token lifespan is 90 minutes.
+        """
+        if iso_str:
+            try:
+                self.token_expiry = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+                return
+            except (TypeError, ValueError):
+                pass
+        self.token_expiry = datetime.now(tz=timezone.utc) + timedelta(minutes=90)
 
     # -- Auth ----------------------------------------------------------
 
     def authenticate(self) -> None:
+        """Full authentication - creates a new session (counts toward the
+        2-concurrent-session cap). Prefer `renew_access_token` while a valid
+        token still exists.
+        """
         body = {
             "name": self.config.name,
             "password": self.config.password,
@@ -115,16 +155,23 @@ class TradovateClient:
             "cid": self.config.cid,
             "sec": self.config.sec,
         }
-        resp = self._request("POST", "/auth/accesstokenrequest", body=body, authed=False)
+        resp = self._request("POST", "/auth/accessTokenRequest", body=body, authed=False)
         if not isinstance(resp, dict) or "accessToken" not in resp:
             raise TradovateError(f"Auth response missing accessToken: {resp}")
         self.access_token = resp["accessToken"]
-        expires_iso = resp.get("expirationTime")
-        self.token_expiry = (
-            datetime.fromisoformat(expires_iso.replace("Z", "+00:00"))
-            if expires_iso
-            else datetime.now(tz=timezone.utc) + timedelta(minutes=75)
-        )
+        self._set_token_expiry(resp.get("expirationTime"))
+
+    def renew_access_token(self) -> None:
+        """Extend the current session via /auth/renewAccessToken.
+
+        Does NOT create a new session (unlike `authenticate`). Docs recommend
+        calling this ~15 minutes before token expiration.
+        """
+        resp = self._request("POST", "/auth/renewAccessToken", body=None, authed=True)
+        if not isinstance(resp, dict) or "accessToken" not in resp:
+            raise TradovateError(f"Renew response missing accessToken: {resp}")
+        self.access_token = resp["accessToken"]
+        self._set_token_expiry(resp.get("expirationTime"))
 
     # -- Queries -------------------------------------------------------
 
@@ -195,6 +242,30 @@ class TradovateClient:
             return {"dry_run": True, "would_send": body}
 
         return self._request("POST", "/order/placeOrder", body=body)  # type: ignore[return-value]
+
+    def liquidate_all_positions(self, dry_run: bool = True) -> dict:
+        """Kill switch: close all open positions in the current account
+        via /order/liquidatePositions.
+
+        Only for genuine emergencies (risk gate blown, unknown state,
+        strategy needs to be halted immediately). Server-side call - all
+        position exits are handled by Tradovate as a single operation.
+        """
+        body = {"accountId": self.resolve_account()}
+        if dry_run:
+            return {"dry_run": True, "would_send": body}
+        return self._request("POST", "/order/liquidatePositions", body=body)  # type: ignore[return-value]
+
+    def reset_demo_account(self, dry_run: bool = True) -> dict:
+        """Reset the paper (demo) account state via /account/resetDemoAccountState.
+
+        Only available on demo host. Useful for repeatable test runs.
+        Not a live-account operation.
+        """
+        body = {"accountId": self.resolve_account()}
+        if dry_run:
+            return {"dry_run": True, "would_send": body}
+        return self._request("POST", "/account/resetDemoAccountState", body=body)  # type: ignore[return-value]
 
 
 def _symbol_root(symbol: str) -> str:
