@@ -15,6 +15,7 @@ retail-accessible edges in derivatives markets.
 | D - Sector XSMOM           | Sector ETF rotation | 9 SPDR sectors | **Shelved** - no real edge |
 | E - Overnight Drift        | Buy at close, sell at open next day | SPY/QQQ/IWM | **Deployable** - 7/7 pass, Sharpe 0.73 over 33y OOS |
 | F - Stock XSMOM (long-only) | Top-N momentum on large-caps | 25 US large-caps | **Shelved** - beats random selection but not SPY buy-and-hold |
+| G - COT / AMDX bias | Weekly CFTC positioning phase-mapping on NQ | NQ futures via Tradovate | **Shelved** - systematic version fails audit (p=0.42 vs random) |
 
 Each sleeve has published out-of-sample evidence in the academic
 literature. Robustness auditing in this repo is what determines whether
@@ -213,6 +214,31 @@ random but doesn't clear p<0.05 significance AND doesn't beat SPY.
 Real learning: stock XSMOM in the published literature uses 500+
 stocks with monthly cross-sectional cap rebalancing. Retail-scale
 25-stock replication doesn't reproduce the effect.
+
+### Sleeve G - CFTC COT / AMDX (shelved)
+
+Systematized version of a collaborator-shared discretionary framework
+that maps weekly CFTC Traders in Financial Futures (TFF) positioning
+to an AMDX phase model (Accumulation / Manipulation / Distribution /
+eXpansion) to produce weekly bias on NQ/MNQ.
+
+Audit (`scripts/audit_cot.py`) on 16 years of free CFTC TFF data
+(Jun 2010 -> Jul 2026) plus 26 years of NQ weekly prices:
+
+  MD's claim vs my systematic reproduction:
+    X phases:        MD 71%   -> systematic 37-43% (worse than random)
+    Overall accuracy: MD 56% -> systematic 47.7%
+    Baseline:        AMDX Sharpe -0.26   vs NQ buy-and-hold +0.47
+    81-config grid:  0% of configs profitable
+    Placebo (100):   p = 0.42 - indistinguishable from random weekly bias
+
+The framework's persuasive "success" in the shared conversation was
+one big correct bearish call (before the June 5-6 2026 NQ drop). Over
+16 years, the signal carries no measurable predictive power.
+
+The CFTC data-loader (`cot.py`) is kept - the free Socrata endpoint is
+useful for any future COT-related research; the specific AMDX rule set
+just didn't survive systematic validation.
 
 ### Sleeve C - Crypto basis (shelved)
 
