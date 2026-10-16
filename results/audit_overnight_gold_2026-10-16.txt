@@ -1,0 +1,55 @@
+window 2004-11-18 -> 2026-10-16
+
+=== 1. Baseline (equal weight, 1bp/side) ===
+  E                                        Sharpe  0.49  Sortino  0.57  CAGR  6.00%  MaxDD -29.0%
+  E + GLD                                  Sharpe  0.59  Sortino  0.72  CAGR  6.04%  MaxDD -22.1%
+  E v2                                     Sharpe  0.58  Sortino  0.67  CAGR  9.06%  MaxDD -27.6%
+  E v2 + GLD (overlay on all 4)            Sharpe  0.67  Sortino  0.80  CAGR  8.53%  MaxDD -23.2%
+  E v2 + GLD (overlay on equities only)    Sharpe  0.67  Sortino  0.80  CAGR  8.32%  MaxDD -23.0%
+  GLD overnight alone                      Sharpe  0.46  Sortino  0.61  CAGR  6.14%  MaxDD -50.1%   corr with E +0.10
+
+=== 2. Walk-forward halves ===
+  E                    0.38 -> 0.58   MaxDD -29.0% / -28.8%
+  E + GLD              0.43 -> 0.75   MaxDD -19.8% / -22.1%
+  E v2 + GLD (all)     0.51 -> 0.83   MaxDD -18.2% / -23.2%
+
+=== 3. GLD weight grid (rest equal across SPY/QQQ/IWM), base E ===
+  GLD 0.00: Sharpe  0.49  Sortino  0.57  CAGR  6.00%  MaxDD -29.0%
+  GLD 0.15: Sharpe  0.55  Sortino  0.66  CAGR  6.02%  MaxDD -24.7%
+  GLD 0.25: Sharpe  0.59  Sortino  0.72  CAGR  6.04%  MaxDD -22.1%
+  GLD 0.33: Sharpe  0.62  Sortino  0.76  CAGR  6.05%  MaxDD -21.3%
+  GLD 0.40: Sharpe  0.63  Sortino  0.78  CAGR  6.06%  MaxDD -20.6%
+  GLD 0.50: Sharpe  0.63  Sortino  0.80  CAGR  6.07%  MaxDD -21.9%
+
+=== 4. Sub-periods (4y): E -> E+GLD Sharpe / MaxDD ===
+  2005-2008: +0.16/-23.6% -> +0.45/-16.9%
+  2009-2012: +0.45/-15.6% -> +0.63/-10.9%
+  2013-2016: +0.31/-17.6% -> -0.07/-12.8%
+  2017-2020: +0.90/-28.8% -> +1.04/-21.9%
+  2021-2024: +0.50/-25.8% -> +0.53/-22.1%
+  2025-2028: +0.46/-18.4% -> +0.93/-12.5%
+
+=== 5. Leave-one-out (E+GLD) ===
+  drop SPY: Sharpe  0.68  Sortino  0.84  CAGR  6.86%  MaxDD -21.8%
+  drop QQQ: Sharpe  0.58  Sortino  0.72  CAGR  5.74%  MaxDD -20.0%
+  drop IWM: Sharpe  0.58  Sortino  0.71  CAGR  5.56%  MaxDD -22.4%
+  drop GLD: Sharpe  0.49  Sortino  0.57  CAGR  6.00%  MaxDD -29.0%
+
+=== 6. Cost (bps/side, all legs) ===
+  0.5 bps: E 0.70 -> E+GLD 0.85
+    1 bps: E 0.49 -> E+GLD 0.59
+    2 bps: E 0.07 -> E+GLD 0.08
+    3 bps: E -0.35 -> E+GLD -0.43
+    5 bps: E -1.19 -> E+GLD -1.45
+
+=== 7. Placebo: GLD's nightly sign randomized (200 seeds), E+GLD Sharpe ===
+  real 0.594 vs placebo 0.324 +/- 0.077  P(placebo>=real)=0.000
+
+=== 8. Tail / crash windows: E vs E+GLD ===
+  2008-09..11  E -12.11%   E+GLD  -5.58%   GLD leg +14.00%
+  2020-02..03  E -28.98%   E+GLD -19.53%   GLD leg  +8.82%
+  2022         E -19.01%   E+GLD -16.27%   GLD leg  -8.07%
+  2025-04      E -11.46%   E+GLD  -7.14%   GLD leg  +5.81%
+  worst night: E -9.68% (2020-03-13)  E+GLD -8.26% (2020-03-13)
+
+=== 9. Tradability: GLD overnight = 16:00 -> 09:30 ET. MGC (micro gold, Tradovate) trades through; tracking check needs the MGC 5-min re-export on issue #3 (current file has 2 days).

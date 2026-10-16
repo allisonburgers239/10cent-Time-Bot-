@@ -1,0 +1,19 @@
+first month per ETF: DBA:2007-01, DBC:2006-06, EEM:2006-06, EFA:2006-06, EWJ:2006-06, EWY:2006-06, EWZ:2006-06, FXI:2006-06, GLD:2006-06, HYG:2007-04, IEF:2006-06, IWM:2006-06, LQD:2006-06, QQQ:2006-06, SLV:2006-06, SPY:2006-06, TIP:2006-06, TLT:2006-06, USO:2006-06, VGK:2006-06, XLB:2006-06, XLE:2006-06, XLF:2006-06, XLI:2006-06, XLK:2006-06, XLP:2006-06, XLU:2006-06, XLV:2006-06, XLY:2006-06
+
+basket                   n  Sharpe    CAGR   MaxDD  WF train->test  sub>0
+B10 (deployed)          10    0.71   4.10%  -14.3%    0.82->0.61     5/5
+B10 + sectors           19    0.70   4.07%  -12.1%    0.92->0.48     4/5
+B10 + countries         15    0.48   2.85%  -15.6%    0.48->0.48     5/5
+B10 + rates/credit      13    0.70   3.82%  -14.1%    0.82->0.60     5/5
+B10 + commodities       12    0.69   3.75%  -11.9%    0.68->0.71     5/5
+all 29                  29    0.59   3.16%  -11.9%    0.67->0.50     4/5
+
+=== LOO on 'all 29': Sharpe when each ADDED group is removed ===
+  without sectors       0.52 (full 0.59)
+  without countries     0.71 (full 0.59)
+  without rates/credit  0.57 (full 0.59)
+  without commodities   0.58 (full 0.59)
+
+=== Placebo: random 10-ETF subsets of the 29 (100 draws) vs B10 ===
+  B10 0.71 vs random-10 0.51 +/- 0.11, P(random>=B10)=0.01
+  Reading: if random 10-ETF baskets match B10, the deployed basket choice is not special; if 'all 29' beats B10 in both halves, breadth helps on clean data.

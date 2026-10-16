@@ -296,3 +296,33 @@ def overbought_downsize_test() -> None:
 
 if __name__ == "__main__":
     overbought_downsize_test()
+
+
+def vix_regime_diagnostic() -> None:
+    """Section 14 (2026-10-16): Nagel (2012, 'Evaporating Liquidity') predicts
+    short-term reversal returns rise with VIX because reversal = compensated
+    liquidity provision.  Diagnostic only (no new rule): E v2's signal-night
+    excess overnight return by VIX tercile at the signal close."""
+    data = load()
+    vix = yf.download("^VIX", period="max", interval="1d", progress=False)["Close"].squeeze()
+    vix.index = pd.to_datetime(vix.index).tz_localize(None)
+    print("\n=== 14. E v2 signal nights by VIX regime (RSI2<10, next overnight, SPY/QQQ/IWM pooled) ===")
+    rows = []
+    for t, df in data.items():
+        v = vix.reindex(df.index).ffill()
+        sig = (df["rsi2"] < 10)
+        rows.append(pd.DataFrame({"on": df["on"], "sig": sig, "vix": v}))
+    pool = pd.concat(rows).dropna()
+    pool["tercile"] = pd.qcut(pool["vix"], 3, labels=["low VIX", "mid VIX", "high VIX"])
+    print(f"  {'regime':<9} {'VIX range':>12} {'signal nights':>13} {'signal ON mean':>14} {'other ON mean':>13} {'excess':>8} {'t':>6}")
+    for k, g in pool.groupby("tercile", observed=True):
+        s = g[g.sig]["on"]; o = g[~g.sig]["on"]
+        ex = s.mean() - o.mean(); t = ex / np.sqrt(s.var() / len(s) + o.var() / len(o))
+        print(f"  {k:<9} {g.vix.min():>5.1f}-{g.vix.max():<5.1f} {len(s):>13} {s.mean()*1e4:>13.1f}bp {o.mean()*1e4:>12.1f}bp {ex*1e4:>7.1f}bp {t:>6.2f}")
+    hi = pool[pool.tercile == "high VIX"]; lo = pool[pool.tercile == "low VIX"]
+    print(f"  worst signal night: high-VIX {hi[hi.sig].on.min():.2%}, low-VIX {lo[lo.sig].on.min():.2%}; share of signal nights in high-VIX tercile {(pool[pool.sig].tercile=='high VIX').mean():.0%}")
+    print("  Reading: excess rising with VIX = the liquidity-provision mechanism; it also says the overlay's extra size is concentrated in stressed markets, which is where the tail cost comes from.")
+
+
+if __name__ == "__main__":
+    vix_regime_diagnostic()

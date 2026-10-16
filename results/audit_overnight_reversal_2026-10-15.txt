@@ -102,3 +102,11 @@ streak 2  0.488  0.503  0.519  0.527
   + x0 when Williams%R>-20               Sharpe  0.53  Sortino  0.50  CAGR  7.62%  MaxDD -25.6%  n=6636   halves 0.52/0.55   nights affected 42%
   overnight mean on RSI14>70 nights: +1.6bp vs other nights +4.5bp  (t of diff -2.26)
   overnight mean on Williams%R>-20 nights: +3.0bp vs other nights +5.2bp  (t of diff -2.00)
+
+=== 14. E v2 signal nights by VIX regime (RSI2<10, next overnight, SPY/QQQ/IWM pooled) ===
+  regime       VIX range signal nights signal ON mean other ON mean   excess      t
+  low VIX     9.1-15.2            344           9.7bp          2.9bp     6.9bp   2.93
+  mid VIX    15.2-21.0            718          10.4bp          4.2bp     6.2bp   2.63
+  high VIX   21.0-82.7           1136          16.3bp          4.9bp    11.4bp   2.62
+  worst signal night: high-VIX -7.98%, low-VIX -1.54%; share of signal nights in high-VIX tercile 52%
+  Reading: excess rising with VIX = the liquidity-provision mechanism; it also says the overlay's extra size is concentrated in stressed markets, which is where the tail cost comes from.

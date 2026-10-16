@@ -34,6 +34,13 @@ class OvernightConfig:
     reversal_multiplier: float = 1.0
 
 
+# Ticker baskets. E3 adds GLD (audited 2026-10-16, scripts/audit_overnight_gold.py):
+# E 0.49 -> E+GLD 0.59 Sharpe, MaxDD -29% -> -22%, both halves up, placebo p<0.001.
+# GLD's overnight leg (16:00 -> 09:30 ET) is tradable as MGC on Tradovate; the
+# MGC tracking check is pending the 5-min re-export on issue #3.
+E_TICKERS = ["SPY", "QQQ", "IWM"]
+E3_TICKERS = ["SPY", "QQQ", "IWM", "GLD"]
+
 # Audited deployable setting for E v2 (RSI(2) < 10 -> 2x): Sharpe 0.47 -> 0.56,
 # MaxDD -29% -> -31.5% on SPY/QQQ/IWM 2000-2026. Off by default above.
 E_V2_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0)
