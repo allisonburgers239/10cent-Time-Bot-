@@ -1,0 +1,20 @@
+  j = pd.concat([on_mes.rename("MES"), on_spy_bar.rename("SPY_bars"), on_spy_off.rename("SPY_official")], axis=1).dropna()
+overlap 2026-03-16 -> 2026-06-26, 72 nights
+
+  mean overnight (bp/night):  MES +11.6  SPY_bars +13.3  SPY_official +12.3
+  std (bp):                   MES 64.1  SPY_bars 63.2  SPY_official 64.0
+
+  correlation matrix:
+                MES  SPY_bars  SPY_official
+MES           1.000     0.998         0.997
+SPY_bars      0.998     1.000         0.995
+SPY_official  0.997     0.995         1.000
+
+  MES vs SPY_official: beta 0.999, mean diff -0.7bp, tracking error 4.6bp/night, |diff|>10bp on 3% of nights
+
+  MES vs SPY_bars: beta 1.012, mean diff -1.7bp, tracking error 4.5bp/night, |diff|>10bp on 1% of nights
+
+  SPY_bars vs SPY_official: beta 0.984, mean diff +1.0bp, tracking error 6.1bp/night, |diff|>10bp on 6% of nights
+
+  Cost context: MES round trip ~0.6-0.7bp (1 tick + commission) vs SPY 1-2bp at a retail equity broker.
+  Note: MES includes the 16:00-17:00 and 18:00-09:30 Globex sessions; dividends accrue to SPY, not MES (basis drift ~1.3%/yr, visible in mean diff over long windows, not here).

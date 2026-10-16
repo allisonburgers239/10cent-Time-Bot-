@@ -1,0 +1,37 @@
+window 2007-06-30 -> 2026-10-31, 233 months
+
+  B   Sharpe  0.69  CAGR  3.97%  Vol  5.6%  MaxDD -14.3%
+  E   Sharpe  0.48  CAGR  5.73%  Vol 11.6%  MaxDD -28.7%
+  E2  Sharpe  0.65  CAGR  8.51%  Vol 12.6%  MaxDD -27.4%
+  F   Sharpe  0.90  CAGR  6.19%  Vol  6.7%  MaxDD -11.6%
+
+correlations:
+        B      E     E2      F
+B   1.000 -0.044 -0.022  0.462
+E  -0.044  1.000  0.953  0.357
+E2 -0.022  0.953  1.000  0.336
+F   0.462  0.357  0.336  1.000
+
+=== Books (static weights, monthly rebalanced) ===
+  B70/E30 (current)      Sharpe  0.86  CAGR  4.50%  Vol  5.1%  MaxDD  -9.5%   halves 0.75/0.95
+  B70/E2 30              Sharpe  0.96  CAGR  5.31%  Vol  5.4%  MaxDD  -9.0%   halves 0.77/1.14
+  B60/E2 40              Sharpe  0.93  CAGR  5.76%  Vol  6.0%  MaxDD  -9.9%   halves 0.70/1.16
+  B50/E2 50              Sharpe  0.88  CAGR  6.22%  Vol  6.9%  MaxDD -10.8%   halves 0.62/1.13
+  F100 (Faber alone)     Sharpe  0.90  CAGR  6.19%  Vol  6.7%  MaxDD -11.6%   halves 0.60/1.24
+  B50/F50                Sharpe  0.94  CAGR  5.07%  Vol  5.3%  MaxDD  -9.4%   halves 0.78/1.12
+  B50/E2 25/F25          Sharpe  1.04  CAGR  5.64%  Vol  5.3%  MaxDD  -8.5%   halves 0.79/1.29
+  B40/E2 30/F30          Sharpe  1.03  CAGR  5.98%  Vol  5.7%  MaxDD  -9.0%   halves 0.74/1.30
+
+=== Sharpe-max weight scan over (B, E2, F), 10% steps, no leverage, long-only ===
+  B 0.4 / E2 0.2 / F 0.4: Sharpe 1.053  MaxDD -8.1%
+  B 0.5 / E2 0.2 / F 0.3: Sharpe 1.046  MaxDD -8.1%
+  B 0.3 / E2 0.2 / F 0.5: Sharpe 1.045  MaxDD -8.5%
+  B 0.4 / E2 0.1 / F 0.5: Sharpe 1.029  MaxDD -8.0%
+  B 0.2 / E2 0.2 / F 0.6: Sharpe 1.028  MaxDD -9.3%
+  B 0.4 / E2 0.3 / F 0.3: Sharpe 1.025  MaxDD -9.0%
+  (a scan is a description of the sample, not a weight to deploy)
+
+=== Placebo: F and E2 block-shuffled in time (12m blocks, 300 seeds): does the REAL timing beat a sleeve with the same return distribution but no co-movement? ===
+  E -> E2 in B70/x30                   real gain +0.103   shuffled +0.079 +/- 0.030   P(shuffled>=real)=0.183
+  add F: B70/E2 30 -> B50/E2 25/F25    real gain +0.078   shuffled +0.253 +/- 0.030   P(shuffled>=real)=1.000
+  Reading: a shuffled sleeve keeps its mean and vol but loses its timing relative to B; if it 'helps' as much as the real one, the benefit is just diversification by a positive-mean series, not skill.

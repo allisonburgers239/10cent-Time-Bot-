@@ -1,0 +1,21 @@
+fetching Disaggregated COT ...
+  bad-tick guard: ZN dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10']
+  bad-tick guard: ZB dropped 5 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10', '2014-12', '2015-01']
+  bad-tick guard: ZF dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['2003-02', '2003-08', '2003-11']
+  bad-tick guard: HG dropped 1 month(s) with |ln(F1/F2)| > 0.08: ['1988-12']
+  bad-tick guard: CT dropped 2 month(s) with |ln(F1/F2)| > 0.35: ['1986-04', '1986-05']
+markets: ['GC', 'SI', 'HG', 'ZC', 'ZS', 'ZW', 'SB', 'CT', 'KC', 'LE']; window 2006-01-31 -> 2026-10-31
+
+variant                    roll-adjusted                                    raw 1!                                          
+XS top-2 long-only         Sharpe  0.40  CAGR  8.51%  MaxDD -47.6%  n=250   Sharpe  0.53  CAGR 11.81%  MaxDD -49.7%  n=250  
+XS top-3 long-only         Sharpe  0.31  CAGR  5.90%  MaxDD -55.4%  n=250   Sharpe  0.49  CAGR  9.81%  MaxDD -53.4%  n=250  
+XS top-3 long-short        Sharpe -0.06  CAGR -1.11%  MaxDD -76.7%  n=250   Sharpe -0.13  CAGR -2.63%  MaxDD -84.5%  n=250  
+TS 12m percentile > 0.5    Sharpe  0.07  CAGR  0.59%  MaxDD -47.3%  n=250   Sharpe  0.28  CAGR  2.27%  MaxDD -40.7%  n=250  
+EW long benchmark          Sharpe  0.21  CAGR  3.18%  MaxDD -55.6%  n=250   Sharpe  0.53  CAGR  8.53%  MaxDD -40.1%  n=250  
+
+=== Walk-forward (adjusted), XS top-3 long-short ===
+  train Sharpe -0.21  CAGR -4.12%  MaxDD -54.4%  n=125
+  test  Sharpe  0.10  CAGR  1.99%  MaxDD -55.5%  n=125
+
+=== Placebo: HP block-shuffled in time per market (12m blocks, 100 seeds), XS top-3 L/S on adjusted ===
+  real -0.06 vs placebo 0.14 +/- 0.16, p=0.950

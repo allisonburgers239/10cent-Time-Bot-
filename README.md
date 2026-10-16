@@ -132,6 +132,16 @@ bar p<0.003), calendar seasonality with literature behind it
 | "AI edge" frameworks (`screen_frameworks.py`, 2026-10-16): trend-filtered oversold, laggard catch-up, correlation-breakdown pairs | Trend filter (close > 200d) adds **nothing** to the RSI(2) reversal already in E v2 (above-200d vs any-trend: same). Laggard catch-up in sector ETFs after big SPY up-days: **nothing** (p 0.6-0.8). Pairs z>2 fade, 8 pre-registered pairs: one hit (XLF~SPY, +29bp/5d, t=2.3, p=0.003) decaying 41 -> 18bp across halves; BTC~QQQ dead in the second half. Not a sleeve. VWAP/liquidity-grab needs intraday history we lack (its cousin, the PDH/PDL sweep test, is dead); the "continuous screener" is a live scan with no backtest, excluded by design |
 | ChronoMatrix 27-node cycle + sweeps (5 instruments) | Cycle claims not supported anywhere (placebo p 0.87-0.96); SPY sweep-to-close +9bp p=0.01 is 1 of 5 at that level = multiple testing. Dead |
 
+**Second pass, 2026-10-16 (open items from the memo that daily data can settle):**
+
+| Item | Script | Verdict |
+|---|---|---|
+| Long-VIX-when-inverted as a crash hedge on E | `audit_vix_hedge_e.py` | **Shelved as a sleeve, keep as optional insurance.** Pays in 8 of 10 crash windows (2020: E -29% -> book -18%), timing beats random (placebo p=0.025), but no out-of-sample Sharpe gain (test half E 0.59 -> 0.51) and the MaxDD improvement is no better than random timing (p=0.41). Best cell k=0.05, w=1: Sharpe +0.04, MaxDD +2pp |
+| Sleeve H on roll-adjusted returns | `audit_h_rolladj.py` | Spliced series flatter every long commodity position: EW long basket 0.53 raw -> 0.21 adjusted. H's long-only top-2 falls 0.53 -> 0.40 but now BEATS the passive basket (the original objection reverses). Long-short dead (-0.06, placebo p=0.95). Still a modest-weight candidate at most; the full-book audit (raw H) said it adds nothing |
+| E via MES on Tradovate (one broker) | `screen_e_via_mes.py` | **Works.** 72 overlapping nights: MES 16:00->09:30 vs SPY close->open corr 0.997, beta 1.00, tracking error 4.6bp/night, mean diff -0.7bp. E and E v2 can run on Tradovate; the equity-broker dependency goes away. Caveat: short window; MES forgoes SPY's ~1.3%/yr dividend yield but SPY's overnight already drops by the dividend on ex-dates, so the overnight legs match |
+| Full book with E v2 and Faber | `audit_full_book_v2.py` | **B70/E2 30: Sharpe 0.86 -> 0.96, MaxDD -9.5% -> -9.0%, both halves up** (0.75/0.95 -> 0.77/1.15). The gain is what E v2's standalone audit predicts (time-shuffled placebo p=0.18: no extra timing magic, none claimed). Faber-timed basket: 0.90 alone, corr 0.46 with B; adding it looks good on paper (1.03) but a time-shuffled F helps MORE (p=1.0), i.e. its value is overlap with B. Not an addition. Open question for a separate pre-registered audit: is long-only 10m-SMA timing a better B on the ETF basket (0.90 vs 0.69, MaxDD -11.6% vs -14.3%, 2007-2026 only)? |
+| Real CPI/NFP dates from TradingView's calendar | probe only | Calendar has history since 2003 but returns ~35KB per year of events; 23 years is too much to route through this channel. First-Friday NFP stands; CPI stays omitted |
+
 **Roll adjustment and Sleeve B (corrected 2026-10-16).** Every futures
 number in this repo runs on unadjusted front-month series (yfinance `=F`
 or TradingView `1!`), which splice contracts without removing the roll
@@ -292,6 +302,10 @@ same Sharpe and a worse MaxDD (-37%); streak at 1.5x is the gentle setting
 To run E v2 in any script that calls `overnight.backtest_*`, pass
 `overnight.E_V2_CONFIG` instead of `OvernightConfig()`. The live E process
 is unchanged until that is done deliberately.
+
+Deployment rail: `screen_e_via_mes.py` shows MES replicates the SPY
+overnight leg (corr 0.997, beta 1.00), so E and E v2 can run on Tradovate
+alongside B - signal nights become 2 MES contracts instead of 1.
 
 ### Sleeve B v2 - CTA-enhanced Sleeve B (shelved)
 

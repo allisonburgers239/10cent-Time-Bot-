@@ -1,0 +1,55 @@
+Window 2004-03-26 -> 2026-10-14, 5551 days.  E alone: Sharpe  0.47  Sortino  0.56  CAGR  5.83%  MaxDD -29.0%
+  inversion frequency: k=0 22.5% of days, k=0.03 11.2%, k=0.05 7.5%
+
+=== 1. E + w x hedge leg (hedge leg vol-targeted 10%, long CM30 only when VX1 < VIX*(1-k)) ===
+  variant                           w  Sharpe Sortino    CAGR   MaxDD   dSharpe dMaxDD
+  inverted k=0.00                0.25    0.42    0.51   5.26%  -27.6%   -0.05   +1.3%
+  inverted k=0.00                0.50    0.37    0.46   4.77%  -29.5%   -0.10   -0.5%
+  inverted k=0.00                1.00    0.27    0.36   3.80%  -34.0%   -0.20   -5.0%
+  inverted k=0.00                2.00    0.10    0.14   1.89%  -45.9%   -0.37   -16.9%
+  inverted k=0.03                0.25    0.47    0.57   5.85%  -27.3%   -0.00   +1.6%
+  inverted k=0.03                0.50    0.47    0.58   5.96%  -27.7%   -0.00   +1.3%
+  inverted k=0.03                1.00    0.45    0.58   6.17%  -29.8%   -0.02   -0.9%
+  inverted k=0.03                2.00    0.39    0.53   6.60%  -33.9%   -0.08   -5.0%
+  inverted k=0.05                0.25    0.49    0.58   6.02%  -27.6%   +0.01   +1.4%
+  inverted k=0.05                0.50    0.50    0.61   6.30%  -26.2%   +0.03   +2.8%
+  inverted k=0.05                1.00    0.51    0.66   6.85%  -26.6%   +0.04   +2.3%
+  inverted k=0.05                2.00    0.49    0.68   7.97%  -27.8%   +0.02   +1.2%
+  ALWAYS long (naive)            0.25    0.27    0.35   3.44%  -27.5%   -0.20   +1.5%
+  ALWAYS long (naive)            0.50    0.09    0.12   1.18%  -46.3%   -0.39   -17.4%
+  ALWAYS long (naive)            1.00   -0.19   -0.31  -3.19%  -79.7%   -0.66   -50.7%
+  ALWAYS long (naive)            2.00   -0.43   -0.82 -11.38%  -97.8%   -0.90   -68.8%
+
+=== 2. Crash windows: E vs E + 1.0 x hedge (k=0.03) ===
+  2008-09..11    E -12.11%   hedge leg +14.74%   book  +2.63%   hedge on 84% of days
+  2010-05 flash  E  -4.49%   hedge leg  +3.09%   book  -1.40%   hedge on 75% of days
+  2011-08        E  -9.20%   hedge leg  +6.59%   book  -2.61%   hedge on 57% of days
+  2015-08        E  -2.98%   hedge leg  +6.94%   book  +3.97%   hedge on 59% of days
+  2018-02        E  -1.07%   hedge leg +14.21%   book +13.15%   hedge on 73% of days
+  2018-Q4        E  -0.10%   hedge leg  -0.71%   book  -0.81%   hedge on 56% of days
+  2020-02..03    E -28.98%   hedge leg +11.22%   book -17.76%   hedge on 93% of days
+  2022 (year)    E -19.01%   hedge leg  -5.76%   book -24.77%   hedge on 8% of days
+  2024-08        E  -2.31%   hedge leg  +5.19%   book  +2.88%   hedge on 90% of days
+  2025-04        E -11.46%   hedge leg  +4.03%   book  -7.43%   hedge on 100% of days
+
+=== 3. Walk-forward halves (E -> book, k=0.03, w=1) ===
+  train: E 0.35/-29.0% -> book 0.40/-22.4%
+  test: E 0.59/-28.8% -> book 0.51/-29.8%
+
+=== 4. Sub-periods (4y): E Sharpe/MaxDD -> book ===
+  2004-2007: +1.19/-5.9% -> +0.82/-7.2%
+  2008-2011: -0.02/-28.7% -> +0.20/-22.1%
+  2012-2015: +0.48/-10.2% -> +0.40/-9.0%
+  2016-2019: +0.84/-12.3% -> +0.66/-14.4%
+  2020-2023: +0.34/-28.8% -> +0.31/-29.8%
+  2024-2027: +1.00/-18.4% -> +0.83/-11.7%
+
+=== 5. Placebo: inversion signal block-shuffled in time (20-day blocks, 200 seeds), k=0.03, w=1 ===
+  Sharpe: real 0.455 vs placebo 0.303 +/- 0.069, P(placebo>=real)=0.025
+  MaxDD : real -29.8% vs placebo -31.1% +/- 3.1%, P(placebo better)=0.410
+
+=== 6. Cost sensitivity on the hedge leg (bps/side), k=0.03, w=1 ===
+    5 bps: book Sharpe  0.48  Sortino  0.62  CAGR  6.55%  MaxDD -29.6%
+   15 bps: book Sharpe  0.45  Sortino  0.58  CAGR  6.17%  MaxDD -29.8%
+   30 bps: book Sharpe  0.41  Sortino  0.53  CAGR  5.61%  MaxDD -30.2%
+   50 bps: book Sharpe  0.36  Sortino  0.46  CAGR  4.86%  MaxDD -30.7%
