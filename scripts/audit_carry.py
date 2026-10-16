@@ -65,6 +65,18 @@ def load_all() -> tuple[pd.DataFrame, pd.DataFrame]:
                 break
     f1 = pd.DataFrame(f1s).sort_index()
     f2 = pd.DataFrame(f2s).sort_index()
+    # Bad-tick guard: a front/second ratio outside a plausible basis band is a
+    # data error (TradingView carries a few closes of exactly 100 / ~70 in the
+    # early ZN2!/ZF2! history).  Seasonal commodities get a wider band.
+    wide = {"NG", "ZC", "ZS", "ZW", "KC", "SB", "CT", "LE", "HE", "CL", "RB", "HO"}
+    for c in f1.columns:
+        band = 0.35 if c in wide else 0.08
+        ratio = np.log(f1[c] / f2[c].reindex(f1.index))
+        bad = (ratio.abs() > band) | (f1[c] <= 0) | (f2[c].reindex(f1.index) <= 0)
+        if bad.sum():
+            print(f"  bad-tick guard: {c} dropped {int(bad.sum())} month(s) with |ln(F1/F2)| > {band}: {[d.strftime('%Y-%m') for d in bad[bad].index[:6]]}")
+            f1.loc[bad, c] = np.nan
+            f2.loc[bad[bad].index.intersection(f2.index), c] = np.nan
     return f1, f2
 
 
