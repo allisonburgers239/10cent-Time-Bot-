@@ -23,6 +23,50 @@ class OvernightConfig:
     use_trend_filter: bool = False
     trend_lookback: int = 200  # days
     exclude_days_of_week: tuple[int, ...] = ()  # 0=Mon..4=Fri
+    # E v2: short-term-reversal sizing overlay (audited 2026-10-15, see
+    # scripts/audit_overnight_reversal.py). On nights where the signal fires
+    # the overnight position is multiplied by `reversal_multiplier`. Signal is
+    # computed from closes up to and including the entry-day close only.
+    #   reversal_signal: "none" | "streak" | "rsi2" | "either"
+    reversal_signal: str = "none"
+    reversal_streak_k: int = 3          # k consecutive down closes
+    reversal_rsi_threshold: float = 10.0  # RSI(2) below this
+    reversal_multiplier: float = 1.0
+
+
+# Audited deployable setting for E v2 (RSI(2) < 10 -> 2x): Sharpe 0.47 -> 0.56,
+# MaxDD -29% -> -31.5% on SPY/QQQ/IWM 2000-2026. Off by default above.
+E_V2_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0)
+
+
+def rsi(close: pd.Series, n: int = 2) -> pd.Series:
+    """Wilder RSI (exponential, alpha = 1/n). Uses only past and current closes."""
+    d = close.diff()
+    up = d.clip(lower=0).ewm(alpha=1 / n, adjust=False).mean()
+    dn = (-d.clip(upper=0)).ewm(alpha=1 / n, adjust=False).mean()
+    return 100 - 100 / (1 + up / dn.replace(0, np.nan))
+
+
+def down_streak(close: pd.Series) -> pd.Series:
+    """Number of consecutive down closes ending today (0 if today closed up)."""
+    down = (close.pct_change() < 0).astype(int)
+    return down.groupby((down != down.shift()).cumsum()).cumsum() * down
+
+
+def reversal_signal(close: pd.Series, cfg: "OvernightConfig") -> pd.Series:
+    """Boolean per day: does the sizing overlay fire for the overnight that
+    starts at this day's close?  Only closes <= today are used."""
+    if cfg.reversal_signal == "none":
+        return pd.Series(False, index=close.index)
+    streak = down_streak(close) >= cfg.reversal_streak_k
+    low_rsi = rsi(close, 2) < cfg.reversal_rsi_threshold
+    if cfg.reversal_signal == "streak":
+        return streak
+    if cfg.reversal_signal == "rsi2":
+        return low_rsi.fillna(False)
+    if cfg.reversal_signal == "either":
+        return streak | low_rsi.fillna(False)
+    raise ValueError(f"unknown reversal_signal {cfg.reversal_signal!r}")
 
 
 def compute_overnight_returns(daily_ohlc: pd.DataFrame) -> pd.Series:
@@ -49,6 +93,10 @@ def backtest_single(daily_ohlc: pd.DataFrame, config: OvernightConfig | None = N
         dow = pd.Series(daily_ohlc.index.dayofweek, index=daily_ohlc.index)
         excluded = dow.isin(cfg.exclude_days_of_week)
         position = position.where(~excluded, 0.0)
+
+    if cfg.reversal_signal != "none" and cfg.reversal_multiplier != 1.0:
+        fire = reversal_signal(daily_ohlc["close"], cfg)
+        position = position * np.where(fire, cfg.reversal_multiplier, 1.0)
 
     gross_return = position * overnight_ret
     # Cost: on any hold-day we buy at close then sell at next open (round trip)

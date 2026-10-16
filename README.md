@@ -14,6 +14,7 @@ retail-accessible edges in derivatives markets.
 | C - Crypto Cash-and-Carry  | Funding-rate arbitrage | BTC/ETH spot vs perp | **Shelved** - failed walk-forward |
 | D - Sector XSMOM           | Sector ETF rotation | 9 SPDR sectors | **Shelved** - no real edge |
 | E - Overnight Drift        | Buy at close, sell at open next day | SPY/QQQ/IWM | **Deployable** - 7/7 pass, Sharpe 0.73 over 33y OOS |
+| E v2 - E + reversal sizing | Same trades; 2x size on nights after RSI(2)<10 (~9% of nights) | SPY/QQQ/IWM | **Deployable, switch OFF by default** - 7/7 pass on Sharpe (0.47 -> 0.56 on 2000-2026), MaxDD -29% -> -31.5%; `overnight.E_V2_CONFIG` |
 | F - Stock XSMOM (long-only) | Top-N momentum on large-caps | 25 US large-caps | **Shelved** - beats random selection but not SPY buy-and-hold |
 | G - COT / AMDX bias | Weekly CFTC positioning phase-mapping on NQ | NQ futures via Tradovate | **Shelved** - systematic version fails audit (p=0.42 vs random) |
 | H - Commodity hedger pressure | Cross-sectional long-short on 12 commodities by CFTC Producer/Merchant HP | GC, SI, HG, CL, NG, ZC, ZS, ZW, SB, CT, KC, LE | **Weak-pass** - audit clean, Sharpe 0.15 LS (p<0.001 vs random) |
@@ -250,6 +251,35 @@ the E portfolio is 0.91. Same trade, lower Sharpe, no diversification.
 Bonus from the same script: the repo's 11.5y 60-min sector CSVs
 cross-validate the daily-bar result, and hour-of-day decomposition
 finds no intraday seasonality that clears a 2bp round-trip.
+
+### Sleeve E v2 - reversal sizing overlay (deployable, off by default)
+
+Found by the 2026-10-15 pattern battery and audited in
+`scripts/audit_overnight_reversal.py`. On any night where 2-day RSI of the
+ticker's own closes is below 10 (about 9% of nights), E's overnight
+position is doubled. No new orders: the same 16:00 buy and 09:30 sell,
+larger on signal nights.
+
+  Window 2000-05 -> 2026-10 (limited by IWM), SPY/QQQ/IWM equal-weight, 1bp/side:
+
+  1. Baseline         E Sharpe 0.47 / MaxDD -29.0%  ->  E v2 Sharpe 0.56 / MaxDD -31.5%
+  2. Walk-forward     E 0.37 -> 0.57   |   E v2 0.44 -> 0.67   (both halves up)
+  3. Grid (28)        100% of k x multiplier x signal cells above E
+  4. Sub-periods      5 of 6 five-year windows up
+  5. Leave-one-out    up with any ticker dropped
+  6. Cost             more cost-robust than E (at 2bps/side: E 0.06, E v2 0.17)
+  7. Placebo (300)    random nights at the same frequency: p = 0.007
+  8. Tail             worst night -9.7% -> -13.3% (2008-10-23); nights < -4%: 12 -> 21
+  9. Parity           `overnight.E_V2_CONFIG` reproduces the audit to 1e-12
+
+The tail row is the price. The streak variant (3 down closes, 2x) has the
+same Sharpe and a worse MaxDD (-37%); streak at 1.5x is the gentle setting
+(0.52 / -33%). Unit tests in `tests/test_overnight.py` pin the signal lag
+(signal uses closes up to the entry-day close only) and the cost scaling.
+
+To run E v2 in any script that calls `overnight.backtest_*`, pass
+`overnight.E_V2_CONFIG` instead of `OvernightConfig()`. The live E process
+is unchanged until that is done deliberately.
 
 ### Sleeve B v2 - CTA-enhanced Sleeve B (shelved)
 

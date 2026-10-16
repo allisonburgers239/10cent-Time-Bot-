@@ -1,25 +1,25 @@
-Window 2000-05-26 -> 2026-10-14 (limited by IWM)
+Window 2000-05-26 -> 2026-10-15 (limited by IWM)
 
 === 1. Baseline: E vs E + reversal overlay (k=3, x2, streak) ===
-  E                Sharpe  0.47  Sortino  0.57  CAGR  5.88%  MaxDD -29.0%  n=6635
-  E + overlay      Sharpe  0.55  Sortino  0.64  CAGR  8.37%  MaxDD -37.4%  n=6635
-  E + overlay rsi2 Sharpe  0.56  Sortino  0.66  CAGR  8.79%  MaxDD -31.5%  n=6635
-  E + overlay x1.5 Sharpe  0.52  Sortino  0.61  CAGR  7.12%  MaxDD -33.2%  n=6635
+  E                Sharpe  0.47  Sortino  0.57  CAGR  5.88%  MaxDD -29.0%  n=6636
+  E + overlay      Sharpe  0.55  Sortino  0.63  CAGR  8.37%  MaxDD -37.4%  n=6636
+  E + overlay rsi2 Sharpe  0.56  Sortino  0.66  CAGR  8.79%  MaxDD -31.5%  n=6636
+  E + overlay x1.5 Sharpe  0.52  Sortino  0.61  CAGR  7.12%  MaxDD -33.2%  n=6636
 
 === 2. Walk-forward halves (E -> overlay) ===
-  train: E 0.37 -> overlay 0.44   (2000-05-26 -> 2013-08-05)
-  test: E 0.57 -> overlay 0.67   (2013-08-06 -> 2026-10-14)
+  train: E 0.37 -> overlay 0.44   (2000-05-26 -> 2013-08-06)
+  test: E 0.57 -> overlay 0.67   (2013-08-07 -> 2026-10-15)
 
 === 3. Grid: k x multiplier x signal (Sharpe; baseline E in brackets) ===
 m          1.25   1.50   2.00   3.00
 signal k                            
 either 2  0.490  0.506  0.524  0.535
-       3  0.499  0.524  0.558  0.592
+       3  0.499  0.523  0.558  0.591
        4  0.500  0.526  0.564  0.603
-rsi2   3  0.498  0.523  0.559  0.595
-streak 2  0.489  0.503  0.519  0.528
-       3  0.494  0.516  0.548  0.581
-       4  0.475  0.480  0.486  0.484
+rsi2   3  0.498  0.523  0.559  0.594
+streak 2  0.488  0.503  0.519  0.527
+       3  0.494  0.516  0.548  0.580
+       4  0.475  0.480  0.486  0.483
   baseline E Sharpe [0.468];  grid cells above baseline: 100% of 28;  MaxDD range -48.8% .. -28.7%
 
 === 4. Sub-periods (5y): E Sharpe -> overlay Sharpe ===
@@ -28,7 +28,7 @@ streak 2  0.489  0.503  0.519  0.528
   2010-2014: +0.61 -> +0.79   MaxDD -15.6% -> -17.7%
   2015-2019: +0.55 -> +0.48   MaxDD -17.6% -> -19.8%
   2020-2024: +0.58 -> +0.66   MaxDD -28.8% -> -27.6%
-  2025-2029: +0.47 -> +0.91   MaxDD -18.4% -> -18.9%
+  2025-2029: +0.46 -> +0.90   MaxDD -18.4% -> -18.9%
 
 === 5. Leave-one-out ticker ===
   drop SPY: E 0.57 -> overlay 0.61
@@ -43,7 +43,7 @@ streak 2  0.489  0.503  0.519  0.528
   5.0 bps: E -1.18 -> overlay -0.95
 
 === 7. Placebo: random signal nights, same frequency per ticker (300 seeds) ===
-  real 0.548  placebo 0.462 +/- 0.032  P(placebo>=real)=0.007  REAL
+  real 0.548  placebo 0.460 +/- 0.032  P(placebo>=real)=0.000  REAL
 
 === 8. Tail and risk-rule interaction ===
   worst night: E -9.68% (2020-03-13)  overlay -13.25% (2008-10-23)
@@ -54,3 +54,7 @@ streak 2  0.489  0.503  0.519  0.528
   2022           E -19.01%   overlay -22.10%
   2025-04 tariff E -11.46%   overlay  -9.79%
   Note: the README's 2% daily loss cap and 1% risk-per-trade rule are already exceeded by E at 1x on a bad night; a 2x night doubles that. The honest deployment choice is x1.5 or sizing the whole sleeve so that 2x on a signal night stays inside the cap.
+
+=== 9. Library parity: ten_cent_bot.overnight E_V2_CONFIG vs this script ===
+  overlap days 6635  max |diff| 1.83e-16  Sharpe lib 0.559 vs audit 0.559
+  OK - what ships is what was audited

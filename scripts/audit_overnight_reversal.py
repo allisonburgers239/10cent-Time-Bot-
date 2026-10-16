@@ -146,3 +146,25 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+def library_parity() -> None:
+    """Section 9: the deployable code path (ten_cent_bot.overnight with
+    E_V2_CONFIG) must reproduce this audit's numbers, or the audit is not
+    an audit of what ships."""
+    from ten_cent_bot import overnight as ov_lib
+
+    data = load()
+    frames = {t: df[["open", "close"]] for t, df in data.items()}
+    lib = ov_lib.backtest_portfolio(frames, ov_lib.E_V2_CONFIG)["portfolio_return"]
+    lib = lib.loc[: pd.Timestamp("2026-10-14")]
+    here = portfolio(data, signal="rsi2", m=2.0)
+    j = pd.concat([lib.rename("lib"), here.rename("audit")], axis=1).dropna()
+    print("\n=== 9. Library parity: ten_cent_bot.overnight E_V2_CONFIG vs this script ===")
+    print(f"  overlap days {len(j)}  max |diff| {(j.lib - j.audit).abs().max():.2e}  Sharpe lib {sharpe(j.lib, 252):.3f} vs audit {sharpe(j.audit, 252):.3f}")
+    assert (j.lib - j.audit).abs().max() < 1e-12, "library and audit disagree"
+    print("  OK - what ships is what was audited")
+
+
+if __name__ == "__main__":
+    library_parity()
