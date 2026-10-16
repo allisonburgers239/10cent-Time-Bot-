@@ -92,3 +92,13 @@ streak 2  0.488  0.503  0.519  0.527
   either x2.0              0.2%   0.541  -34.6%   [0.558 / -34.0%]
   either x2.0              0.4%   0.515  -34.2%   [0.558 / -34.0%]
   Note: noise applied to every close in the signal series (harsher than reality, where only today's price is uncertain).
+
+
+=== 13. E v2 + downsizing on overbought nights (SPY/QQQ/IWM, 1bp/side) ===
+  E v2 (RSI2<10 x2)                      Sharpe  0.56  Sortino  0.66  CAGR  8.79%  MaxDD -31.5%  n=6636
+  + x0.5 when RSI14>70                   Sharpe  0.56  Sortino  0.66  CAGR  8.83%  MaxDD -31.3%  n=6636   halves 0.45/0.68   nights affected 8%
+  + x0 when RSI14>70                     Sharpe  0.57  Sortino  0.66  CAGR  8.87%  MaxDD -31.1%  n=6636   halves 0.47/0.68   nights affected 8%
+  + x0.5 when Williams%R>-20             Sharpe  0.55  Sortino  0.62  CAGR  8.20%  MaxDD -28.0%  n=6636   halves 0.48/0.63   nights affected 42%
+  + x0 when Williams%R>-20               Sharpe  0.53  Sortino  0.50  CAGR  7.62%  MaxDD -25.6%  n=6636   halves 0.52/0.55   nights affected 42%
+  overnight mean on RSI14>70 nights: +1.6bp vs other nights +4.5bp  (t of diff -2.26)
+  overnight mean on Williams%R>-20 nights: +3.0bp vs other nights +5.2bp  (t of diff -2.00)

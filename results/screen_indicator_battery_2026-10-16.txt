@@ -1,0 +1,72 @@
+=== INDICATOR + LEVEL BATTERY: 416 tests on 8 ETFs; bar p<0.0015 ===
+edge_bp = signal-day mean of the SIGNED target minus unconditional; h1/h2 = first/second half
+
+rule                                              hz p<.05&both halves+ p<bar  avg edge  avg t tickers +
+Williams%R > -20 -> short                         5d                  6     4      9.6bp   2.29     7/8
+Bollinger lower breach -> long                    5d                  6     2     24.6bp   1.62     6/8
+Williams%R < -80 -> long                          5d                  5     4     21.8bp   2.12     7/8
+Stochastic > 80 -> short                          5d                  5     4      7.3bp   1.79     5/8
+RSI14 < 30 -> long                                1d                  5     4     37.4bp   1.27     5/8
+CCI20 > 100 -> short                              5d                  5     3      7.7bp   2.00     6/8
+Stochastic < 20 -> long                           5d                  4     4     18.2bp   1.63     7/8
+Bollinger lower breach -> long                    1d                  4     4     13.0bp   1.11     6/8
+RSI14 < 30 -> long                                5d                  4     3     59.6bp   1.64     7/8
+CCI20 < -100 -> long                              5d                  4     3     10.2bp   1.16     7/8
+Stochastic < 20 -> long                           1d                  4     2      5.4bp   0.89     7/8
+RSI14 > 70 -> short                               5d                  4     0     15.2bp   1.81     6/8
+Williams%R < -80 -> long                          1d                  3     3      9.2bp   1.65     7/8
+CCI20 < -100 -> long                              1d                  3     2      2.4bp   0.54     6/8
+Williams%R > -20 -> short                         1d                  3     0      2.4bp   1.16     7/8
+ADX>25 & -DI>+DI -> short                         5d                  2     2     -4.5bp  -0.53     3/8
+RSI14 > 70 -> short                               1d                  2     0      4.6bp   1.25     6/8
+Bollinger upper breach -> short                   5d                  2     0     10.1bp   1.22     6/8
+CCI20 > 100 -> short                              1d                  2     0      1.7bp   1.00     6/8
+MACD cross up -> long                             1d                  2     0      8.3bp   0.97     7/8
+Stochastic > 80 -> short                          1d                  2     0      1.9bp   0.90     7/8
+SuperTrend flip down -> short                     1d                  2     0      3.5bp  -0.17     2/8
+Bollinger upper breach -> short                   1d                  1     1      1.5bp   0.67     5/8
+EMA50 < EMA200 (regime) -> short                  5d                  1     1      3.0bp   0.23     5/8
+uptrend-line touch -> long                        1d                  1     1      2.9bp   0.21     3/8
+EMA50 > EMA200 (regime) -> long                   5d                  1     1      0.8bp   0.17     5/8
+support BREAK (close < pivot low) -> short        1d                  1     1      2.7bp  -0.02     4/8
+Donchian20 breakdown -> short                     1d                  1     1     -9.6bp  -1.03     1/8
+resistance BREAK (close > pivot high) -> long     1d                  1     0      7.6bp   0.98     7/8
+support BREAK (close < pivot low) -> short        5d                  1     0      4.7bp   0.07     3/8
+uptrend-line touch -> long                        5d                  1     0    -10.6bp  -0.36     2/8
+Donchian20 breakdown -> short                     5d                  1     0    -26.0bp  -1.61     1/8
+MACD cross down -> short                          1d                  0     0      3.0bp   0.49     6/8
+downtrend-line touch -> short                     5d                  0     0     14.5bp   0.28     5/8
+EMA50 < EMA200 (regime) -> short                  1d                  0     0      0.4bp   0.06     5/8
+support bounce (pivot low +0.5%) -> long          1d                  0     0      2.9bp   0.05     4/8
+resistance BREAK (close > pivot high) -> long     5d                  0     0      1.7bp   0.04     4/8
+EMA50 > EMA200 (regime) -> long                   1d                  0     0      0.2bp   0.03     5/8
+downtrend-line touch -> short                     1d                  0     0      0.7bp  -0.08     5/8
+SuperTrend flip up -> long                        5d                  0     0     -5.0bp  -0.17     4/8
+ADX>25 & +DI>-DI -> long                          5d                  0     0     -0.2bp  -0.18     2/8
+resistance reject (pivot high -0.5%) -> short     1d                  0     0     -1.8bp  -0.19     1/8
+MACD cross down -> short                          5d                  0     0     -4.7bp  -0.20     4/8
+MACD cross up -> long                             5d                  0     0      0.7bp  -0.23     2/8
+ADX>25 & +DI>-DI -> long                          1d                  0     0     -1.5bp  -0.40     2/8
+support bounce (pivot low +0.5%) -> long          5d                  0     0     -9.8bp  -0.44     3/8
+SuperTrend flip down -> short                     5d                  0     0    -13.0bp  -0.52     4/8
+resistance reject (pivot high -0.5%) -> short     5d                  0     0    -11.4bp  -0.56     1/8
+ADX>25 & -DI>+DI -> short                         1d                  0     0     -3.3bp  -0.57     3/8
+SuperTrend flip up -> long                        1d                  0     0     -6.1bp  -0.73     2/8
+Donchian20 breakout -> long                       1d                  0     0     -2.4bp  -1.00     1/8
+Donchian20 breakout -> long                       5d                  0     0    -13.6bp  -1.95     1/8
+
+--- Any rule clearing the bar on >=2 tickers with both halves positive:
+  ADX>25 & -DI>+DI -> short [5d]: TLT +23bp t=3.2, USO +57bp t=2.2
+  Bollinger lower breach -> long [1d]: SPY +28bp t=2.8, QQQ +33bp t=2.3, EFA +21bp t=1.8, EEM +30bp t=2.2
+  Bollinger lower breach -> long [5d]: SPY +69bp t=4.4, QQQ +76bp t=3.2
+  CCI20 < -100 -> long [1d]: SPY +9bp t=1.7, QQQ +15bp t=2.0
+  CCI20 < -100 -> long [5d]: SPY +33bp t=3.5, QQQ +38bp t=2.9, EFA +22bp t=2.0
+  CCI20 > 100 -> short [5d]: SPY +17bp t=5.3, IWM +20bp t=3.6, EEM +24bp t=3.6
+  RSI14 < 30 -> long [1d]: SPY +77bp t=2.8, QQQ +138bp t=4.0, EFA +34bp t=1.5, EEM +82bp t=2.6
+  RSI14 < 30 -> long [5d]: SPY +163bp t=4.2, QQQ +198bp t=3.8, EFA +68bp t=1.9
+  Stochastic < 20 -> long [1d]: SPY +15bp t=2.4, QQQ +15bp t=1.8
+  Stochastic < 20 -> long [5d]: SPY +42bp t=3.7, QQQ +43bp t=3.0, EFA +38bp t=3.1, EEM +36bp t=2.6
+  Stochastic > 80 -> short [5d]: SPY +11bp t=3.7, IWM +17bp t=3.2, EFA +14bp t=3.3, EEM +20bp t=3.4
+  Williams%R < -80 -> long [1d]: SPY +21bp t=4.0, QQQ +25bp t=3.5, EEM +15bp t=2.1
+  Williams%R < -80 -> long [5d]: SPY +49bp t=5.0, QQQ +57bp t=4.5, EFA +38bp t=3.5, EEM +32bp t=2.5
+  Williams%R > -20 -> short [5d]: SPY +13bp t=4.4, IWM +21bp t=4.3, EFA +14bp t=3.2, EEM +18bp t=3.0

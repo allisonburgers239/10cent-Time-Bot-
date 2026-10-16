@@ -257,3 +257,42 @@ def noisy_signal_test() -> None:
 
 if __name__ == "__main__":
     noisy_signal_test()
+
+
+def overbought_downsize_test() -> None:
+    """Section 13 (2026-10-16): the indicator battery found 'overbought -> short
+    5d' on the equity ETFs.  E v2 is long every night; the pre-registered
+    question is whether DOWNSIZING on overbought nights adds to it.
+    Variants fixed in advance: x0.5 or x0 when RSI(14) > 70, or when
+    Williams %R(14) > -20, on top of E v2 (RSI2<10 x2)."""
+    data = load()
+    hi = {}; lo = {}
+    for t, df in data.items():
+        c = df["close"]
+        d = c.diff(); up = d.clip(lower=0).ewm(alpha=1 / 14, adjust=False).mean(); dn = (-d.clip(upper=0)).ewm(alpha=1 / 14, adjust=False).mean()
+        rsi14 = 100 - 100 / (1 + up / dn.replace(0, np.nan))
+        # Williams %R needs highs/lows; approximate with close-based 14d range (no H/L in load())
+        hh = c.rolling(14).max(); ll = c.rolling(14).min()
+        wr = -100 * (hh - c) / (hh - ll).replace(0, np.nan)
+        hi[t] = (rsi14 > 70); lo[t] = (wr > -20)
+    print("\n=== 13. E v2 + downsizing on overbought nights (SPY/QQQ/IWM, 1bp/side) ===")
+    base_v2 = portfolio(data, signal="rsi2", m=2.0)
+    print("  E v2 (RSI2<10 x2)                      " + fmt(S(base_v2)))
+    for label, cond, w in [("+ x0.5 when RSI14>70", hi, 0.5), ("+ x0 when RSI14>70", hi, 0.0), ("+ x0.5 when Williams%R>-20", lo, 0.5), ("+ x0 when Williams%R>-20", lo, 0.0)]:
+        rets = []
+        for t, df in data.items():
+            mult = multiplier(df, 3, 2.0, "rsi2")
+            mult = mult * np.where(cond[t].reindex(df.index).fillna(False), w, 1.0)
+            rets.append(mult * df["on"] - mult.abs() * 2 * COST_BPS_SIDE / 1e4)
+        port = pd.concat(rets, axis=1).dropna().mean(axis=1)
+        h = len(port) // 2
+        print(f"  {label:<38} " + fmt(S(port)) + f"   halves {sharpe(port.iloc[:h],252):.2f}/{sharpe(port.iloc[h:],252):.2f}   nights affected {np.mean([cond[t].mean() for t in data]):.0%}")
+    on = pd.DataFrame({t: data[t]["on"] for t in data}).dropna()
+    for label, cond in [("RSI14>70", hi), ("Williams%R>-20", lo)]:
+        m = pd.DataFrame({t: cond[t] for t in data}).reindex(on.index).fillna(False).astype(bool)
+        sel = on[m].stack().dropna(); rest = on[~m].stack().dropna()
+        print(f"  overnight mean on {label} nights: {sel.mean()*1e4:+.1f}bp vs other nights {rest.mean()*1e4:+.1f}bp  (t of diff {((sel.mean()-rest.mean())/np.sqrt(sel.var()/len(sel)+rest.var()/len(rest))):+.2f})")
+
+
+if __name__ == "__main__":
+    overbought_downsize_test()
