@@ -1,0 +1,43 @@
+======================================================================
+PART 1 - Daily bars (yfinance), 1998-2026: overnight vs intraday
+======================================================================
+       Overnight  Intraday  Buy&Hold   (Sharpe, net 2bp/rt overnight)
+  XLB       0.39      0.02      0.45
+  XLE       0.52     -0.03      0.46
+  XLF       0.31     -0.02      0.35
+  XLI       0.56     -0.06      0.53
+  XLK       0.63     -0.08      0.51
+  XLP       0.09      0.16      0.51
+  XLU       0.94     -0.30      0.47
+  XLV       0.36      0.09      0.57
+  XLY       0.33      0.11      0.51
+
+  EW-9 portfolio: overnight Sharpe 0.56 (CAGR 5.7%, MaxDD -34%) vs intraday -0.02
+
+  Sub-periods (EW-9 overnight, ~5y):
+    1999-2003:  0.86
+    2004-2008:  0.73
+    2009-2013:  0.74
+    2014-2018:  0.07
+    2019-2023:  0.25
+    2024-2026:  0.95
+  Walk-forward halves: 0.76 -> 0.35
+  Correlation with Sleeve E overnight portfolio: 0.908
+
+======================================================================
+PART 2 - Repo 60-min CSVs, 2015-2026: cross-check + hour-of-day
+======================================================================
+  Cross-check: overnight Sharpe from 60-min bars (2015-2026)
+    60-min CSVs: 0.35   yfinance daily same window: 0.26
+
+  Hour-of-day decomposition, EW-9, 2015-2026 (gross):
+    09:30-10    +0.6 bp/hour
+    10-11       -0.0 bp/hour
+    11-12       +0.5 bp/hour
+    12-13       -0.2 bp/hour
+    13-14       +0.3 bp/hour
+    14-15       +0.9 bp/hour
+    15-16       -0.6 bp/hour
+
+  Last-hour-only strategy (EW-9, net 2bp/rt):
+    Sharpe -1.47   halves -0.96 -> -2.24

@@ -1,0 +1,42 @@
+/Users/temurk/projects/10cent-time-bot/scripts/execution_e_analysis.py:101: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  both = pd.concat([v, ref_on], axis=1, keys=["bar", "auc"]).dropna()
+/Users/temurk/projects/10cent-time-bot/scripts/execution_e_analysis.py:101: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  both = pd.concat([v, ref_on], axis=1, keys=["bar", "auc"]).dropna()
+/Users/temurk/projects/10cent-time-bot/scripts/execution_e_analysis.py:101: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  both = pd.concat([v, ref_on], axis=1, keys=["bar", "auc"]).dropna()
+/Users/temurk/projects/10cent-time-bot/scripts/execution_e_analysis.py:126: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  both = pd.concat([p, base], axis=1, keys=["v", "b"]).dropna()
+/Users/temurk/projects/10cent-time-bot/scripts/execution_e_analysis.py:126: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  both = pd.concat([p, base], axis=1, keys=["v", "b"]).dropna()
+/Users/temurk/projects/10cent-time-bot/scripts/execution_e_analysis.py:126: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  both = pd.concat([p, base], axis=1, keys=["v", "b"]).dropna()
+========================================================================
+SLEEVE E EXECUTION ANALYSIS (5-min BATS data, ~12.5 months)
+========================================================================
+
+SPY: 256 nights
+  15:55->09:35 vs auction: mean +1.85bp/night, std 13.9bp, |mean| annual drag/boost +4.65%/yr
+  5-min bar range (timing risk bound): 15:55 bar 13.4bp, 09:30 bar 18.1bp
+
+QQQ: 256 nights
+  15:55->09:35 vs auction: mean +0.67bp/night, std 22.9bp, |mean| annual drag/boost +1.68%/yr
+  5-min bar range (timing risk bound): 15:55 bar 14.5bp, 09:30 bar 31.4bp
+
+IWM: 256 nights
+  15:55->09:35 vs auction: mean +2.51bp/night, std 27.2bp, |mean| annual drag/boost +6.32%/yr
+  5-min bar range (timing risk bound): 15:55 bar 15.5bp, 09:30 bar 39.9bp
+
+Portfolio (EW SPY/QQQ/IWM) over the 5-min window, gross of costs:
+  variant                   Sharpe  mean bp/night
+  auction (close->open)       1.83           7.25
+  15:55 -> 09:35 bars         2.38           9.73
+  15:50 -> 09:40 bars         2.47          10.47
+  15:45 -> 09:45 bars         1.99           8.71
+
+Implied execution cost vs auction fills (per night, portfolio):
+  15:55 -> 09:35 bars       +1.67bp/night  (t=+1.62)
+  15:50 -> 09:40 bars       +2.41bp/night  (t=+1.67)
+  15:45 -> 09:45 bars       +0.65bp/night  (t=+0.36)
+
+Context: audited E assumes 1bp/side (2bp/night); breakeven ~3bp/side.
+A fill-timing drag of Xbp/night consumes X/4 of the 4bp/night edge margin.

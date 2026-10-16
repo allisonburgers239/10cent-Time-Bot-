@@ -1,0 +1,48 @@
+==================================================================
+AUDIT: weekday-filtered overnight drift (E-TWF: Tue/Wed/Fri)
+Universe ['SPY', 'QQQ', 'IWM'], 1993-02-01 -> 2026-10-16, cost 1bp/side
+==================================================================
+
+[1] Baseline
+  E (all nights)   Sharpe  0.73  CAGR  8.09%  MaxDD  -29.0%
+  E-TWF            Sharpe  0.73  CAGR  6.23%  MaxDD  -26.9%
+
+[2] Walk-forward (day selection re-derived on train half)
+  Train-half weekday Sharpe: Mon 0.87  Tue 1.74  Wed 0.14  Thu 0.57  Fri 1.08
+  Train-selected top-3 days: ['Mon', 'Tue', 'Fri']  (pre-registered: ['Tue', 'Wed', 'Fri'])
+  Train Sharpe 0.92 -> Test 0.42   (unfiltered E on test half: 0.58)
+
+[3] Parameter grid (all weekday subsets, size 2-4)
+  25 subsets: 100% positive, mean 0.54, 8% beat unfiltered E
+    Mon/Tue/Wed/Fri      0.74
+    Tue/Wed/Fri          0.73
+    Tue/Wed/Thu/Fri      0.71
+    Tue/Fri              0.67
+    Tue/Wed              0.67
+
+[4] Sub-periods (5y windows): E-TWF vs E
+    1993-1997: E-TWF  0.96  vs E  1.58     E wins
+    1998-2002: E-TWF  1.22  vs E  1.18   TWF wins
+    2003-2007: E-TWF  1.36  vs E  1.36     E wins
+    2008-2012: E-TWF -0.25  vs E  0.03     E wins
+    2013-2017: E-TWF  0.83  vs E  0.57   TWF wins
+    2018-2022: E-TWF  1.23  vs E  0.51   TWF wins
+    2023-2026: E-TWF  0.30  vs E  0.86     E wins
+  E-TWF beats E in 3/7 windows
+
+[5] Leave-one-out ticker drop (E-TWF)
+    drop SPY: 0.68  (delta -0.05)
+    drop QQQ: 0.70  (delta -0.03)
+    drop IWM: 0.66  (delta -0.07)
+
+[6] Cost sensitivity (E-TWF, bp/side)
+     0bp: Sharpe 1.08
+     1bp: Sharpe 0.73
+     2bp: Sharpe 0.38
+     3bp: Sharpe 0.03
+     5bp: Sharpe -0.67
+    10bp: Sharpe -2.40
+
+[7] Placebo (all C(5,3)=10 subsets ranked + random-night placebo)
+  E-TWF rank among 3-day subsets: 1/10
+  Random-5183-night placebo: 0.57 +/- 0.11,  real 0.73,  P(random >= real) = 0.050

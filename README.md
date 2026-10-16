@@ -320,8 +320,25 @@ indicator conditions), so an RSI(2)<10 alert has to be set on tradingview.com
 by hand until the daily runner exists.
 
 Deployment rail: `screen_e_via_mes.py` shows MES replicates the SPY
-overnight leg (corr 0.997, beta 1.00), so E and E v2 can run on Tradovate
-alongside B - signal nights become 2 MES contracts instead of 1.
+overnight leg (corr 0.997, beta 1.00). **But micro futures cannot be sized
+to 1x below roughly $150-200k of equity**: one MES is ~$38k, MNQ ~$59k,
+MGC ~$42k, so at $25k the equal-weight targets round to zero and the
+minimum book (one contract per leg) is ~8x equity. `daily_overnight_ticket.py`
+prints both. Realistic choices: ETF rail at an equity broker (shares size
+to any equity), or a futures-only sub-book (e.g. MES alone at $25k = 1.5x)
+that is a different, un-audited sleeve.
+
+Daily ticket (dry-run, mirrors `monthly_rebalance.py`):
+
+```bash
+python scripts/daily_overnight_ticket.py --equity 25000                 # E3 + v2 overlay, futures rail
+python scripts/daily_overnight_ticket.py --equity 25000 --rail etf      # shares
+```
+
+Run at ~15:50 ET. It appends today's last price as the provisional close,
+computes the RSI(2) overlay per ticker, flags MARGINAL signals (RSI2 within
+1 point of 10), sizes per rail, and writes `data/last_overnight_ticket.json`.
+Unit tests in `tests/test_daily_ticket.py`.
 
 ### Sleeve B v2 - CTA-enhanced Sleeve B (shelved)
 
