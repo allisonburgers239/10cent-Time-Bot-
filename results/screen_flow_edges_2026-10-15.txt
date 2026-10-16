@@ -1,0 +1,48 @@
+====================================================================
+T1  MONTH-END PENSION REBALANCING (SPY vs TLT, 2002-2026)
+====================================================================
+  290 months. Signal = SPY-TLT relative return, day 1 -> T-3.
+  After equity outperformance (top tercile, n=97):
+    last-2-day TLT-SPY spread:  +65.8bp  t=+3.56
+  After bond outperformance (bottom tercile, n=97):
+    last-2-day TLT-SPY spread:   -9.7bp  t=-0.37
+  Sign-following L/S strategy (12x2 days/yr, net 4bp/rt):
+    mean +21.2bp/month-end  t=+1.81  halves t: +0.85 / +1.81
+    placebo (random 2-day windows, same conditioning): -0.1 +/- 11.4bp,  P(rand >= real) = 0.020
+
+====================================================================
+T2  10Y TREASURY AUCTION SUPPLY PRESSURE (IEF, 2002-2026)
+====================================================================
+  264 10y auctions (incl. reopenings)
+  IEF mean daily return by day relative to auction (uncond 1.4bp):
+    t-3           -2.6bp  t=-0.85  n=263
+    t-2           -3.4bp  t=-1.32  n=263
+    t-1           -2.1bp  t=-0.85  n=263
+    auction day   +0.8bp  t=+0.31  n=263
+    t+1           +2.6bp  t=+0.92  n=263
+    t+2           +4.1bp  t=+1.47  n=263
+    t+3           +3.6bp  t=+1.38  n=263
+  Pre-auction window (t-3 close -> t-1 close): -2.4bp  t=-0.50
+  Post-auction window (t0 close -> t+3 close): +7.5bp  t=+1.65
+  Combined (short pre / long post): +9.9bp per auction  t=+1.45  halves t: +1.72 / +0.33
+  placebo (random dates): -0.1 +/- 6.2bp, P(rand >= real) = 0.040
+
+====================================================================
+T3  POST-CRASH SHORT-TERM REVERSAL (SPY, 1993-2026)
+====================================================================
+  z < -2.0: n=284  fwd-3d  +24.1bp  t=+1.40  win 57%  (uncond 3d: 14.3bp)
+  z < -2.5: n=143  fwd-3d  +43.1bp  t=+1.65  win 63%  (uncond 3d: 14.3bp)
+  z < -3.0: n= 84  fwd-3d  +63.3bp  t=+1.70  win 67%  (uncond 3d: 14.3bp)
+    1993-2002:  +53.5bp  t=+1.74  n=73
+    2003-2012:  +12.6bp  t=+0.37  n=86
+    2013-2019:  +50.0bp  t=+1.58  n=54
+    2020-2026:  -11.9bp  t=-0.31  n=71
+  placebo (random days): +14.8 +/- 10.7bp, P(rand >= real) = 0.187
+
+====================================================================
+T4  OPEX WEEK / POST-OPEX WEEK (SPY, 1993-2026)
+====================================================================
+  404 expirations. Unconditional 5d return: +23.8bp
+  OpEx week (t-5 -> 3rd Fri)    +38.8bp  t=+3.30  halves: +51.4 / +26.2bp
+  post-OpEx week (Fri -> t+5)    +9.8bp  t=+0.83  halves: -3.3 / +22.9bp
+  OpEx-minus-post spread: +29.0bp  t=+1.59

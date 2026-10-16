@@ -1,0 +1,33 @@
+SPY 1993-01-29 -> 2026-10-14: FOMC days 265, NFP days 406, any 670 (7.9% of days)
+
+--- close->close
+  FOMC days         +23.4bp  t=+3.10  n=  265  ann.Sharpe-equiv +3.02
+  NFP days          +15.3bp  t=+2.58  n=  405  ann.Sharpe-equiv +2.04
+  any announcement  +18.9bp  t=+4.05  n=  669  ann.Sharpe-equiv +2.49
+  other days         +3.6bp  t=+2.71  n= 7815  ann.Sharpe-equiv +0.49
+  announcement minus other: +15.3bp  t=+3.16   share of total close->close return earned on announcement days: 31%
+
+--- overnight before (prev close->open)
+  FOMC days         +11.1bp  t=+2.50  n=  265  ann.Sharpe-equiv +2.44
+  NFP days           +6.9bp  t=+1.96  n=  405  ann.Sharpe-equiv +1.55
+  any announcement   +8.6bp  t=+3.11  n=  669  ann.Sharpe-equiv +1.91
+  other days         +3.6bp  t=+4.86  n= 7815  ann.Sharpe-equiv +0.87
+  announcement minus other: +4.9bp  t=+1.73   share of total overnight before (prev close->open) return earned on announcement days: 17%
+
+--- intraday of (open->close)
+  FOMC days         +12.4bp  t=+1.91  n=  265  ann.Sharpe-equiv +1.86
+  NFP days           +8.3bp  t=+1.72  n=  406  ann.Sharpe-equiv +1.36
+  any announcement  +10.3bp  t=+2.65  n=  670  ann.Sharpe-equiv +1.63
+  other days         -0.1bp  t=-0.08  n= 7815  ann.Sharpe-equiv -0.01
+  announcement minus other: +10.4bp  t=+2.58   share of total intraday of (open->close) return earned on announcement days: 111%
+
+--- close->close by sub-period: announcement-day mean / other-day mean (bp)
+  1993-1997:  +19.3 /   +6.7   (t diff +1.24)
+  1998-2002:  +36.3 /   -2.3   (t diff +2.58)
+  2003-2007:  +10.5 /   +4.6   (t diff +0.63)
+  2008-2012:  +30.3 /   -0.4   (t diff +1.93)
+  2013-2017:  +18.3 /   +5.0   (t diff +1.70)
+  2018-2022:   +9.3 /   +4.0   (t diff +0.37)
+  2023-2027:   +5.1 /   +8.6   (t diff -0.24)
+
+  placebo (random day sets of the same size, 500x): real +15.3bp, placebo -0.2 +/- 4.8bp, P(rand>=real)=0.002  REAL

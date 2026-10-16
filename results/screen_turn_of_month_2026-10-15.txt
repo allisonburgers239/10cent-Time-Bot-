@@ -1,0 +1,169 @@
+=== TURN-OF-MONTH / PRE-MONTH-END DIP SCREEN ===
+
+--- SPY close->close: 1993-02-01 -> 2026-10-14, 8484 days, uncond mean +4.8bp/day
+  day   mean(bp)   t     n
+  -10      +5.6  +0.98    355
+   -9      -1.0  -0.19    403
+   -8      -0.7  -0.14    403  <DIP
+   -7      -4.4  -0.79    403  <DIP
+   -6      -5.5  -0.89    403  <DIP
+   -5      +2.8  +0.53    404  <DIP
+   -4     +14.5  +2.32    404  <DIP
+   -3      +6.3  +1.19    404
+   -2     +10.1  +1.73    404
+   -1      -4.1  -0.78    404  <TOM
+    1     +21.9  +3.54    405  <TOM
+    2      +7.6  +1.37    405  <TOM
+    3      +6.6  +1.20    405  <TOM
+    4      +3.0  +0.49    405
+    5      +4.6  +0.87    405
+  TOM  mean +8.0bp vs rest +5.1bp  diff t=+0.88   share of total return in TOM: 32% of days: 19%
+  DIP  mean +1.4bp vs rest +5.1bp  diff t=-1.22
+  by decade (TOM mean bp / DIP mean bp / rest mean bp):
+    1990s   +13.2 /   +5.2 /   +7.7   (n=1748)
+    2000s    +5.1 /   -2.5 /   +0.4   (n=2515)
+    2010s    +6.1 /   -1.4 /   +8.1   (n=2516)
+    2020s    +9.8 /   +7.4 /   +5.0   (n=1705)
+  placebo (random 4-day window/month, 500x): real diff +2.9bp, placebo -0.9 +/- 3.0bp, P(rand >= real) = 0.104  WEAK
+
+--- SPY overnight only (close->next open): 1993-01-29 -> 2026-10-13, 8484 days, uncond mean +4.0bp/day
+  day   mean(bp)   t     n
+  -10      +4.4  +1.49    355
+   -9      +1.5  +0.47    403
+   -8      +1.0  +0.35    403  <DIP
+   -7      +0.8  +0.22    403  <DIP
+   -6      +5.6  +1.94    403  <DIP
+   -5      +9.7  +3.31    404  <DIP
+   -4      +7.6  +2.63    404  <DIP
+   -3      +6.8  +2.39    404
+   -2      +4.3  +1.62    404
+   -1     +10.2  +3.08    404  <TOM
+    1      +1.3  +0.47    406  <TOM
+    2      -0.3  -0.08    405  <TOM
+    3      +2.8  +0.89    405  <TOM
+    4      +4.0  +1.12    405
+    5      +2.2  +0.52    405
+  TOM  mean +3.5bp vs rest +3.8bp  diff t=-0.16   share of total return in TOM: 17% of days: 19%
+  DIP  mean +5.0bp vs rest +3.8bp  diff t=+0.67
+  by decade (TOM mean bp / DIP mean bp / rest mean bp):
+    1990s    +9.3 /   +8.9 /   +7.3   (n=1749)
+    2000s    +1.2 /   +3.7 /   +1.5   (n=2515)
+    2010s    +2.9 /   +2.9 /   +3.8   (n=2516)
+    2020s    +1.9 /   +5.9 /   +3.7   (n=1704)
+  placebo (random 4-day window/month, 500x): real diff -0.3bp, placebo -0.2 +/- 1.7bp, P(rand >= real) = 0.560  NONE
+
+--- SPY intraday only (open->close): 1993-01-29 -> 2026-10-14, 8485 days, uncond mean +0.7bp/day
+  day   mean(bp)   t     n
+  -10      +5.5  +1.23    355
+   -9      -6.5  -1.45    403
+   -8      -2.1  -0.47    403  <DIP
+   -7      -5.4  -1.13    403  <DIP
+   -6      -6.2  -1.19    403  <DIP
+   -5      -3.4  -0.78    404  <DIP
+   -4      +4.8  +0.88    404  <DIP
+   -3      -1.4  -0.31    404
+   -2      +3.2  +0.67    404
+   -1      -8.4  -1.82    404  <TOM
+    1     +11.6  +2.36    406  <TOM
+    2      +6.2  +1.34    405  <TOM
+    3      +6.8  +1.57    405  <TOM
+    4      +0.1  +0.02    405
+    5      +0.8  +0.16    405
+  TOM  mean +4.1bp vs rest +0.9bp  diff t=+1.17   share of total return in TOM: 106% of days: 19%
+  DIP  mean -2.5bp vs rest +0.9bp  diff t=-1.32
+  by decade (TOM mean bp / DIP mean bp / rest mean bp):
+    1990s    +3.7 /   -1.4 /   -0.3   (n=1749)
+    2000s    +2.8 /   -4.2 /   -1.6   (n=2515)
+    2010s    +0.4 /   -3.6 /   +4.9   (n=2516)
+    2020s   +11.8 /   +0.7 /   +0.3   (n=1705)
+  placebo (random 4-day window/month, 500x): real diff +3.1bp, placebo -0.4 +/- 2.4bp, P(rand >= real) = 0.068  WEAK
+
+--- S&P 500 index close->close (1950+): 1950-01-03 -> 2026-10-15, 19319 days, uncond mean +3.7bp/day
+  day   mean(bp)   t     n
+  -10      -1.7  -0.42    805
+   -9      -2.0  -0.63    904
+   -8      -0.9  -0.29    915  <DIP
+   -7      -1.5  -0.49    920  <DIP
+   -6      -2.8  -0.88    920  <DIP
+   -5      -6.6  -2.03    921  <DIP
+   -4      +9.6  +2.98    921  <DIP
+   -3      +5.2  +1.64    921
+   -2      +7.8  +2.40    921
+   -1      +8.1  +2.72    922  <TOM
+    1     +13.6  +3.94    922  <TOM
+    2     +12.5  +4.01    922  <TOM
+    3     +10.3  +3.23    922  <TOM
+    4      +1.9  +0.56    922
+    5      +0.4  +0.15    922
+  TOM  mean +11.1bp vs rest +2.9bp  diff t=+4.42   share of total return in TOM: 58% of days: 19%
+  DIP  mean -0.5bp vs rest +2.9bp  diff t=-1.94
+  by decade (TOM mean bp / DIP mean bp / rest mean bp):
+    1950s   +22.3 /   +1.9 /   +1.0   (n=2511)
+    1960s   +11.1 /   -8.3 /   +3.1   (n=2489)
+    1970s    +9.3 /   -3.8 /   +0.3   (n=2526)
+    1980s   +15.8 /   +6.1 /   +1.5   (n=2528)
+    1990s   +11.3 /   +0.1 /   +6.8   (n=2528)
+    2000s    +3.7 /   -2.2 /   -0.5   (n=2515)
+    2010s    +5.6 /   -2.0 /   +7.1   (n=2516)
+    2020s    +9.4 /   +6.9 /   +4.4   (n=1706)
+  placebo (random 4-day window/month, 500x): real diff +8.2bp, placebo -1.5 +/- 1.7bp, P(rand >= real) = 0.000  REAL
+
+--- ZB 30y T-bond futures close->close (TradingView 1!, 1977+): 1977-08-22 -> 2026-07-12, 12294 days, uncond mean +19.8bp/day
+  day   mean(bp)   t     n
+  -10      -1.7  -0.07    514
+   -9    -115.9  -0.96    583
+   -8     -30.3  -0.56    585  <DIP
+   -7     +67.8  +1.18    585  <DIP
+   -6     -29.3  -0.75    585  <DIP
+   -5     +29.1  +1.13    585  <DIP
+   -4     +23.0  +0.74    585  <DIP
+   -3     +10.5  +0.31    585
+   -2     +28.4  +1.12    585
+   -1     -26.1  -0.77    585  <TOM
+    1    +229.0  +1.05    588  <TOM
+    2      -4.4  -0.38    588  <TOM
+    3     +10.8  +0.59    588  <TOM
+    4      +7.9  +0.54    588
+    5     -24.4  -1.62    587
+  TOM  mean +52.4bp vs rest +12.2bp  diff t=+0.67   share of total return in TOM: 50% of days: 19%
+  DIP  mean +12.1bp vs rest +12.2bp  diff t=-0.00
+  by decade (TOM mean bp / DIP mean bp / rest mean bp):
+    1970s    -6.5 /   +8.4 /  +20.3   (n=594)
+    1980s    +3.0 /   -1.4 /   -3.3   (n=2526)
+    1990s  +261.2 /  +48.1 /  +48.9   (n=2499)
+    2000s    -1.6 /   +2.7 /   +8.3   (n=2515)
+    2010s    -2.5 /   +5.2 /   +3.5   (n=2518)
+    2020s    -2.4 /   +4.1 /   -3.4   (n=1642)
+  placebo (random 4-day window/month, 500x): real diff +40.2bp, placebo -7.5 +/- 38.2bp, P(rand >= real) = 0.126  WEAK
+
+--- ZN 10y T-note futures close->close (yfinance, 2000+): 2000-09-22 -> 2026-10-15, 6545 days, uncond mean +0.2bp/day
+  day   mean(bp)   t     n
+  -10      +2.1  +0.89    272
+   -9      -1.3  -0.66    311
+   -8      -1.8  -0.96    311  <DIP
+   -7     -16.5  -5.37    311  <DIP
+   -6      +0.2  +0.12    311  <DIP
+   -5      +1.6  +0.90    311  <DIP
+   -4      +0.7  +0.38    312  <DIP
+   -3      +4.2  +1.92    312
+   -2      +4.8  +2.42    312
+   -1      +8.2  +4.18    313  <TOM
+    1      -0.9  -0.36    314  <TOM
+    2      +1.1  +0.50    314  <TOM
+    3      -3.7  -1.72    314  <TOM
+    4      +4.9  +2.18    314
+    5      -3.3  -1.39    314
+  TOM  mean +1.2bp vs rest +1.2bp  diff t=-0.00   share of total return in TOM: 144% of days: 19%
+  DIP  mean -3.1bp vs rest +1.2bp  diff t=-3.69
+  by decade (TOM mean bp / DIP mean bp / rest mean bp):
+    2000s    +2.3 /   -6.4 /   +3.1   (n=2324)
+    2010s    -0.1 /   -2.2 /   +1.8   (n=2512)
+    2020s    +1.5 /   -0.0 /   -2.4   (n=1709)
+  placebo (random 4-day window/month, 500x): real diff -0.0bp, placebo -0.5 +/- 1.2bp, P(rand >= real) = 0.332  NONE
+
+=== Sleeve E overlay: overnight SPY/QQQ/IWM x calendar multiplier (1bp/side cost) ===
+  E baseline (x1 every night)            Sharpe  0.73  CAGR  8.85%  MaxDD  -29.0%  avg gross 1.00x
+  A: x2 in TOM                           Sharpe  0.69  CAGR 10.51%  MaxDD  -39.0%  avg gross 1.19x
+  B: x2 in TOM, x0.5 in DIP              Sharpe  0.64  CAGR  9.16%  MaxDD  -37.6%  avg gross 1.07x
+  C: x1.5 in TOM, x0 in DIP              Sharpe  0.58  CAGR  7.02%  MaxDD  -31.6%  avg gross 0.86x
+  D: TOM only (x1 in TOM, flat else)     Sharpe  0.30  CAGR  1.52%  MaxDD  -24.2%  avg gross 0.19x

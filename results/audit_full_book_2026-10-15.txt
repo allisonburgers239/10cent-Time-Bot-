@@ -1,0 +1,62 @@
+/Users/temurk/projects/10cent-time-bot/scripts/audit_full_book.py:114: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  df = pd.concat([b.rename("B"), e.rename("E"), h.rename("H"), o.rename("O")], axis=1).dropna()
+======================================================================
+FULL-BOOK AUDIT  2007-06-30 -> 2026-10-31  (233 months)
+======================================================================
+
+[1] Components (overlap window, monthly):
+  B: Sharpe  0.69  CAGR  3.82%  AnnVol  5.64%  MaxDD  -14.3%
+  E: Sharpe  0.48  CAGR  5.01%  AnnVol 11.64%  MaxDD  -28.7%
+  H: Sharpe  0.11  CAGR -0.21%  AnnVol 24.13%  MaxDD  -74.0%
+  O: Sharpe  0.16  CAGR  0.42%  AnnVol  2.98%  MaxDD   -9.3%
+
+[2] Correlation matrix:
+       B      E      H      O
+B  1.000 -0.045  0.176  0.080
+E -0.045  1.000 -0.044 -0.116
+H  0.176 -0.044  1.000  0.062
+O  0.080 -0.116  0.062  1.000
+
+[3] Weight grid (B:E fixed 70:30 of residual; sweep w_H, w_O):
+    w_H   w_O  Sharpe   CAGR%  MaxDD%
+   0.00  0.00    0.86    4.37    -9.5
+   0.00  0.05    0.86    4.18    -9.1
+   0.00  0.10    0.87    3.98    -8.7
+   0.00  0.15    0.87    3.79    -8.2
+   0.05  0.00    0.84    4.28    -9.0
+   0.05  0.05    0.84    4.08    -8.6
+   0.05  0.10    0.84    3.89    -8.2
+   0.05  0.15    0.84    3.70    -8.0
+   0.10  0.00    0.78    4.17    -9.1
+   0.10  0.05    0.77    3.98    -8.9
+   0.10  0.10    0.77    3.79    -8.7
+   0.10  0.15    0.76    3.59    -8.4
+   0.15  0.00    0.70    4.05    -9.7
+   0.15  0.05    0.69    3.86    -9.4
+   0.15  0.10    0.67    3.66    -9.6
+   0.15  0.15    0.66    3.47   -10.0
+   0.20  0.00    0.61    3.91   -12.3
+   0.20  0.05    0.60    3.72   -12.6
+   0.20  0.10    0.58    3.53   -13.0
+   0.20  0.15    0.56    3.33   -13.3
+
+  Baseline B70/E30:      Sharpe 0.86  MaxDD -9.5%
+  Best grid point (0.0, 0.15): Sharpe 0.87  MaxDD -8.2%
+
+[4] Best-point robustness:
+  Walk-forward halves: 0.76 -> 0.97   (baseline: 0.75 -> 0.95)
+  4y sub-periods (best vs baseline):
+    2007-2010:  0.89  vs   0.88
+    2011-2014:  1.06  vs   1.07
+    2015-2018:  0.30  vs   0.31
+    2019-2022:  0.87  vs   0.84
+    2023-2026:  1.23  vs   1.19
+
+[5] Vol-targeting the book (trailing realized vol, no forecast):
+  baseline B70/E30     lb= 6m: Sharpe  0.73  CAGR  6.60%  MaxDD  -17.2%   (static: 0.86 / -9.5%)
+  baseline B70/E30     lb=12m: Sharpe  0.78  CAGR  7.16%  MaxDD  -15.2%   (static: 0.86 / -9.5%)
+  best (0.0, 0.15)     lb= 6m: Sharpe  0.78  CAGR  6.39%  MaxDD  -15.8%   (static: 0.87 / -8.2%)
+  best (0.0, 0.15)     lb=12m: Sharpe  0.82  CAGR  6.85%  MaxDD  -14.5%   (static: 0.87 / -8.2%)
+
+[6] Placebo: does adding random noise sleeves 'improve' the book too?
+  Real Sharpe gain +0.013 vs same-moment noise sleeves +0.012 +/- 0.023,  P(noise >= real) = 0.485

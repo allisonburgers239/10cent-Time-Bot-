@@ -1,0 +1,17 @@
+history start per market:
+  CC:2000, CT:2000, PL:2000, PA:2000, KC:2000, ZL:2000, SB:2000, ZM:2000, 6C:2000, ZT:2000, ZW:2000, ZC:2000, SI:2000, NG:2000, CL:2000, GC:2000, HG:2000, ZS:2000, ZN:2000, 6E:2000, ZF:2000, 6J:2000, ZB:2000, HO:2000, ES:2000, NQ:2000, KE:2000, 6B:2000, 6S:2000, RB:2000, 6A:2000, HE:2000, LE:2001, GF:2001, YM:2002, NKD:2004, RTY:2017
+
+basket                   n  Sharpe    CAGR    Vol   MaxDD   sub-periods>0  placebo p
+B deployed (10)         10    0.47   2.45%   5.2%  -10.8%       5/6        0.000
+equities (6)             6    0.53   4.16%   7.8%  -18.4%       5/6        0.000
+broad (all)             37    0.38   1.39%   3.7%  -10.6%       4/6        0.000
+broad ex-equity         32    0.25   0.95%   3.8%  -13.1%       4/6        0.000
+commodities only        22    0.23   0.93%   4.1%  -16.3%       4/6        0.010
+financials only         15    0.45   2.33%   5.1%  -11.7%       5/6        0.000
+
+Per-market standalone 12m TSMOM Sharpe (vol-scaled, 10bps):
+  ZT:+0.66  NQ:+0.60  GC:+0.57  ES:+0.54  YM:+0.45  NKD:+0.36  GF:+0.32  HO:+0.31  6J:+0.27  ZL:+0.26  HG:+0.25  LE:+0.23  RB:+0.23  SI:+0.23  ZF:+0.22  PL:+0.16  6C:+0.14  SB:+0.14  6A:+0.12  KE:+0.11  ZN:+0.09  ZB:+0.05  CL:+0.04  PA:+0.01  6B:+0.01  6E:-0.01  KC:-0.04  CT:-0.04  NG:-0.04  ZS:-0.06  CC:-0.13  ZC:-0.15  ZM:-0.21  ZW:-0.21  6S:-0.21  HE:-0.29  RTY:-0.39
+  mean 0.12, median 0.12, share>0 68%
+
+Average pairwise correlation of monthly TSMOM P&L streams:
+  0.085

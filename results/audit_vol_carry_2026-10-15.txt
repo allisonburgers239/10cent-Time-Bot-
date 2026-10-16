@@ -1,0 +1,103 @@
+VX curve: 2004-03-26 -> 2026-10-14, 5554 days; CM30 return days 5550
+
+=== 0. Premium decomposition by year ===
+  year  %contango  mean(VX1-VIX)  mean slope  short-CM30 ann.ret  short-CM30 Sharpe  worst day
+  2004       82%           1.16       0.086             137.9%              4.47     -4.2%
+  2005       77%           0.60       0.070              59.1%              2.16     -5.7%
+  2006       71%           0.34       0.062              70.7%              1.76     -9.6%
+  2007       63%           0.17       0.022             -53.5%             -0.81    -26.8%
+  2008       55%          -1.44      -0.019            -103.2%             -1.52    -14.6%
+  2009       77%           0.88       0.039              91.7%              1.71    -13.4%
+  2010       81%           1.02       0.092             108.3%              1.74    -17.5%
+  2011       70%           0.27       0.027             -22.4%             -0.28    -21.0%
+  2012       97%           1.53       0.097             150.2%              2.06    -13.1%
+  2013       82%           0.63       0.067              74.7%              1.54    -10.7%
+  2014       84%           0.76       0.043               8.0%              0.13    -14.1%
+  2015       81%           0.61       0.040              15.1%              0.19    -24.9%
+  2016       88%           1.15       0.081              87.9%              1.17    -35.4%
+  2017       96%           1.17       0.084             120.4%              2.44    -19.1%
+  2018       61%          -0.10       0.016            -103.8%             -0.88    -95.9%
+  2019       84%           0.90       0.059              97.0%              1.56    -20.7%
+  2020       69%          -0.24       0.027             -60.6%             -0.58    -38.8%
+  2021       85%           1.36       0.090              99.4%              1.23    -30.4%
+  2022       68%           0.55       0.036               4.5%              0.06    -18.9%
+  2023       90%           0.99       0.069             122.7%              2.15    -12.5%
+  2024       74%           0.29       0.043               2.2%              0.03    -44.1%
+  2025       72%           0.39       0.047              30.8%              0.41    -24.9%
+  2026       82%           1.07       0.051              42.5%              0.76    -14.1%
+
+=== 1. Baseline (basis, k=0.05, vol-target 10%, cap 1.0, 15.0bps/side) ===
+  Sharpe  0.45  Sortino  0.45  CAGR  4.42%  Vol  9.6%  MaxDD -25.4%
+  time in market 56%  (short 48%, long 7%), avg |pos| when in 0.23, turnover/yr 13.6x
+
+=== 2. Walk-forward halves ===
+  train: 2004-03-26 -> 2015-09-30  Sharpe  0.95  Sortino  1.03  CAGR  8.00%  Vol  8.1%  MaxDD -12.7%
+  test: 2015-10-01 -> 2026-10-14  Sharpe  0.08  Sortino  0.08  CAGR  0.87%  Vol 11.0%  MaxDD -25.4%
+
+=== 3. Parameter grid ===
+ mode     k   cap  sharpe  sortino  cagr    mdd
+basis 0.000 0.500   0.344    0.427 0.045 -0.475
+basis 0.000 1.000   0.348    0.434 0.045 -0.475
+basis 0.030 0.500   0.552    0.609 0.061 -0.312
+basis 0.030 1.000   0.569    0.630 0.063 -0.312
+basis 0.050 0.500   0.436    0.434 0.043 -0.254
+basis 0.050 1.000   0.449    0.448 0.044 -0.254
+basis 0.070 0.500   0.362    0.332 0.030 -0.377
+basis 0.070 1.000   0.372    0.342 0.031 -0.377
+basis 0.100 0.500   0.339    0.246 0.019 -0.258
+basis 0.100 1.000   0.347    0.253 0.020 -0.260
+basis 0.150 0.500   0.462    0.247 0.015 -0.085
+basis 0.150 1.000   0.452    0.242 0.015 -0.085
+slope 0.000 0.500   0.620    0.728 0.081 -0.418
+slope 0.000 1.000   0.633    0.746 0.084 -0.418
+slope 0.030 0.500   0.598    0.619 0.070 -0.297
+slope 0.030 1.000   0.611    0.635 0.072 -0.297
+slope 0.050 0.500   0.565    0.495 0.057 -0.264
+slope 0.050 1.000   0.583    0.513 0.059 -0.264
+slope 0.070 0.500   0.571    0.430 0.048 -0.254
+slope 0.070 1.000   0.579    0.439 0.049 -0.254
+slope 0.100 0.500   0.617    0.350 0.036 -0.212
+slope 0.100 1.000   0.630    0.360 0.037 -0.212
+slope 0.150 0.500   0.141    0.037 0.004 -0.092
+slope 0.150 1.000   0.142    0.038 0.004 -0.092
+  configs 24, Sharpe>0 100%, Sharpe>0.5 50%, mean 0.47
+
+=== 4. Sub-periods (4y) ===
+  2004-2007: Sharpe  1.36  Sortino  1.56  CAGR 10.68%  Vol  7.5%  MaxDD  -8.2%
+  2008-2011: Sharpe  1.04  Sortino  1.00  CAGR  8.84%  Vol  8.2%  MaxDD  -8.5%
+  2012-2015: Sharpe  0.42  Sortino  0.50  CAGR  3.67%  Vol  8.6%  MaxDD -12.7%
+  2016-2019: Sharpe  0.38  Sortino  0.42  CAGR  5.08%  Vol 13.1%  MaxDD -15.8%
+  2020-2023: Sharpe  0.09  Sortino  0.07  CAGR  0.91%  Vol  9.7%  MaxDD -18.1%
+  2024-2027: Sharpe -0.48  Sortino -0.48  CAGR -4.52%  Vol  9.6%  MaxDD -22.6%
+
+=== 5. Signal variants (same sizing/cost) ===
+  always short CM30 (naive benchmark)    Sharpe  0.63  Sortino  0.65  CAGR  8.38%  Vol 12.8%  MaxDD -33.8%
+  basis, short side only                 Sharpe  0.41  Sortino  0.33  CAGR  3.35%  Vol  8.1%  MaxDD -30.3%
+  basis, long side only                  Sharpe  0.20  Sortino  0.14  CAGR  1.03%  Vol  5.2%  MaxDD -10.4%
+  slope k=0.05                           Sharpe  0.58  Sortino  0.51  CAGR  5.89%  Vol  9.8%  MaxDD -26.4%
+  basis k=0.05 (baseline)                Sharpe  0.45  Sortino  0.45  CAGR  4.42%  Vol  9.6%  MaxDD -25.4%
+
+=== 6. Cost sensitivity (bps per side of turnover) ===
+     0 bps: Sharpe  0.66  Sortino  0.60  CAGR  6.58%  Vol  9.6%  MaxDD -19.7%
+     5 bps: Sharpe  0.59  Sortino  0.58  CAGR  5.85%  Vol  9.6%  MaxDD -20.7%
+    10 bps: Sharpe  0.52  Sortino  0.52  CAGR  5.13%  Vol  9.6%  MaxDD -22.8%
+    15 bps: Sharpe  0.45  Sortino  0.45  CAGR  4.42%  Vol  9.6%  MaxDD -25.4%
+    25 bps: Sharpe  0.31  Sortino  0.31  CAGR  3.01%  Vol  9.6%  MaxDD -30.4%
+    50 bps: Sharpe -0.05  Sortino -0.05  CAGR -0.44%  Vol  9.7%  MaxDD -44.1%
+   100 bps: Sharpe -0.74  Sortino -0.77  CAGR -7.01%  Vol  9.8%  MaxDD -83.9%
+
+=== 7. Placebo: signal shuffled in 20-day blocks (200 seeds) ===
+  real 0.45  placebo 0.14 +/- 0.18  P(placebo>=real) = 0.035  REAL
+
+=== 8. TAIL (decision section) ===
+  skew 1.47  kurt 117.3  worst day -9.33% (2021-11-26)  worst 5d -11.52%  worst 20d -12.54%
+  ES99 (mean of worst 1% days) -2.72%   days < -2% : 36
+  corr with SPY daily +0.07;  on SPY's worst 1% days sleeve avg +0.91%/day
+  2008-09/10 GFC           +12.69%  (avg pos +0.09, worst day -0.97%)
+  2010-05 flash             -0.44%  (avg pos +0.04, worst day -1.53%)
+  2011-08 downgrade         +7.78%  (avg pos +0.08, worst day -1.50%)
+  2015-08-24                +4.71%  (avg pos +0.01, worst day -0.70%)
+  2018-02-05 Volmageddon   +11.88%  (avg pos +0.02, worst day -2.68%)
+  2020-02/03 COVID         +11.92%  (avg pos +0.07, worst day -0.60%)
+  2022 bear                 -1.73%  (avg pos -0.06, worst day -2.23%)
+  2024-08-05 yen unwind     +5.37%  (avg pos +0.06, worst day -1.07%)
