@@ -1,0 +1,131 @@
+=== D. Overnight vs intraday Sharpe per stock (clean-open years only) ===
+stock  from     n  ON Sharpe  ID Sharpe  BH Sharpe  ON cagr  ID cagr
+ AVGO  2009  4326       1.47       0.21       1.06     0.40     0.07
+    F  1977 11540       1.37      -0.51       0.42     0.39    -0.15
+ TSLA  2010  3599       1.25       0.25       0.94     0.57     0.13
+  AMD  2006  3215       1.23      -0.13       0.67     0.54    -0.05
+ NVDA  1999  6977       1.20       0.19       0.82     0.48     0.10
+GOOGL  2004  5576       1.18       0.16       0.88     0.26     0.04
+  CAT  1975  8507       0.88       0.19       0.70     0.21     0.05
+   MA  2006  5131       0.84       0.57       0.92     0.16     0.17
+ PLTR  2020  1519       0.81       0.70       1.05     0.38     0.50
+ AAPL  1980 10290       0.79       0.25       0.67     0.24     0.09
+  PFE  1982 11288       0.78       0.12       0.54     0.13     0.03
+ META  2012  3624       0.77       0.22       0.71     0.24     0.06
+ ORCL  1992  8760       0.75       0.21       0.62     0.22     0.08
+ UBER  2020  1707       0.73       0.09       0.49     0.24     0.04
+ MSFT  1987 10024       0.71       0.53       0.82     0.13     0.16
+  JPM  1985 10276       0.70       0.14       0.51     0.15     0.04
+    V  2008  4675       0.65       0.51       0.80     0.11     0.13
+  UNH  1991  9013       0.65       0.42       0.70     0.13     0.14
+   HD  1986 10277       0.64       0.49       0.75     0.11     0.14
+   GE  1968 12526       0.62       0.02       0.47     0.19     0.01
+  WMT  1982 11036       0.58       0.47       0.74     0.11     0.12
+    T  1983 10305       0.57       0.30       0.56     0.08     0.07
+ AMZN  1998  7242       0.55       0.48       0.71     0.19     0.24
+  CVX  1971 12046       0.55       0.26       0.57     0.12     0.06
+ NFLX  2003  5483       0.54       0.60       0.81     0.25     0.28
+ INTC  1987  9772       0.53       0.32       0.57     0.14     0.11
+  BAC  1986 10277       0.52       0.13       0.41     0.12     0.04
+  JNJ  1968 12777       0.52       0.48       0.70     0.08     0.10
+  MRK  1962 13028       0.43       0.47       0.64     0.09     0.11
+   BA  1966  9009       0.41       0.16       0.44     0.25     0.05
+ PYPL  2015  2839       0.39       0.06       0.30     0.10     0.02
+   KO  1968  9236       0.35       0.39       0.46     0.21     0.08
+   GS  1999  6907       0.32       0.35       0.47     0.06     0.11
+  DIS  1970 10022       0.29       0.40       0.47     0.12     0.11
+  MCD  1967 12521       0.29       0.58       0.60     0.08     0.14
+ COST  1986  9135       0.28       0.49       0.56     0.06     0.14
+  CRM  2004  5616       0.23       0.63       0.64     0.05     0.25
+ COIN  2021  1385       0.22       0.19       0.28     0.11     0.14
+  XOM  1971 11793       0.19       0.72       0.67     0.03     0.16
+  NKE  1980  8781       0.17       0.49       0.23     0.48     0.14
+
+  stocks with overnight Sharpe > intraday Sharpe: 30/40;  mean ON 0.65, mean ID 0.31, mean B&H 0.63
+  stocks with NEGATIVE intraday Sharpe: 2/40
+
+=== R/M/G. Per-test summary across stocks ===
+test                                     stocks p<.05&halves+  p<bar median edge  mean t  edge>0
+3 down -> next day                           40            15      3       9.1bp    1.06   34/40
+3 down -> next overnight                     40             8      1       1.7bp    0.31   22/40
+RSI2<10 -> next day                          40            14      3       8.5bp    0.93   34/40
+RSI2<10 -> next overnight                    40             5      0       1.3bp    0.18   23/40
+RSI14<30 -> next day                         38            20      9      24.1bp    1.25   32/38
+RSI14<30 -> next 5d                          38            22     15      81.4bp    1.88   33/38
+Williams<-80 -> next 5d                      40            26     22      30.2bp    1.93   32/40
+Williams>-20 -> next 5d (short)              40            19     16      18.6bp    2.05   32/40
+3 up -> next day                             40             0      0      -4.2bp   -0.82   12/40
+52w high -> next 20d                         40             3      3     -59.3bp   -2.06   12/40
+52w low -> next 20d                          34            14     10     176.8bp    1.41   25/34
+gap up >1% -> fade intraday (short)          40             1      1      -4.1bp   -0.68   13/40
+gap down <-1% -> fade intraday (long)        40            15     11      12.1bp    0.66   29/40
+
+=== Per-stock hits at the bar (p<0.001, both halves positive) ===
+  3 down -> next day: ORCL +45bp(t4.2), V +29bp(t2.6), MSFT +23bp(t3.1)
+  3 down -> next overnight: ORCL +18bp(t2.8)
+  52w high -> next 20d: AMD +414bp(t2.8), INTC +186bp(t3.2)
+  52w low -> next 20d: COST +1262bp(t4.1), AMZN +1136bp(t4.6), MSFT +667bp(t5.2), HD +525bp(t5.0), JPM +512bp(t3.4), T +506bp(t5.0), ORCL +500bp(t2.9), BAC +455bp(t2.5), PFE +307bp(t5.1), MRK +279bp(t3.7)
+  RSI14<30 -> next 5d: AVGO +396bp(t3.5), AMZN +284bp(t4.9), MA +279bp(t4.0), V +247bp(t3.8), GOOGL +215bp(t5.0), T +183bp(t5.6), COST +167bp(t2.8), GS +157bp(t2.6), MSFT +154bp(t3.9), WMT +136bp(t5.4), ORCL +120bp(t2.5), PFE +102bp(t3.5), MRK +87bp(t3.5), CVX +78bp(t2.2)
+  RSI14<30 -> next day: V +121bp(t2.6), MA +114bp(t2.6), GS +84bp(t2.4), GOOGL +84bp(t3.0), CRM +73bp(t2.2), ORCL +70bp(t2.3), MSFT +63bp(t2.8), WMT +57bp(t3.8), T +43bp(t2.8)
+  RSI2<10 -> next day: ORCL +44bp(t4.0), V +38bp(t3.4), MSFT +19bp(t2.5)
+  Williams<-80 -> next 5d: MA +96bp(t5.0), V +95bp(t5.7), AVGO +80bp(t3.3), COST +67bp(t4.2), META +62bp(t2.5), AMZN +62bp(t2.7), XOM +55bp(t6.5), UNH +48bp(t2.9), ORCL +45bp(t2.6), T +44bp(t5.0), INTC +42bp(t2.9), GS +37bp(t2.5), MSFT +37bp(t3.2), HD +31bp(t2.4), MRK +31bp(t3.1), WMT +31bp(t3.1), GE +30bp(t3.0), CAT +28bp(t2.1), PFE +25bp(t3.0), CVX +23bp(t2.4), JNJ +22bp(t3.0)
+  Williams>-20 -> next 5d (short): UNH +48bp(t5.9), KO +44bp(t8.2), V +41bp(t5.4), ORCL +38bp(t3.9), AVGO +37bp(t2.7), MA +35bp(t4.1), WMT +34bp(t5.6), MCD +30bp(t5.7), MRK +26bp(t5.0), PFE +25bp(t4.0), HD +23bp(t3.7), T +21bp(t3.8), JPM +20bp(t2.8), XOM +19bp(t3.0)
+  gap down <-1% -> fade intraday (long): CRM +42bp(t4.1), NVDA +38bp(t3.3), COST +30bp(t2.9), AMZN +26bp(t2.1), V +24bp(t1.9), HD +20bp(t2.3), AAPL +20bp(t2.3), WMT +19bp(t2.3), BAC +18bp(t1.8)
+
+=== The user's four, every test ===
+
+  TSLA:
+    3 down -> next day                       n=  381 edge   +23.8bp t=+1.05 halves  +10.5/ +36.7 p=0.093 
+    3 down -> next overnight                 n=  381 edge    -3.0bp t=-0.23 halves   -9.9/  +3.8 p=0.600 
+    RSI2<10 -> next day                      n=  424 edge   +14.0bp t=+0.63 halves  +11.3/ +16.9 p=0.200 
+    RSI2<10 -> next overnight                n=  424 edge   -13.1bp t=-0.99 halves  -15.6/ -10.5 p=0.903 
+    RSI14<30 -> next day                     n=  129 edge   -27.6bp t=-0.56 halves  -29.9/ -26.8 p=0.820 
+    RSI14<30 -> next 5d                      n=  129 edge  +128.6bp t=+1.23 halves +318.7/ -21.6 p=0.043 *
+    Williams<-80 -> next 5d                  n=  665 edge   -12.1bp t=-0.33 halves  +51.0/ -77.6 p=0.657 
+    Williams>-20 -> next 5d (short)          n= 1003 edge   -36.4bp t=-1.41 halves  +32.2/-107.0 p=0.963 
+    3 up -> next day                         n=  498 edge    +6.7bp t=+0.39 halves  -46.2/ +51.3 p=0.320 
+    52w high -> next 20d                     n=  152 edge  +602.8bp t=+3.58 halves -129.4/+1144.4 p=0.000 *
+    52w low -> next 20d                      n=   41 edge  +358.6bp t=+1.08 halves +856.1/-159.4 p=0.090 
+    gap up >1% -> fade intraday (short)      n=  877 edge    +4.7bp t=+0.41 halves  +27.0/ -10.0 p=0.290 
+    gap down <-1% -> fade intraday (long)    n=  689 edge   +12.3bp t=+0.98 halves  +29.8/  +0.1 p=0.110 
+
+  NVDA:
+    3 down -> next day                       n=  751 edge   +18.8bp t=+1.26 halves  -10.6/ +58.3 p=0.053 
+    3 down -> next overnight                 n=  751 edge    +8.8bp t=+1.02 halves   -6.6/ +28.7 p=0.090 
+    RSI2<10 -> next day                      n=  785 edge    +4.1bp t=+0.28 halves  -24.0/ +43.3 p=0.357 
+    RSI2<10 -> next overnight                n=  785 edge    -2.5bp t=-0.30 halves   -8.4/  +5.3 p=0.630 
+    RSI14<30 -> next day                     n=  194 edge   +23.9bp t=+0.60 halves  +21.5/ +41.5 p=0.193 
+    RSI14<30 -> next 5d                      n=  194 edge  +153.5bp t=+2.13 halves +104.5/+364.0 p=0.003 *
+    Williams<-80 -> next 5d                  n= 1282 edge   +16.1bp t=+0.64 halves   -5.9/ +60.8 p=0.233 
+    Williams>-20 -> next 5d (short)          n= 2056 edge    +0.5bp t=+0.03 halves  -14.9/ +16.8 p=0.487 
+    3 up -> next day                         n=  957 edge    +2.2bp t=+0.19 halves   +1.2/  +2.0 p=0.383 
+    52w high -> next 20d                     n=  550 edge  +110.4bp t=+1.56 halves +127.3/ +53.8 p=0.050 
+    52w low -> next 20d                      n=   86 edge  +232.7bp t=+0.79 halves +276.4/+219.6 p=0.077 
+    gap up >1% -> fade intraday (short)      n= 1582 edge    +9.8bp t=+1.09 halves  +24.0/  -7.5 p=0.077 
+    gap down <-1% -> fade intraday (long)    n= 1240 edge   +37.8bp t=+3.25 halves  +64.2/  +5.3 p=0.000 **
+
+  PLTR:
+    3 down -> next day                       n=  217 edge   -51.6bp t=-1.80 halves  -63.8/ -28.5 p=0.973 
+    3 down -> next overnight                 n=  217 edge   -17.6bp t=-1.04 halves  -36.3/ +12.4 p=0.883 
+    RSI2<10 -> next day                      n=  197 edge   -27.5bp t=-0.95 halves  -28.4/ -21.2 p=0.833 
+    RSI2<10 -> next overnight                n=  197 edge   -28.5bp t=-1.49 halves  -24.1/ -32.4 p=0.967 
+    Williams<-80 -> next 5d                  n=  306 edge    -9.8bp t=-0.17 halves  -54.0/ +80.7 p=0.587 
+    Williams>-20 -> next 5d (short)          n=  421 edge    +5.2bp t=+0.11 halves  -54.1/ +62.7 p=0.477 
+    3 up -> next day                         n=  209 edge   -26.3bp t=-0.96 halves  -66.1/  -0.3 p=0.850 
+    52w high -> next 20d                     n=  111 edge  -195.7bp t=-1.22 halves -244.0/-350.9 p=0.823 
+    gap up >1% -> fade intraday (short)      n=  393 edge   +20.0bp t=+0.99 halves  +40.1/  -2.8 p=0.113 
+    gap down <-1% -> fade intraday (long)    n=  359 edge   +27.9bp t=+1.28 halves  +23.2/ +34.0 p=0.057 
+
+  V:
+    3 down -> next day                       n=  373 edge   +29.2bp t=+2.59 halves  +49.4/ +10.4 p=0.000 **
+    3 down -> next overnight                 n=  373 edge    -3.3bp t=-0.44 halves   +1.9/  -8.1 p=0.753 
+    RSI2<10 -> next day                      n=  417 edge   +37.8bp t=+3.44 halves  +47.2/ +29.1 p=0.000 **
+    RSI2<10 -> next overnight                n=  417 edge    +6.0bp t=+0.86 halves   +6.8/  +5.3 p=0.100 
+    RSI14<30 -> next day                     n=   40 edge  +121.3bp t=+2.56 halves +124.8/+118.6 p=0.000 **
+    RSI14<30 -> next 5d                      n=   40 edge  +246.6bp t=+3.84 halves +205.6/+281.1 p=0.000 **
+    Williams<-80 -> next 5d                  n=  603 edge   +95.0bp t=+5.72 halves +122.5/ +69.2 p=0.000 **
+    Williams>-20 -> next 5d (short)          n= 1516 edge   +41.3bp t=+5.36 halves  +39.4/ +42.6 p=0.000 **
+    3 up -> next day                         n=  626 edge    -5.7bp t=-1.00 halves  -14.9/  +1.9 p=0.827 
+    52w high -> next 20d                     n=  485 edge  -102.5bp t=-4.68 halves -106.6/ -96.7 p=1.000 
+    gap up >1% -> fade intraday (short)      n=  370 edge    -3.6bp t=-0.29 halves   +4.2/ -13.4 p=0.673 
+    gap down <-1% -> fade intraday (long)    n=  369 edge   +23.9bp t=+1.91 halves  +25.6/ +21.8 p=0.000 **

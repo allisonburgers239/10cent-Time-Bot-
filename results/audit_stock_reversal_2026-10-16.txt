@@ -1,0 +1,35 @@
+  j = pd.concat([e_stocks.rename("E_stocks"), e.rename("E")], axis=1).dropna()
+=== K1. Weekly reversal, 40 stocks, 2000-2026 ===
+  long-short bottom5/top5  Sharpe -0.38  CAGR -11.15%  Vol 31.4%  MaxDD -99.5%  n=1398
+  long-only bottom5        Sharpe  0.52  CAGR 18.48%  Vol 32.9%  MaxDD -67.3%  n=1398
+  EW universe (benchmark)  Sharpe  0.92  CAGR 20.05%  Vol 20.0%  MaxDD -46.7%  n=1397
+
+  walk-forward L/S: train -0.16 -> test -0.62   (2000-01-07 -> 2013-05-31 -> 2026-10-16)
+
+  grid (L/S Sharpe): rows N, cols lookback weeks
+   lb1w  lb2w  lb4w
+N                  
+3 -0.42 -0.28 -0.54
+5 -0.38 -0.08 -0.51
+8 -0.36 -0.18 -0.46
+
+  sub-periods (L/S):
+    2000-2003: Sharpe +0.15  CAGR +6.2%
+    2004-2007: Sharpe -0.29  CAGR -5.5%
+    2008-2011: Sharpe +0.02  CAGR +0.7%
+    2012-2015: Sharpe -1.31  CAGR -22.8%
+    2016-2019: Sharpe -0.72  CAGR -13.0%
+    2020-2023: Sharpe -0.68  CAGR -23.5%
+    2024-2027: Sharpe -0.63  CAGR -17.9%
+
+  cost sensitivity (L/S): 0bps 0.17  5bps -0.10  10bps -0.38  20bps -0.92  40bps -2.02
+  placebo (random 5/5 picks, same cost): real -0.38 vs -0.85 +/- 0.21, p=0.010
+
+=== K2. E on stocks: EW overnight across 40 names (3bps/side) vs E (SPY/QQQ/IWM, 1bp) ===
+  E on stocks  Sharpe -0.20  CAGR -2.41%  Vol 12.4%  MaxDD -68.5%  n=6737
+  E            Sharpe  0.48  CAGR  6.06%  Vol 12.3%  MaxDD -29.0%  n=6737
+  correlation 0.94;  50/50 blend Sharpe  0.14  CAGR  1.74%  Vol 12.2%  MaxDD -37.4%  n=6737
+  walk-forward E_stocks: -0.41 -> 0.02;  E: 0.36 -> 0.60
+  cost sensitivity E_stocks: 1bps/side 0.62  3bps/side -0.20  5bps/side -1.01  10bps/side -3.04
+  intraday EW basket for reference: Sharpe  0.36  CAGR  6.41%  Vol 17.1%  MaxDD -43.3%  n=6737
+  Survivorship: these 40 are today's large caps; a 2000-vintage universe would include names that died. Discount long-only results.

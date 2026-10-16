@@ -131,6 +131,7 @@ bar p<0.003), calendar seasonality with literature behind it
 | Commodity seasonal windows (11, roll-adjusted) | None pass Bonferroni; soy/corn harvest shorts look good on t but placebo p=0.10/0.29 (seasonal autocorrelation) |
 | "AI edge" frameworks (`screen_frameworks.py`, 2026-10-16): trend-filtered oversold, laggard catch-up, correlation-breakdown pairs | Trend filter (close > 200d) adds **nothing** to the RSI(2) reversal already in E v2 (above-200d vs any-trend: same). Laggard catch-up in sector ETFs after big SPY up-days: **nothing** (p 0.6-0.8). Pairs z>2 fade, 8 pre-registered pairs: one hit (XLF~SPY, +29bp/5d, t=2.3, p=0.003) decaying 41 -> 18bp across halves; BTC~QQQ dead in the second half. Not a sleeve. VWAP/liquidity-grab needs intraday history we lack (its cousin, the PDH/PDL sweep test, is dead); the "continuous screener" is a live scan with no backtest, excluded by design |
 | TradingView standard indicators + mechanical S/R/trendlines (`screen_indicator_battery.py`, 2026-10-16: 416 tests, 8 ETFs, bar p<0.0015) | **Every "oversold -> long" oscillator clears the bar on the equity ETFs** (RSI14<30, Stochastic<20, Williams%R<-80, CCI<-100, lower Bollinger; +15-200bp over 1-5d, both halves positive on SPY/QQQ/EFA/EEM) - they are all the short-term reversal E v2 already captures. "Overbought -> short" works modestly at 5d (+10-20bp). **Every trend/breakout tool is zero or negative at 1-5d** (MACD, SuperTrend, Donchian, EMA cross, ADX). **Mechanical support bounce, resistance rejection, level breaks and trendline touches: nothing.** Downsizing E v2 on overbought nights (RSI14>70 / Williams>-20, x0.5 / x0): no Sharpe gain (0.56 -> 0.53-0.57); Williams x0.5 trades 0.01 Sharpe for 3.5pp less MaxDD - a sizing preference, not an edge |
+| **Single stocks** (`screen_single_stocks.py`, 40 large/mid caps incl. fallen names; `audit_stock_reversal.py`) | Stocks DO show more than the ETFs in-sample: 5-day oscillator reversal clears the bar on 22/40 names (Williams<-80 -> +30bp median/5d), overnight > intraday on 30/40 (AVGO 1.47, F 1.37, TSLA 1.25, AMD 1.23, NVDA 1.20 overnight Sharpe), 52w-low bounce on 10/34 (survivorship-inflated). **Neither survives as a basket.** Weekly reversal L/S bottom-5/top-5: gross 0.17, -0.38 at 10bps (turnover eats it), long-only 0.52 vs EW universe 0.92. "E on stocks" EW overnight: 0.62 at 1bp/side, -0.20 at 3bps (realistic single-stock spread), corr 0.94 with E. Of the four names asked about: V is a mean-reversion machine (every reversal test p<0.001, both halves), NVDA only gap-down fade, TSLA only 52w-high continuation (halves disagree), PLTR nothing and negative on reversal. Same lesson as Sleeve F: single-name edges exist statistically and die at retail costs. **No sleeve** |
 | ChronoMatrix 27-node cycle + sweeps (5 instruments) | Cycle claims not supported anywhere (placebo p 0.87-0.96); SPY sweep-to-close +9bp p=0.01 is 1 of 5 at that level = multiple testing. Dead |
 
 **Second pass, 2026-10-16 (open items from the memo that daily data can settle):**
@@ -303,6 +304,10 @@ same Sharpe and a worse MaxDD (-37%); streak at 1.5x is the gentle setting
 To run E v2 in any script that calls `overnight.backtest_*`, pass
 `overnight.E_V2_CONFIG` instead of `OvernightConfig()`. The live E process
 is unchanged until that is done deliberately.
+
+Alerts: TradingView's MCP only creates plain price-level alerts (no
+indicator conditions), so an RSI(2)<10 alert has to be set on tradingview.com
+by hand until the daily runner exists.
 
 Deployment rail: `screen_e_via_mes.py` shows MES replicates the SPY
 overnight leg (corr 0.997, beta 1.00), so E and E v2 can run on Tradovate
