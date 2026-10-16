@@ -1,0 +1,39 @@
+=== F1. Trend-conditioned oversold: close > 200d SMA AND RSI(2) < 10 ===
+  tkr  cond                             n  next-day excess      t      p    next-ON excess      t
+  SPY  RSI2<10 (any trend)            805            24.2bp   4.03  0.000             11.4bp   3.49
+  SPY  RSI2<10 AND above 200d         462            20.3bp   3.77  0.000             14.0bp   5.28
+  SPY  RSI2<10 AND below 200d         343            29.5bp   2.44  0.000              7.9bp   1.17
+  QQQ  RSI2<10 (any trend)            702            29.5bp   3.38  0.000              6.7bp   1.52
+  QQQ  RSI2<10 AND above 200d         400            15.3bp   1.83  0.022             10.6bp   2.60
+  QQQ  RSI2<10 AND below 200d         302            48.3bp   2.85  0.000              1.6bp   0.18
+  IWM  RSI2<10 (any trend)            691            17.7bp   2.53  0.000              6.8bp   1.60
+  IWM  RSI2<10 AND above 200d         359            13.2bp   1.94  0.035              7.8bp   1.92
+  IWM  RSI2<10 AND below 200d         332            22.5bp   1.79  0.000              5.7bp   0.74
+  EFA  RSI2<10 (any trend)            641            10.7bp   1.50  0.007             12.5bp   2.30
+  EFA  RSI2<10 AND above 200d         317             6.4bp   0.98  0.188             10.3bp   1.95
+  EFA  RSI2<10 AND below 200d         324            14.9bp   1.18  0.015             14.6bp   1.55
+  TLT  RSI2<10 (any trend)            651             5.9bp   1.79  0.028              2.1bp   0.94
+  TLT  RSI2<10 AND above 200d         296            -0.3bp  -0.07  0.510             -1.0bp  -0.31
+  TLT  RSI2<10 AND below 200d         355            11.2bp   2.48  0.007              4.7bp   1.53
+  GLD  RSI2<10 (any trend)            608            -1.3bp  -0.26  0.583              0.5bp   0.12
+  GLD  RSI2<10 AND above 200d         283             7.0bp   0.91  0.152              7.3bp   1.20
+  GLD  RSI2<10 AND below 200d         325            -8.6bp  -1.23  0.917             -5.5bp  -1.14
+  Reading: if 'above 200d' is not clearly better than 'any trend', the macro filter adds nothing to E v2.
+
+=== F2. Laggard catch-up in a correlated basket (9 sector ETFs vs SPY, 1999-2026) ===
+  SPY up > 1.0% days: n=1003  next-day laggards-minus-leaders +3.0bp (t=+0.85)  halves +1.8/+4.2  placebo(any day) +3.8+/-2.8  p=0.597
+  SPY up > 1.5% days: n=479  next-day laggards-minus-leaders +0.3bp (t=+0.06)  halves -5.6/+6.2  placebo(any day) +3.8+/-4.0  p=0.800
+  SPY up > 2.0% days: n=242  next-day laggards-minus-leaders +2.7bp (t=+0.29)  halves +1.9/+3.5  placebo(any day) +3.7+/-6.1  p=0.557
+  Reading: a positive spread on big-up days that random days do not show = catch-up; a positive spread on ANY day = plain daily reversal, already known.
+
+=== F4. Correlation-breakdown pairs: residual z > 2 -> fade, 5-day horizon, 60d rolling beta ===
+  pair            n sig  5d spread ret      t         halves      p  avg corr
+  QQQ~SPY         227          15.2bp   1.04   24.8/5.7     0.090      0.85
+  IWM~SPY         209           8.2bp   0.70    9.0/7.4     0.207      0.89
+  EFA~SPY         210           8.5bp   0.78   12.7/4.2     0.143      0.87
+  XLF~SPY         251          29.4bp   2.32   41.2/17.7    0.003      0.82
+  GLD~TIP         204           0.6bp   0.03  -19.3/20.5    0.477      0.25
+  XLE~USO         169         -16.6bp  -0.50   54.8/-87.1   0.767      0.62
+  TLT~IEF         197          -4.7bp  -0.76   -7.4/-1.9    0.797      0.91
+  BTC-USD~QQQ         104         100.8bp   1.23  263.1/-61.5   0.053      0.25
+  Reading: 5-day spread return per signal, before costs (two legs, ~4-6bp round trip on ETFs; far more on BTC).

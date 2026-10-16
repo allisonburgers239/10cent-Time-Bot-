@@ -58,3 +58,37 @@ streak 2  0.488  0.503  0.519  0.527
 === 9. Library parity: ten_cent_bot.overnight E_V2_CONFIG vs this script ===
   overlap days 6635  max |diff| 1.83e-16  Sharpe lib 0.559 vs audit 0.559
   OK - what ships is what was audited
+
+=== 10. Early history (library path, E_V2_CONFIG) ===
+  SPY      1993-2026 E     Sharpe  0.48  Sortino  0.56  CAGR  5.24%  MaxDD -38.9%  n=8486
+  SPY      1993-2026 E v2  Sharpe  0.63  Sortino  0.73  CAGR  8.67%  MaxDD -44.4%  n=8486
+      1993-1999: E +1.94 -> v2 +1.95
+      2000-2009: E -0.01 -> v2 +0.23
+      2010-2019: E +0.40 -> v2 +0.43
+      2020-2026: E +0.35 -> v2 +0.65
+  SPY+QQQ  1999-2026 E     Sharpe  0.50  Sortino  0.60  CAGR  6.29%  MaxDD -38.5%  n=6944
+  SPY+QQQ  1999-2026 E v2  Sharpe  0.60  Sortino  0.71  CAGR  9.54%  MaxDD -42.6%  n=6944
+      2000-2009: E +0.18 -> v2 +0.30
+      2010-2019: E +0.60 -> v2 +0.56
+      2020-2026: E +0.43 -> v2 +0.70
+
+=== 11. Signal stability between 15:50 and the close (SPY, RSI2<10) ===
+  price off by 0.1% at 15:50: signal differs on 2.27% of days (193 days), i.e. 24% of signal days are marginal
+  price off by 0.2% at 15:50: signal differs on 4.32% of days (367 days), i.e. 46% of signal days are marginal
+  price off by 0.5% at 15:50: signal differs on 11.30% of days (959 days), i.e. 119% of signal days are marginal
+
+=== 12. Signal computed on a noisy 15:50 price (true overnight return kept), SPY/QQQ/IWM ===
+  variant                 sigma  Sharpe   MaxDD   (clean-signal reference in brackets)
+  rsi2 x2.0                0.1%   0.548  -32.2%   [0.559 / -31.5%]
+  rsi2 x2.0                0.2%   0.540  -32.2%   [0.559 / -31.5%]
+  rsi2 x2.0                0.4%   0.527  -31.7%   [0.559 / -31.5%]
+  streak x2.0              0.1%   0.538  -37.8%   [0.548 / -37.4%]
+  streak x2.0              0.2%   0.527  -36.7%   [0.548 / -37.4%]
+  streak x2.0              0.4%   0.500  -37.4%   [0.548 / -37.4%]
+  streak x1.5              0.1%   0.510  -33.4%   [0.516 / -33.2%]
+  streak x1.5              0.2%   0.504  -33.1%   [0.516 / -33.2%]
+  streak x1.5              0.4%   0.487  -33.1%   [0.516 / -33.2%]
+  either x2.0              0.1%   0.543  -34.6%   [0.558 / -34.0%]
+  either x2.0              0.2%   0.541  -34.6%   [0.558 / -34.0%]
+  either x2.0              0.4%   0.515  -34.2%   [0.558 / -34.0%]
+  Note: noise applied to every close in the signal series (harsher than reality, where only today's price is uncertain).

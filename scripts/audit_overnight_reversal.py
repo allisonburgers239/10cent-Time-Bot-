@@ -168,3 +168,92 @@ def library_parity() -> None:
 
 if __name__ == "__main__":
     library_parity()
+
+
+def gap_checks() -> None:
+    """Sections 10-11, added 2026-10-16 after self-review.
+    10. Early history: E v2 on SPY alone from 1993 and SPY+QQQ from 1999 (the
+        main audit starts 2000 because of IWM).
+    11. Execution: a market-on-close order must be entered by 15:50, before the
+        close that the signal uses.  How often would the signal computed from a
+        15:50 price (close +/- 0.2%) differ from the one at the true close?"""
+    from ten_cent_bot import overnight as ov_lib
+
+    data = yf.download(["SPY", "QQQ"], period="max", interval="1d", auto_adjust=True, progress=False)
+    print("\n=== 10. Early history (library path, E_V2_CONFIG) ===")
+    for tks, start in [(["SPY"], "1993-01-01"), (["SPY", "QQQ"], "1999-03-10")]:
+        frames = {t: pd.DataFrame({"open": data["Open"][t], "close": data["Close"][t]}).dropna().loc[start:] for t in tks}
+        e = ov_lib.backtest_portfolio(frames, ov_lib.OvernightConfig())["portfolio_return"]
+        v2 = ov_lib.backtest_portfolio(frames, ov_lib.E_V2_CONFIG)["portfolio_return"]
+        for lab, s in [("E", e), ("E v2", v2)]:
+            st = S(s)
+            print(f"  {'+'.join(tks):<8} {start[:4]}-2026 {lab:<5} " + fmt(st))
+        for a, b in [("1993-01-01", "1999-12-31"), ("2000-01-01", "2009-12-31"), ("2010-01-01", "2019-12-31"), ("2020-01-01", "2026-12-31")]:
+            ee, vv = e.loc[a:b], v2.loc[a:b]
+            if len(ee) > 300:
+                print(f"      {a[:4]}-{b[:4]}: E {sharpe(ee,252):+.2f} -> v2 {sharpe(vv,252):+.2f}")
+
+    print("\n=== 11. Signal stability between 15:50 and the close (SPY, RSI2<10) ===")
+    c = data["Close"]["SPY"].dropna()
+    base = (ov_lib.rsi(c, 2) < 10)
+    for bump in [0.001, 0.002, 0.005]:
+        flips = 0; tot = 0
+        for sgn in (1, -1):
+            c2 = c.copy(); c2.iloc[:] = c.values; c2 = c2 * 1.0
+            alt = c2.copy(); alt.iloc[:] = c.values * (1 + sgn * bump)
+            # only the LAST close is uncertain at 15:50; emulate by recomputing RSI with today's close bumped, yesterday's exact
+            r_alt = ov_lib.rsi(pd.concat([c.shift(1).iloc[1:], alt.iloc[-1:]]).dropna(), 2)  # cheap proxy not used
+        # exact per-day emulation: recompute RSI where today's close is bumped, all prior closes exact
+        d = c.diff(); up = d.clip(lower=0); dn = -d.clip(upper=0)
+        up_e = up.ewm(alpha=0.5, adjust=False).mean(); dn_e = dn.ewm(alpha=0.5, adjust=False).mean()
+        res = {}
+        for sgn in (1, -1):
+            d_alt = c * (1 + sgn * bump) - c.shift(1)
+            up_alt = 0.5 * up_e.shift(1) + 0.5 * d_alt.clip(lower=0)
+            dn_alt = 0.5 * dn_e.shift(1) + 0.5 * (-d_alt.clip(upper=0))
+            rsi_alt = 100 - 100 / (1 + up_alt / dn_alt.replace(0, np.nan))
+            sig_alt = (rsi_alt < 10)
+            res[sgn] = (sig_alt != base) & base.notna()
+        flip = (res[1] | res[-1])
+        print(f"  price off by {bump:.1%} at 15:50: signal differs on {flip.mean():.2%} of days ({flip.sum()} days), i.e. {flip.sum()/max(base.sum(),1):.0%} of signal days are marginal")
+
+
+if __name__ == "__main__":
+    gap_checks()
+
+
+def noisy_signal_test() -> None:
+    """Section 12: the live order goes in at ~15:50 on a price that is not
+    yet the close.  Recompute each signal with today's close perturbed by
+    N(0, sigma) before deciding, keep the TRUE overnight return, and see what
+    survives.  sigma=0.2% is a typical 10-minute SPY move."""
+    from ten_cent_bot import overnight as ov_lib
+
+    data = load()
+    rng = np.random.default_rng(99)
+    print("\n=== 12. Signal computed on a noisy 15:50 price (true overnight return kept), SPY/QQQ/IWM ===")
+    print(f"  {'variant':<22} {'sigma':>6} {'Sharpe':>7} {'MaxDD':>7}   (clean-signal reference in brackets)")
+    for signal, m in [("rsi2", 2.0), ("streak", 2.0), ("streak", 1.5), ("either", 2.0)]:
+        clean = S(portfolio(data, signal=signal, m=m))
+        for sigma in [0.001, 0.002, 0.004]:
+            shs = []; mdds = []
+            for _ in range(20):
+                rets = []
+                for t in TICKERS:
+                    df = data[t]
+                    c_noisy = df["close"] * (1 + rng.normal(0, sigma, len(df)))
+                    # yesterday's closes exact, today's noisy: rebuild the series day by day is costly;
+                    # approximate by perturbing only the last close used in each signal via a shifted series
+                    close_for_signal = pd.Series(np.where(True, c_noisy, df["close"]), index=df.index)
+                    cfg = ov_lib.OvernightConfig(reversal_signal=signal, reversal_multiplier=m)
+                    fire = ov_lib.reversal_signal(pd.concat([df["close"].shift(1).iloc[1:], close_for_signal.iloc[-1:]]).iloc[:0] if False else close_for_signal, cfg)
+                    mult = pd.Series(np.where(fire, m, 1.0), index=df.index)
+                    rets.append(mult * df["on"] - mult * 2 * COST_BPS_SIDE / 1e4)
+                port = pd.concat(rets, axis=1).dropna().mean(axis=1)
+                st = S(port); shs.append(st["sharpe"]); mdds.append(st["mdd"])
+            print(f"  {signal + ' x' + str(m):<22} {sigma:>6.1%} {np.mean(shs):>7.3f} {np.mean(mdds):>7.1%}   [{clean['sharpe']:.3f} / {clean['mdd']:.1%}]")
+    print("  Note: noise applied to every close in the signal series (harsher than reality, where only today's price is uncertain).")
+
+
+if __name__ == "__main__":
+    noisy_signal_test()

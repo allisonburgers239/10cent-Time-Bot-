@@ -129,15 +129,21 @@ bar p<0.003), calendar seasonality with literature behind it
 | Halloween / sell-in-May (10 world indices) | Same sign in 9/10 markets and both halves, each p~0.07-0.10 vs random 6-month windows; as an overlay on E it does nothing (overnight t=0.6) |
 | Faber 10-month SMA timing on the B ETF basket, long-only | Sharpe 0.83 vs 0.63 buy-and-hold, MaxDD -11.6% vs -38.9%, placebo p<0.001. A long-only cousin of B worth a head-to-head in the full-book audit |
 | Commodity seasonal windows (11, roll-adjusted) | None pass Bonferroni; soy/corn harvest shorts look good on t but placebo p=0.10/0.29 (seasonal autocorrelation) |
+| "AI edge" frameworks (`screen_frameworks.py`, 2026-10-16): trend-filtered oversold, laggard catch-up, correlation-breakdown pairs | Trend filter (close > 200d) adds **nothing** to the RSI(2) reversal already in E v2 (above-200d vs any-trend: same). Laggard catch-up in sector ETFs after big SPY up-days: **nothing** (p 0.6-0.8). Pairs z>2 fade, 8 pre-registered pairs: one hit (XLF~SPY, +29bp/5d, t=2.3, p=0.003) decaying 41 -> 18bp across halves; BTC~QQQ dead in the second half. Not a sleeve. VWAP/liquidity-grab needs intraday history we lack (its cousin, the PDH/PDL sweep test, is dead); the "continuous screener" is a live scan with no backtest, excluded by design |
 | ChronoMatrix 27-node cycle + sweeps (5 instruments) | Cycle claims not supported anywhere (placebo p 0.87-0.96); SPY sweep-to-close +9bp p=0.01 is 1 of 5 at that level = multiple testing. Dead |
 
-**Data finding that matters for Sleeve B.** Every futures number in this
-repo so far (incl. `audit_tsmom_futures.py`) runs on yfinance's
-unadjusted front-month series. On the 21 markets where TradingView
-front+second pairs allow a roll-adjusted return, 12-month TSMOM goes from
-Sharpe 0.24 (raw) to 0.45 (adjusted), MaxDD -16.9% -> -10.3%; the gap
-held at 3, 12, 16 and 21 markets. The futures audit for B must be
-redone on roll-adjusted data before it is trusted for sizing.
+**Roll adjustment and Sleeve B (corrected 2026-10-16).** Every futures
+number in this repo runs on unadjusted front-month series (yfinance `=F`
+or TradingView `1!`), which splice contracts without removing the roll
+gap. On a 21-market basket heavy in grains and softs that matters a lot
+(12-month TSMOM Sharpe 0.24 raw -> 0.45 adjusted). On **B's own basket**
+it does not: `audit_tsmom_rolladj.py` on 9 of B's 10 markets (CL missing)
+gives Sharpe 0.48 adjusted vs 0.50 raw, MaxDD -9.7% vs -13.2%, placebo
+p<0.001 - rates improve, metals and NQ worsen, and it nets out. B as
+deployed holds up. The earlier "must be redone before sizing" note in
+this section was an over-reach from the 21-market result; the lesson is
+that roll adjustment is mandatory for any commodity-heavy basket, not that
+B's numbers were wrong.
 
 **Data sources that now work without manual exports:**
 
@@ -271,6 +277,12 @@ larger on signal nights.
   7. Placebo (300)    random nights at the same frequency: p = 0.007
   8. Tail             worst night -9.7% -> -13.3% (2008-10-23); nights < -4%: 12 -> 21
   9. Parity           `overnight.E_V2_CONFIG` reproduces the audit to 1e-12
+  10. Early history   SPY alone 1993-2026: E 0.48 -> v2 0.63, no decade worse
+                      (1993-99 flat, 2000-09 -0.01 -> +0.23, 2020-26 0.35 -> 0.65)
+  11. Order timing    RSI(2)<10 is knife-edge at the close: with the 15:50 price
+                      0.2% off, ~46% of signal days are marginal...
+  12. ...but it survives: signal computed on a noisy price (sigma 0.2%) keeps
+                      Sharpe 0.54 (clean 0.56, E 0.47); streak rule degrades more
 
 The tail row is the price. The streak variant (3 down closes, 2x) has the
 same Sharpe and a worse MaxDD (-37%); streak at 1.5x is the gentle setting

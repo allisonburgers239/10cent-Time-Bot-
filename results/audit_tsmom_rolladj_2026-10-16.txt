@@ -1,0 +1,39 @@
+  bad-tick guard: ZN dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10']
+  bad-tick guard: ZB dropped 5 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10', '2014-12', '2015-01']
+  bad-tick guard: ZF dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['2003-02', '2003-08', '2003-11']
+  bad-tick guard: HG dropped 1 month(s) with |ln(F1/F2)| > 0.08: ['1988-12']
+  bad-tick guard: CT dropped 2 month(s) with |ln(F1/F2)| > 0.35: ['1986-04', '1986-05']
+B basket markets available: ['ES', 'NQ', 'ZN', 'ZB', 'GC', 'SI', 'HG', '6E', 'ZC'] (missing: ['CL'])
+
+=== Sleeve B basket, 12m TSMOM, 2000-09 -> 2026-10 (matches audit_tsmom_futures.py window) ===
+  roll-adjusted  Sharpe  0.48  CAGR  2.52%  Vol  5.2%  MaxDD  -9.7%  n=298
+  raw 1!         Sharpe  0.50  CAGR  2.69%  Vol  5.3%  MaxDD -13.2%  n=298
+  README (yfinance raw, 10 mkts incl. CL): Sharpe 0.46 at 10bps
+
+=== Walk-forward halves (adjusted) ===
+  train Sharpe  0.52  CAGR  2.85%  Vol  5.4%  MaxDD  -7.5%  n=149
+  test  Sharpe  0.43  CAGR  2.20%  Vol  5.1%  MaxDD  -9.7%  n=149
+
+=== 4y sub-periods: adjusted vs raw Sharpe ===
+  2001-2004: adj +0.60   raw +0.44
+  2005-2008: adj +0.52   raw +1.17
+  2009-2012: adj +0.04   raw -0.32
+  2013-2016: adj +0.61   raw +0.21
+  2017-2020: adj +0.53   raw +0.51
+  2021-2024: adj +0.30   raw +0.34
+
+=== Per-market standalone TSMOM Sharpe: adjusted vs raw ===
+  ES  adj +0.47   raw +0.48   annual return gap (adj-raw, long-only) -0.65%
+  NQ  adj +0.41   raw +0.57   annual return gap (adj-raw, long-only) -1.56%
+  ZN  adj +0.34   raw +0.05   annual return gap (adj-raw, long-only) +1.98%
+  ZB  adj +0.09   raw -0.13   annual return gap (adj-raw, long-only) +2.47%
+  GC  adj +0.47   raw +0.58   annual return gap (adj-raw, long-only) -3.05%
+  SI  adj +0.10   raw +0.21   annual return gap (adj-raw, long-only) -2.79%
+  HG  adj +0.21   raw +0.28   annual return gap (adj-raw, long-only) +0.11%
+  6E  adj -0.08   raw -0.02   annual return gap (adj-raw, long-only) -0.80%
+  ZC  adj +0.06   raw -0.02   annual return gap (adj-raw, long-only) -8.60%
+
+=== Position agreement: how often do adjusted and raw signals disagree on direction? ===
+  ES:2%  NQ:2%  ZN:12%  ZB:10%  GC:6%  SI:2%  HG:4%  6E:3%  ZC:24%
+
+  placebo (random signs, adjusted returns): real 0.48 vs -0.26 +/- 0.18, p=0.000
