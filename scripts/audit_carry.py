@@ -213,11 +213,12 @@ def main() -> None:
     rows = []
     for mode in ["time_series", "cross_sectional"]:
         for sm in [1, 3, 6]:
-            for tv in [0.05, 0.10, 0.15]:
-                cfg = K.CarryConfig(mode=mode, smooth_months=sm, target_vol=tv)
-                rows.append({"mode": mode, "smooth": sm, "tv": tv, "sharpe": sharpe_m(run(cfg, r_adj))})
+            for dm in [0, 36, 60]:
+                cfg = K.CarryConfig(mode=mode, smooth_months=sm, demean_months=dm)
+                rows.append({"mode": mode, "smooth": sm, "demean": dm, "sharpe": sharpe_m(run(cfg, r_adj))})
     g = pd.DataFrame(rows)
-    print(g.pivot_table(index=["mode", "smooth"], columns="tv", values="sharpe").round(2).to_string())
+    print(g.pivot_table(index=["mode", "smooth"], columns="demean", values="sharpe").round(2).to_string())
+    print("  (columns = demean window in months; 0 = raw sign)")
     print(f"  Sharpe>0: {(g.sharpe>0).mean():.0%}, mean {g.sharpe.mean():.2f}")
 
     print("\n=== 4. Sub-periods (4y) ===")
@@ -225,6 +226,10 @@ def main() -> None:
         r = net[(net.index.year >= start) & (net.index.year < start + 4)]
         if len(r.dropna()) >= 24:
             print(f"  {start}-{start+3}: " + summ(r))
+
+    print("\n=== 4b. Demeaned time-series carry (carry minus trailing 60m mean), baseline sizing ===")
+    print("  demeaned TS carry  " + summ(run(K.CarryConfig(demean_months=60), r_adj)))
+    print("  demeaned, smooth 3 " + summ(run(K.CarryConfig(demean_months=60, smooth_months=3), r_adj)))
 
     print("\n=== 5. Leave-one-out ===")
     full = sharpe_m(net)

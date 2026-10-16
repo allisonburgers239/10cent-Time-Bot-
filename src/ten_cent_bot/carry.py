@@ -31,6 +31,7 @@ MONTHS_BETWEEN: dict[str, float] = {
 class CarryConfig:
     mode: str = "time_series"      # time_series | cross_sectional
     smooth_months: int = 1         # rolling mean of carry before signing
+    demean_months: int = 0         # if > 0, sign carry minus its trailing N-month mean (Koijen et al. 'carry timing')
     target_vol: float = 0.10
     max_leverage: float = 2.0
     vol_lookback: int = 12
@@ -47,6 +48,8 @@ def backtest(monthly_prices: pd.DataFrame, carry: pd.DataFrame, cfg: CarryConfig
     cfg = cfg or CarryConfig()
     rets = monthly_prices.pct_change()
     c = carry.rolling(cfg.smooth_months).mean() if cfg.smooth_months > 1 else carry
+    if cfg.demean_months > 0:
+        c = c - c.rolling(cfg.demean_months, min_periods=cfg.demean_months // 2).mean()
     if cfg.mode == "time_series":
         signal = np.sign(c)
     else:

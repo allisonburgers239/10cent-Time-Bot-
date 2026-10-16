@@ -110,15 +110,16 @@ affects Sleeve B. Outputs are captured in `results/*_2026-10-15.txt`.
 | Global overnight (E's edge abroad) | `screen_overnight_global.py` | **Confirmed worldwide**: DAX 1.02, Nikkei 0.99, HSI 0.81, KOSPI 1.32, Nifty 2.55 overnight Sharpe vs <=0 intraday, all placebo p<0.001. Tradable follow-up: Nikkei via CME NKD (needs hourly bars) |
 | Turn-of-month overlay on E | `screen_turn_of_month.py` | **Shelved**: TOM is real on SPX 1950+ (t=4.4) but lives in the *intraday* session; every overnight overlay lowers E's Sharpe (0.73 -> 0.58-0.69) |
 | Macro announcement days (FOMC + NFP) | `screen_announcement_days.py` | Savor-Wilson premium real 1993-2017 (+15bp/day, t=3.2, p=0.002), fading since 2018. The July FOMC-intraday overlay is the right-sized use; no new sleeve |
-| K - Futures carry (roll yield) | `audit_carry.py` + `carry.py` | **Weak-pass on 12 markets** (equities, rates, GBP/EUR, grains, softs): TS carry Sharpe 0.23, walk-forward 0.23 -> 0.24, 100% of grid positive, placebo p=0.02, cross-sectional IC t=2.4. Does not beat the equal-weight long basket (0.38); B70/K30 blend keeps B's Sharpe and cuts MaxDD -11.5% -> -9.6%. Energy, metals, JPY/AUD/CAD/CHF pairs still being fetched - the literature's strongest carry markets |
+| K - Futures carry (roll yield) | `audit_carry.py` + `carry.py` | **Shelved** (21 markets, no energy): carry predicts next-month return (XS IC t=2.3, placebo p=0.02) but the time-series sign rule is Sharpe 0.11, walk-forward 0.16 -> 0.05, below the equal-weight long basket (0.32). Structurally-contango markets (GC, SI, 6J, 6S) sink it and demeaning (Koijen 'carry timing') doesn't fix it. B70/K30 blend: MaxDD -10.3% -> -9.5% for -0.02 Sharpe. Only cell worth a future pre-registered test: cross-sectional, 6m-smoothed (0.39-0.50 across variants) |
 | BTC session-of-day | `screen_btc_sessions.py` | **Nothing** (p=0.96 on 2.5y of hourly data) |
 | B breadth (10 -> 37 markets) | `audit_tsmom_breadth.py` | Broadening on raw yfinance `=F` **hurts** (0.47 -> 0.38): unadjusted roll gaps are wrong-signed in contango commodities (NG, CL, grains all <= 0). See data finding below |
 
 **Data finding that matters for Sleeve B.** Every futures number in this
 repo so far (incl. `audit_tsmom_futures.py`) runs on yfinance's
-unadjusted front-month series. On the three markets where TradingView
+unadjusted front-month series. On the 21 markets where TradingView
 front+second pairs allow a roll-adjusted return, 12-month TSMOM goes from
-Sharpe 0.18 (raw) to 0.45 (adjusted). The futures audit for B must be
+Sharpe 0.24 (raw) to 0.45 (adjusted), MaxDD -16.9% -> -10.3%; the gap
+held at 3, 12, 16 and 21 markets. The futures audit for B must be
 redone on roll-adjusted data before it is trusted for sizing.
 
 **Data sources that now work without manual exports:**
@@ -131,7 +132,11 @@ redone on roll-adjusted data before it is trusted for sizing.
   continuous futures (`CBOE:VX1!`, `CME_MINI:ES2!`); intraday depth is
   ~1 year on every plan. Monthly interval is `1mo` (`1M` means 1 minute).
   `ten_cent_bot/tv_mcp.py` loads its JSON. Bulk history still has to be
-  written to disk by hand or by a script holding the OAuth token.
+  written to disk by hand or by a script holding the OAuth token; the 42
+  monthly 1!/2! files in `data/tv/` were transcribed by workers and each
+  verified against the server's own summary (count, first/last, extremes)
+  and against yfinance monthly returns (corr 0.99 financials, 0.87-0.96
+  grains where roll timing differs). NYMEX energy and HE/HO/PA are missing.
 
 ### Sleeve B - TSMOM (deployable)
 

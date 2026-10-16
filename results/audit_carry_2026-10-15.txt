@@ -1,7 +1,9 @@
   bad-tick guard: ZN dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10']
   bad-tick guard: ZB dropped 5 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10', '2014-12', '2015-01']
   bad-tick guard: ZF dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['2003-02', '2003-08', '2003-11']
-markets with both legs: ['ES', 'NQ', '6E', '6B', 'ZN', 'ZB', 'ZF', 'ZC', 'ZW', 'ZS', 'SB', 'KC']  (1995-01-31 -> 2026-10-31)
+  bad-tick guard: HG dropped 1 month(s) with |ln(F1/F2)| > 0.08: ['1988-12']
+  bad-tick guard: CT dropped 2 month(s) with |ln(F1/F2)| > 0.35: ['1986-04', '1986-05']
+markets with both legs: ['ES', 'NQ', '6E', '6B', '6J', '6A', '6C', '6S', 'ZN', 'ZB', 'ZF', 'GC', 'SI', 'HG', 'ZC', 'ZW', 'ZS', 'SB', 'KC', 'CT', 'LE']  (1995-01-31 -> 2026-10-31)
 
 === roll adjustment ===
   roll rule per market (from yfinance disagreement months; default by contract mechanics):
@@ -9,14 +11,23 @@ markets with both legs: ['ES', 'NQ', '6E', '6B', 'ZN', 'ZB', 'ZF', 'ZC', 'ZW', '
     NQ   in      (4 disagreement months: in-match 0%, before-match 50% -> not decisive, default)
     6E   in      (only 2 disagreement months)
     6B   in      (4 disagreement months: in-match 0%, before-match 50% -> not decisive, default)
+    6J   in      (5 disagreement months: in-match 20%, before-match 40% -> not decisive, default)
+    6A   in      (4 disagreement months: in-match 0%, before-match 50% -> not decisive, default)
+    6C   in      (4 disagreement months: in-match 0%, before-match 50% -> not decisive, default)
+    6S   in      (4 disagreement months: in-match 0%, before-match 50% -> not decisive, default)
     ZN   before  (only 1 disagreement months)
     ZB   before  (4 disagreement months: in-match 25%, before-match 50% -> not decisive, default)
     ZF   before  (only 2 disagreement months)
+    GC   before  (4 disagreement months: in-match 0%, before-match 100% -> not decisive, default)
+    SI   before  (only 2 disagreement months)
+    HG   in      (6 disagreement months: in-match 67%, before-match 17% -> decisive)
     ZC   before  (7 disagreement months: in-match 43%, before-match 57% -> not decisive, default)
     ZW   before  (only 1 disagreement months)
     ZS   before  (7 disagreement months: in-match 14%, before-match 100% -> decisive)
     SB   before  (4 disagreement months: in-match 50%, before-match 50% -> not decisive, default)
     KC   before  (5 disagreement months: in-match 40%, before-match 60% -> not decisive, default)
+    CT   before  (4 disagreement months: in-match 50%, before-match 50% -> not decisive, default)
+    LE   before  (4 disagreement months: in-match 0%, before-match 100% -> not decisive, default)
 
 === 0. Carry statistics and predictive power ===
   mkt  mean carry  %backwd  IC(t,t+1)  t(sign)  roll-adj minus raw ann.ret
@@ -24,76 +35,99 @@ markets with both legs: ['ES', 'NQ', '6E', '6B', 'ZN', 'ZB', 'ZF', 'ZC', 'ZW', '
   NQ       -0.017      30%      0.079     1.09                      -1.68%
   6E       -0.008      22%      0.073     1.52                      -0.80%
   6B        0.003      47%      0.021    -0.27                       0.24%
+  6J       -0.022       0%      0.049     1.88                      -2.21%
+  6A        0.015      57%      0.086     1.59                       1.47%
+  6C       -0.001      35%      0.006    -1.33                      -0.10%
+  6S       -0.019       1%      0.037    -0.82                      -2.30%
   ZN        0.017      80%      0.137     2.74                       1.80%
   ZB        0.021      84%      0.092     2.43                       2.26%
   ZF        0.015      66%      0.084     1.48                       1.44%
+  GC       -0.033       0%      0.041    -1.94                      -3.33%
+  SI       -0.030       1%     -0.047    -1.85                      -3.07%
+  HG        0.004      29%      0.017     0.19                       0.96%
   ZC       -0.073      16%     -0.026    -0.05                      -7.78%
   ZW       -0.108      10%      0.000     1.43                     -12.07%
   ZS        0.016      23%      0.035     0.80                      -1.21%
   SB        0.004      45%     -0.072    -1.08                      -1.92%
   KC       -0.052      24%      0.076     1.32                      -5.77%
-  mean per-market IC 0.051;  cross-sectional IC mean 0.052, t=2.37 over 379 months
+  CT       -0.049      28%      0.005     0.60                      -6.76%
+  LE       -0.018      36%     -0.124    -1.51                      -3.50%
+  mean per-market IC 0.033;  cross-sectional IC mean 0.038, t=2.32 over 379 months
 
 === 1. Baseline: time-series carry, vol-scaled, 10bps (roll-adjusted returns) ===
-  TS carry           Sharpe  0.23  CAGR  1.05%  Vol  4.5%  MaxDD -16.8%  n=368
-  EW long benchmark  Sharpe  0.38  CAGR  2.04%  Vol  5.4%  MaxDD -20.3%  n=368
-  TS carry on RAW    Sharpe -0.61  CAGR -2.74%  Vol  4.5%  MaxDD -59.7%  n=368   <- unadjusted series, for comparison
+  TS carry           Sharpe  0.11  CAGR  0.39%  Vol  3.7%  MaxDD -13.9%  n=368
+  EW long benchmark  Sharpe  0.32  CAGR  1.65%  Vol  5.1%  MaxDD -20.9%  n=368
+  TS carry on RAW    Sharpe -0.98  CAGR -3.56%  Vol  3.7%  MaxDD -67.9%  n=368   <- unadjusted series, for comparison
 
 === 2. Walk-forward halves ===
-  train Sharpe  0.23  CAGR  1.15%  Vol  4.9%  MaxDD -16.8%  n=185
-  test  Sharpe  0.24  CAGR  0.99%  Vol  4.2%  MaxDD -14.6%  n=184
+  train Sharpe  0.16  CAGR  0.59%  Vol  3.6%  MaxDD -13.9%  n=185
+  test  Sharpe  0.05  CAGR  0.18%  Vol  3.7%  MaxDD -13.5%  n=184
 
 === 3. Grid ===
-tv                      0.05  0.10  0.15
+demean                    0     36    60
 mode            smooth                  
-cross_sectional 1       0.15  0.15  0.13
-                3       0.15  0.15  0.14
-                6       0.24  0.25  0.25
-time_series     1       0.21  0.23  0.22
-                3       0.19  0.22  0.21
-                6       0.28  0.31  0.30
-  Sharpe>0: 100%, mean 0.21
+cross_sectional 1       0.18 -0.13 -0.09
+                3       0.23  0.18  0.08
+                6       0.50  0.39  0.41
+time_series     1       0.11  0.08 -0.06
+                3       0.07  0.13  0.03
+                6       0.22  0.31  0.14
+  (columns = demean window in months; 0 = raw sign)
+  Sharpe>0: 83%, mean 0.15
 
 === 4. Sub-periods (4y) ===
-  1996-1999: Sharpe  0.51  CAGR  2.44%  Vol  4.8%  MaxDD  -5.2%  n=46
-  2000-2003: Sharpe  1.01  CAGR  5.29%  Vol  5.1%  MaxDD  -5.6%  n=48
-  2004-2007: Sharpe -0.43  CAGR -1.78%  Vol  4.2%  MaxDD  -8.5%  n=48
-  2008-2011: Sharpe -0.17  CAGR -0.88%  Vol  5.1%  MaxDD -15.5%  n=48
-  2012-2015: Sharpe  1.61  CAGR  5.08%  Vol  3.1%  MaxDD  -3.0%  n=48
-  2016-2019: Sharpe  0.08  CAGR  0.36%  Vol  4.8%  MaxDD  -6.6%  n=48
-  2020-2023: Sharpe -0.30  CAGR -1.30%  Vol  4.4%  MaxDD -12.3%  n=48
-  2024-2027: Sharpe -0.26  CAGR -1.12%  Vol  4.4%  MaxDD -10.2%  n=34
+  1996-1999: Sharpe  0.51  CAGR  1.86%  Vol  3.7%  MaxDD  -5.4%  n=46
+  2000-2003: Sharpe  0.72  CAGR  2.74%  Vol  3.8%  MaxDD  -4.6%  n=48
+  2004-2007: Sharpe -0.13  CAGR -0.39%  Vol  3.0%  MaxDD  -5.4%  n=48
+  2008-2011: Sharpe -0.36  CAGR -1.37%  Vol  3.8%  MaxDD -11.5%  n=48
+  2012-2015: Sharpe  1.04  CAGR  2.86%  Vol  2.7%  MaxDD  -2.2%  n=48
+  2016-2019: Sharpe -0.17  CAGR -0.63%  Vol  3.8%  MaxDD  -6.2%  n=48
+  2020-2023: Sharpe -0.08  CAGR -0.36%  Vol  4.4%  MaxDD  -7.3%  n=48
+  2024-2027: Sharpe -0.57  CAGR -2.21%  Vol  3.9%  MaxDD  -9.6%  n=34
+
+=== 4b. Demeaned time-series carry (carry minus trailing 60m mean), baseline sizing ===
+  demeaned TS carry  Sharpe -0.06  CAGR -0.21%  Vol  3.7%  MaxDD -20.3%  n=351
+  demeaned, smooth 3 Sharpe  0.03  CAGR  0.11%  Vol  3.7%  MaxDD -18.4%  n=349
 
 === 5. Leave-one-out ===
-  drop ES:  0.22 (-0.01)
-  drop NQ:  0.23 (-0.01)
-  drop 6E:  0.22 (-0.01)
-  drop 6B:  0.26 (+0.03)
-  drop ZN:  0.18 (-0.05)
-  drop ZB:  0.18 (-0.05)
-  drop ZF:  0.25 (+0.02)
-  drop ZC:  0.25 (+0.02)
-  drop ZW:  0.18 (-0.05)
-  drop ZS:  0.23 (+0.00)
-  drop SB:  0.25 (+0.02)
-  drop KC:  0.23 (+0.00)
+  drop ES:  0.08 (-0.02)
+  drop NQ:  0.09 (-0.02)
+  drop 6E:  0.09 (-0.02)
+  drop 6B:  0.12 (+0.01)
+  drop 6J:  0.08 (-0.03)
+  drop 6A:  0.06 (-0.04)
+  drop 6C:  0.14 (+0.04)
+  drop 6S:  0.12 (+0.02)
+  drop ZN:  0.06 (-0.05)
+  drop ZB:  0.06 (-0.04)
+  drop ZF:  0.11 (+0.00)
+  drop GC:  0.15 (+0.04)
+  drop SI:  0.16 (+0.05)
+  drop HG:  0.12 (+0.01)
+  drop ZC:  0.11 (+0.01)
+  drop ZW:  0.06 (-0.04)
+  drop ZS:  0.10 (-0.00)
+  drop SB:  0.15 (+0.04)
+  drop KC:  0.12 (+0.02)
+  drop CT:  0.04 (-0.07)
+  drop LE:  0.16 (+0.06)
 
 === 6. Cost sensitivity ===
-    0 bps: Sharpe  0.28  CAGR  1.29%  Vol  4.5%  MaxDD -15.4%  n=368
-   10 bps: Sharpe  0.23  CAGR  1.05%  Vol  4.5%  MaxDD -16.8%  n=368
-   25 bps: Sharpe  0.15  CAGR  0.70%  Vol  4.5%  MaxDD -19.0%  n=368
-   50 bps: Sharpe  0.02  CAGR  0.10%  Vol  4.5%  MaxDD -23.2%  n=368
-  100 bps: Sharpe -0.24  CAGR -1.07%  Vol  4.6%  MaxDD -41.2%  n=368
+    0 bps: Sharpe  0.16  CAGR  0.60%  Vol  3.7%  MaxDD -12.5%  n=368
+   10 bps: Sharpe  0.11  CAGR  0.39%  Vol  3.7%  MaxDD -13.9%  n=368
+   25 bps: Sharpe  0.02  CAGR  0.07%  Vol  3.7%  MaxDD -18.7%  n=368
+   50 bps: Sharpe -0.12  CAGR -0.45%  Vol  3.7%  MaxDD -27.8%  n=368
+  100 bps: Sharpe -0.41  CAGR -1.49%  Vol  3.7%  MaxDD -43.4%  n=368
 
 === 7. Placebo: carry signal block-shuffled in time per market (100 seeds) ===
-  real 0.23  placebo -0.00 +/- 0.13  P(placebo>=real)=0.020  REAL
+  real 0.11  placebo -0.14 +/- 0.12  P(placebo>=real)=0.020  REAL
 
 === 8. Sleeve B (12m TSMOM) on the same markets: roll-adjusted vs raw, and B+K blend ===
-  TSMOM roll-adjusted  Sharpe  0.47  CAGR  2.19%  Vol  4.6%  MaxDD -10.9%  n=368
-  TSMOM raw 1! series  Sharpe  0.19  CAGR  0.90%  Vol  4.6%  MaxDD -26.3%  n=368
-  corr(B adj, K)       +0.34
-  blend B 1.0 / K 0.0   Sharpe  0.46  CAGR  2.22%  Vol  4.8%  MaxDD -11.5%  n=368
-  blend B 0.7 / K 0.3   Sharpe  0.47  CAGR  1.88%  Vol  4.0%  MaxDD  -9.6%  n=368
-  blend B 0.5 / K 0.5   Sharpe  0.44  CAGR  1.66%  Vol  3.8%  MaxDD -10.1%  n=368
-  blend B 0.3 / K 0.7   Sharpe  0.36  CAGR  1.42%  Vol  3.9%  MaxDD -11.4%  n=368
-  blend B 0.0 / K 1.0   Sharpe  0.23  CAGR  1.05%  Vol  4.5%  MaxDD -16.8%  n=368
+  TSMOM roll-adjusted  Sharpe  0.45  CAGR  1.84%  Vol  4.1%  MaxDD -10.3%  n=368
+  TSMOM raw 1! series  Sharpe  0.24  CAGR  0.96%  Vol  4.0%  MaxDD -16.9%  n=368
+  corr(B adj, K)       +0.26
+  blend B 1.0 / K 0.0   Sharpe  0.43  CAGR  1.85%  Vol  4.2%  MaxDD -10.3%  n=368
+  blend B 0.7 / K 0.3   Sharpe  0.41  CAGR  1.42%  Vol  3.4%  MaxDD  -9.5%  n=368
+  blend B 0.5 / K 0.5   Sharpe  0.36  CAGR  1.14%  Vol  3.1%  MaxDD  -9.0%  n=368
+  blend B 0.3 / K 0.7   Sharpe  0.27  CAGR  0.84%  Vol  3.1%  MaxDD  -8.8%  n=368
+  blend B 0.0 / K 1.0   Sharpe  0.11  CAGR  0.39%  Vol  3.7%  MaxDD -13.9%  n=368
