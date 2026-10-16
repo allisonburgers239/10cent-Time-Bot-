@@ -9,7 +9,7 @@ retail-accessible edges in derivatives markets.
 | Sleeve | Edge | Instrument | Audit status |
 |---|---|---|---|
 | A - Opening Range Breakout | Intraday momentum on NY open | MNQ / liquid ETFs | **Shelved** - failed audit on 12.5mo real 5-min sample (may revisit with 2-5y data) |
-| B - Time-Series Momentum   | 12-month trend on multi-asset basket | ~10 liquid ETFs / futures | **Deployable** - 7/7 robustness checks pass |
+| B - Time-Series Momentum   | 12-month trend on multi-asset basket | ~10 liquid ETFs / futures | **Deployable** - 7/7 robustness checks pass. 2026-10-16: month-end Sharpe 0.71 is the top of a 0.30-0.71 rebalance-day band (mean 0.52); **tranche the rebalance (15th + month-end) -> 0.72 without the date luck** |
 | B v2 - CTA-enhanced        | Multi-horizon + vol/corr filters on top of B | Same basket as B | **Shelved** - layers hurt on ETF basket (Sharpe 0.72 -> 0.31) |
 | C - Crypto Cash-and-Carry  | Funding-rate arbitrage | BTC/ETH spot vs perp | **Shelved** - failed walk-forward |
 | D - Sector XSMOM           | Sector ETF rotation | 9 SPDR sectors | **Shelved** - no real edge |
@@ -153,6 +153,15 @@ bar p<0.003), calendar seasonality with literature behind it
 | **E + GLD audit** | `audit_overnight_gold.py` | **PASS 7/7 through the shipped code path.** Walk-forward 0.43 -> 0.75 (E 0.38 -> 0.58); GLD weight grid monotone up to 0.4; 5/6 four-year windows up; leave-one-out: dropping GLD is the only drop; placebo (GLD sign randomized) p<0.001; crash windows all better (GLD leg +14% in 2008-Q4, +9% in Mar-2020, +6% Apr-2025; -8% in 2022). GLD overnight corr with E +0.10. With the v2 overlay: 0.67 Sharpe, -23% MaxDD. Applying the RSI(2) overlay to GLD itself adds nothing (equities-only = all). Tradable as MGC; tracking check pending the 5-min re-export |
 | Clean ETF breadth for B (no roll gaps) | `audit_tsmom_etf_breadth.py` | **Breadth does not help on ETFs either**: B10 0.71; +sectors 0.70 (WF 0.92 -> 0.48); +countries 0.48; +rates 0.70; +commodities 0.69 with the best MaxDD (-11.9%) and the most consistent WF (0.68 -> 0.71); all-29 0.59. B10 beats 99% of random 10-ETF subsets of the 29 (p=0.01), so the deployed basket choice carries some in-sample selection. No change to B |
 | Why E v2 works: VIX regime | `audit_overnight_reversal.py` s.14 | Nagel (2012) mechanism confirmed: signal-night excess overnight return 6.9bp (low VIX) -> 6.2 (mid) -> 11.4bp (high VIX), significant in every tercile. 52% of signal nights fall in the high-VIX tercile, which is exactly where the overlay's tail cost comes from. Diagnostic, no new rule |
+
+**Fourth pass, 2026-10-16 (deployment realism):**
+
+| Item | Script | Verdict |
+|---|---|---|
+| **B's rebalance-day luck** | `audit_tsmom_rebalance_day.py` | Same rule sampled on the 5th/10th/15th/20th/25th/month-end: Sharpe 0.49 / 0.71 / 0.51 / 0.30 / 0.42 / **0.71**, mean 0.52, std 0.15. The audited month-end number sits at the top of the timing-luck band; the honest expectation for B is ~0.5. **Tranching (half the book on the 15th, half at month-end) gives 0.72 with MaxDD -13.1%** and removes the dependence on one date. Standard CTA practice, not a fitted parameter - recommended for deployment |
+| Final book with E3 | `results/audit_full_book_e3_2026-10-16.txt` | 2007-06 -> 2026-10: E3v2 standalone Sharpe 0.76 / MaxDD -19.1% (E 0.48 / -28.7%). **B70/E3v2 30: Sharpe 1.01, MaxDD -8.2%, halves 0.81/1.21** vs current B70/E30 0.86 / -9.5% (0.75/0.95). Correlation of every E variant with B is ~0 |
+| Daily ticket + sizing reality | `daily_overnight_ticket.py` | Dry-run ticket for E/E v2/E3 on both rails with tests. Micro futures can't be sized to 1x below ~$150-200k; ETF shares can. Today's live ticket (2026-10-16 15:21 CT): QQQ fired (RSI2 0.6, x2), SPY marginal (10.6) |
+| July studies, outputs captured | `results/execution_e_analysis_*`, `audit_sector_overnight_*`, `audit_overnight_weekday_*` | Continuous prints 15:50-15:55 / 09:30-09:40 do no worse than the auction fills (slightly better, +1.7-2.4bp/night, t~1.6) -> the MES rail has no fill drag. Sector overnight basket corr 0.91 with E, WF 0.76 -> 0.35 (shelved, as in July). Tue/Wed/Fri-only E beats E in 3/7 windows, placebo p=0.05 (shelved) |
 
 **Roll adjustment and Sleeve B (corrected 2026-10-16).** Every futures
 number in this repo runs on unadjusted front-month series (yfinance `=F`

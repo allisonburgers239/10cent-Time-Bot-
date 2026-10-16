@@ -1,0 +1,16 @@
+=== Full book with E3, 2007-06-30 -> 2026-10-31, 233 months ===
+  B     Sharpe  0.69  CAGR  3.97%  Vol  5.6%  MaxDD -14.3%
+  E     Sharpe  0.48  CAGR  5.73%  Vol 11.6%  MaxDD -28.7%
+  E2    Sharpe  0.65  CAGR  8.51%  Vol 12.6%  MaxDD -27.4%
+  E3    Sharpe  0.61  CAGR  5.63%  Vol  9.0%  MaxDD -19.7%
+  E3v2  Sharpe  0.76  CAGR  7.85%  Vol 10.0%  MaxDD -19.1%
+
+  corr with B: E -0.04  E2 -0.02  E3 -0.01  E3v2 +0.01
+
+  books (static, monthly):
+    B70/E30 (current)    Sharpe  0.86  CAGR  4.49%  Vol  5.1%  MaxDD  -9.5%   halves 0.75/0.95
+    B70/E2 30            Sharpe  0.96  CAGR  5.31%  Vol  5.4%  MaxDD  -9.0%   halves 0.77/1.14
+    B70/E3 30            Sharpe  0.92  CAGR  4.46%  Vol  4.7%  MaxDD  -9.1%   halves 0.78/1.05
+    B70/E3v2 30          Sharpe  1.01  CAGR  5.12%  Vol  5.0%  MaxDD  -8.2%   halves 0.81/1.21
+    B60/E3v2 40          Sharpe  1.02  CAGR  5.50%  Vol  5.2%  MaxDD  -7.3%   halves 0.76/1.29
+    B50/E3v2 50          Sharpe  1.00  CAGR  5.89%  Vol  5.7%  MaxDD  -7.8%   halves 0.69/1.31
