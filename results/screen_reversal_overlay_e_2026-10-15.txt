@@ -1,0 +1,48 @@
+=== Next-day return after k consecutive down closes, split overnight / intraday ===
+
+--- SPY (1993-01-29 -> 2026-10-15)
+  unconditional: overnight +4.0bp  intraday +0.7bp  close-close +4.8bp
+  >= 2 down: overnight   +9.2bp (excess  +5.2, t=+2.67, n=1691)   intraday   +5.0bp (excess  +4.3, t=+1.40, n=1691)
+  >= 3 down: overnight  +15.0bp (excess +11.0, t=+3.40, n= 718)   intraday  +11.4bp (excess +10.6, t=+1.96, n= 718)
+  >= 4 down: overnight  +12.8bp (excess  +8.8, t=+1.34, n= 274)   intraday  +30.8bp (excess +30.0, t=+2.77, n= 274)
+  >= 5 down: overnight  +32.2bp (excess +28.2, t=+2.19, n=  93)   intraday  +34.2bp (excess +33.5, t=+1.58, n=  93)
+  RSI2 < 10 : overnight  +15.4bp (excess +11.4, t=+3.49, n= 805)   intraday  +13.6bp (excess +12.9, t=+2.49, n= 805)
+
+--- QQQ (1999-03-10 -> 2026-10-15)
+  unconditional: overnight +5.5bp  intraday -0.0bp  close-close +5.5bp
+  >= 2 down: overnight   +9.3bp (excess  +3.8, t=+1.26, n=1386)   intraday  +10.2bp (excess +10.2, t=+2.09, n=1386)
+  >= 3 down: overnight  +15.0bp (excess  +9.4, t=+1.89, n= 595)   intraday  +29.2bp (excess +29.3, t=+3.39, n= 595)
+  >= 4 down: overnight  +13.4bp (excess  +7.9, t=+0.86, n= 243)   intraday  +30.1bp (excess +30.1, t=+2.04, n= 243)
+  >= 5 down: overnight  +36.7bp (excess +31.1, t=+2.10, n=  98)   intraday  +83.3bp (excess +83.3, t=+3.14, n=  98)
+  RSI2 < 10 : overnight  +12.3bp (excess  +6.8, t=+1.53, n= 701)   intraday  +23.0bp (excess +23.0, t=+2.95, n= 701)
+
+--- IWM (2000-05-26 -> 2026-10-15)
+  unconditional: overnight +5.3bp  intraday -1.0bp  close-close +4.3bp
+  >= 2 down: overnight   +6.9bp (excess  +1.6, t=+0.59, n=1405)   intraday   +6.2bp (excess  +7.2, t=+1.77, n=1405)
+  >= 3 down: overnight  +10.5bp (excess  +5.2, t=+1.16, n= 612)   intraday  +10.6bp (excess +11.6, t=+1.64, n= 612)
+  >= 4 down: overnight   +8.9bp (excess  +3.5, t=+0.49, n= 258)   intraday   +9.3bp (excess +10.3, t=+0.84, n= 258)
+  >= 5 down: overnight  +18.1bp (excess +12.8, t=+1.01, n= 112)   intraday  +15.6bp (excess +16.6, t=+0.79, n= 112)
+  RSI2 < 10 : overnight  +12.1bp (excess  +6.8, t=+1.60, n= 691)   intraday  +10.3bp (excess +11.3, t=+1.72, n= 691)
+
+--- EFA (2001-08-27 -> 2026-10-15)
+  unconditional: overnight +0.8bp  intraday +2.5bp  close-close +3.3bp
+  >= 2 down: overnight  +10.0bp (excess  +9.2, t=+2.81, n=1300)   intraday   +3.5bp (excess  +1.0, t=+0.35, n=1300)
+  >= 3 down: overnight  +15.3bp (excess +14.5, t=+2.79, n= 578)   intraday   +0.2bp (excess  -2.3, t=-0.47, n= 578)
+  >= 4 down: overnight  +11.9bp (excess +11.1, t=+1.24, n= 261)   intraday   -5.1bp (excess  -7.6, t=-0.90, n= 261)
+  >= 5 down: overnight   +9.6bp (excess  +8.8, t=+0.58, n= 128)   intraday   -1.0bp (excess  -3.4, t=-0.25, n= 128)
+  RSI2 < 10 : overnight  +13.3bp (excess +12.5, t=+2.30, n= 641)   intraday   +0.9bp (excess  -1.6, t=-0.33, n= 641)
+
+=== Sub-periods: excess NEXT-OVERNIGHT return after >=3 down closes (bp, t) ===
+  SPY  1993:  -0.0 (t-0.0)  1998: +14.9 (t+2.1)  2003: +12.4 (t+3.2)  2008: +14.6 (t+1.4)  2013:  +5.2 (t+0.5)  2018:  +5.0 (t+0.6)  2023: +25.1 (t+3.5)
+  QQQ  1998:  +3.5 (t+0.2)  2003: +16.8 (t+3.3)  2008:  +5.9 (t+0.5)  2013:  +2.6 (t+0.2)  2018:  +7.4 (t+0.7)  2023: +25.0 (t+2.5)
+  IWM  1998:  +6.9 (t+0.3)  2003: +10.1 (t+2.1)  2008:  -2.9 (t-0.2)  2013: +12.4 (t+1.6)  2018:  -3.9 (t-0.4)  2023: +17.7 (t+1.9)
+  EFA  1998: -26.2 (t-1.0)  2003: +20.2 (t+2.3)  2008: +57.2 (t+3.8)  2013:  +5.7 (t+0.7)  2018:  -7.3 (t-0.8)  2023: +22.4 (t+2.0)
+
+=== Overlay on E: overnight SPY/QQQ/IWM, 1bp/side, multiplier on nights after >=3 down closes (own ticker) ===
+  E baseline                         Sharpe  0.47  CAGR  5.88%  MaxDD -29.0%  halves 0.37/0.57  gross 1.00x  signal nights 9%
+  x2 after >=3 down                  Sharpe  0.55  CAGR  8.37%  MaxDD -37.4%  halves 0.44/0.67  gross 1.09x  signal nights 9%
+  x1.5 after >=3 down                Sharpe  0.52  CAGR  7.12%  MaxDD -33.2%  halves 0.41/0.63  gross 1.04x  signal nights 9%
+  x2 when RSI2<10                    Sharpe  0.56  CAGR  8.79%  MaxDD -31.5%  halves 0.44/0.68  gross 1.10x  signal nights 9%
+  x2 after >=3 down OR RSI2<10       Sharpe  0.56  CAGR  9.02%  MaxDD -34.0%  halves 0.42/0.70  gross 1.12x  signal nights 9%
+  x0 after >=3 down (the opposite)   Sharpe  0.31  CAGR  3.44%  MaxDD -30.0%  halves 0.22/0.40  gross 0.91x  signal nights 9%
+  placebo (random nights, same frequency, x2): real 0.548, placebo 0.462 +/- 0.029, P(rand>=real)=0.005

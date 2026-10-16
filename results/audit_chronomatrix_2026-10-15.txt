@@ -1,0 +1,79 @@
+======================================================================
+SLEEVE I AUDIT: ChronoMatrix 27-node cycle + sweep-reclaim
+(pre-registered mechanical interpretation - see docstring)
+======================================================================
+
+--- Cycle test: SPY (257 days) ---
+   node  aligned fwd 30m (bp)      t       n
+  N7                    -0.26  -0.44     769   claim: continuation -> not supported
+  N21                   -0.05  -0.08     513   claim: reversal     -> not supported
+  N25                   -0.13  -0.19     513   claim: reversal     -> not supported
+  C4 node-effect spread: real 0.45bp vs placebo 0.61 +/- 0.12bp,  p = 0.900
+
+--- Sweep test: SPY ---
+  193 sweep entries (83 PDH shorts, 110 PDL longs)
+    +30min    mean   +0.7bp  t=+0.52  win 51%
+    +60min    mean   +2.7bp  t=+1.40  win 49%
+    to close  mean   +9.0bp  t=+2.75  win 57%
+    placebo (random-entry hold-to-close): +0.2 +/- 3.8bp,  real +9.0bp,  P(rand >= real) = 0.010
+    (ETF cost context: ~2bp round trip)
+
+--- Cycle test: QQQ (257 days) ---
+   node  aligned fwd 30m (bp)      t       n
+  N7                     0.21   0.27     769   claim: continuation -> not supported
+  N21                   -0.76  -0.80     514   claim: reversal     -> not supported
+  N25                   -0.31  -0.35     514   claim: reversal     -> not supported
+  C4 node-effect spread: real 0.59bp vs placebo 0.84 +/- 0.16bp,  p = 0.950
+
+--- Sweep test: QQQ ---
+  175 sweep entries (107 PDH shorts, 68 PDL longs)
+    +30min    mean   -1.3bp  t=-0.63  win 46%
+    +60min    mean   +0.5bp  t=+0.18  win 50%
+    to close  mean   -2.3bp  t=-0.50  win 46%
+    placebo (random-entry hold-to-close): -1.1 +/- 5.0bp,  real -2.3bp,  P(rand >= real) = 0.600
+    (ETF cost context: ~2bp round trip)
+
+--- Cycle test: IWM (257 days) ---
+   node  aligned fwd 30m (bp)      t       n
+  N7                     1.31   1.30     763   claim: continuation -> not supported
+  N21                    1.30   1.22     513   claim: reversal     -> not supported
+  N25                   -1.29  -1.19     514   claim: reversal     -> not supported
+  C4 node-effect spread: real 0.67bp vs placebo 1.02 +/- 0.20bp,  p = 0.960
+
+--- Sweep test: IWM ---
+  155 sweep entries (81 PDH shorts, 74 PDL longs)
+    +30min    mean   +1.9bp  t=+0.74  win 53%
+    +60min    mean   -3.1bp  t=-0.88  win 48%
+    to close  mean   -4.6bp  t=-0.91  win 50%
+    placebo (random-entry hold-to-close): +0.4 +/- 5.8bp,  real -4.6bp,  P(rand >= real) = 0.815
+    (ETF cost context: ~2bp round trip)
+
+--- Cycle test: MES (73 days) ---
+   node  aligned fwd 30m (bp)      t       n
+  N7                    -0.31  -0.27     216   claim: continuation -> not supported
+  N21                   -0.80  -0.61     146   claim: reversal     -> not supported
+  N25                   -2.05  -1.46     145   claim: reversal     -> not supported
+  C4 node-effect spread: real 0.91bp vs placebo 1.17 +/- 0.27bp,  p = 0.870
+
+--- Sweep test: MES ---
+  43 sweep entries (17 PDH shorts, 26 PDL longs)
+    +30min    mean   -5.8bp  t=-2.03  win 42%
+    +60min    mean   -7.7bp  t=-2.29  win 33%
+    to close  mean   -5.8bp  t=-0.62  win 44%
+    placebo (random-entry hold-to-close): +0.7 +/- 9.2bp,  real -5.8bp,  P(rand >= real) = 0.765
+    (ETF cost context: ~2bp round trip)
+
+--- Cycle test: MNQ (73 days) ---
+   node  aligned fwd 30m (bp)      t       n
+  N7                    -1.41  -0.83     219   claim: continuation -> not supported
+  N21                   -0.53  -0.28     146   claim: reversal     -> not supported
+  N25                   -1.84  -0.99     146   claim: reversal     -> not supported
+  C4 node-effect spread: real 1.10bp vs placebo 1.69 +/- 0.34bp,  p = 0.950
+
+--- Sweep test: MNQ ---
+  44 sweep entries (28 PDH shorts, 16 PDL longs)
+    +30min    mean   +1.3bp  t=+0.31  win 50%
+    +60min    mean   +0.1bp  t=+0.01  win 43%
+    to close  mean  -23.9bp  t=-2.00  win 34%
+    placebo (random-entry hold-to-close): -0.6 +/- 11.8bp,  real -23.9bp,  P(rand >= real) = 0.970
+    (ETF cost context: ~2bp round trip)

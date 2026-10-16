@@ -1,0 +1,49 @@
+=== S1. Halloween: Nov-Apr vs May-Oct, monthly close-to-close ===
+  US SPY                       in +1.19%/m  out +0.72%/m  diff t=+1.11  halves +0.57/+0.36  placebo p=0.072  1993-2026
+  US S&P 500 (1950+)           in +1.13%/m  out +0.38%/m  diff t=+2.77  halves +0.99/+0.53  placebo p=0.064  1950-2026
+  Germany DAX                  in +1.62%/m  out +0.11%/m  diff t=+2.89  halves +1.97/+1.05  placebo p=0.096  1988-2026
+  UK FTSE                      in +1.06%/m  out +0.04%/m  diff t=+2.77  halves +1.30/+0.74  placebo p=0.074  1984-2026
+  Japan Nikkei                 in +1.22%/m  out +0.15%/m  diff t=+2.70  halves +1.06/+1.08  placebo p=0.066  1965-2026
+  Hong Kong HSI                in +1.19%/m  out +0.29%/m  diff t=+1.37  halves +0.78/+1.03  placebo p=0.078  1987-2026
+  Korea KOSPI                  in +2.01%/m  out -0.15%/m  diff t=+2.52  halves +2.90/+1.42  placebo p=0.094  1997-2026
+  Australia ASX                in +0.82%/m  out +0.22%/m  diff t=+1.58  halves +0.53/+0.67  placebo p=0.096  1992-2026
+  Brazil Bovespa               in +3.49%/m  out +2.26%/m  diff t=+1.06  halves +2.23/+0.23  placebo p=0.112  1993-2026
+  India Nifty                  in +0.63%/m  out +1.05%/m  diff t=-0.53  halves -0.40/-0.42  placebo p=0.776  2007-2026
+  Euro Stoxx                   in +0.72%/m  out -0.12%/m  diff t=+1.29  halves +0.63/+1.05  placebo p=0.078  2007-2026
+
+=== S2. Faber 10-month SMA timing, Sleeve B ETF basket (SPY QQQ IWM EFA EEM TLT IEF GLD USO DBC), long-only EW ===
+  10m SMA timed      Sharpe  0.83  CAGR  5.44%  Vol  6.4%  MaxDD -11.6%  n=236
+  buy-and-hold EW    Sharpe  0.63  CAGR  7.92%  Vol 12.1%  MaxDD -38.9%  n=237
+    2008-2011: timed +0.56 vs b&h +0.20
+    2012-2015: timed +0.27 vs b&h +0.10
+    2016-2019: timed +1.02 vs b&h +1.14
+    2020-2023: timed +0.89 vs b&h +0.47
+    2024-2027: timed +2.03 vs b&h +2.20
+  placebo (random 70%-invested masks): real 0.83, placebo 0.55 +/- 0.08, P(rand>=real)=0.000
+
+=== S3. Commodity seasonal windows on roll-adjusted TradingView monthly returns ===
+  bad-tick guard: ZN dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10']
+  bad-tick guard: ZB dropped 5 month(s) with |ln(F1/F2)| > 0.08: ['1999-08', '1999-09', '1999-10', '2014-12', '2015-01']
+  bad-tick guard: ZF dropped 3 month(s) with |ln(F1/F2)| > 0.08: ['2003-02', '2003-08', '2003-11']
+  bad-tick guard: HG dropped 1 month(s) with |ln(F1/F2)| > 0.08: ['1988-12']
+  bad-tick guard: CT dropped 2 month(s) with |ln(F1/F2)| > 0.35: ['1986-04', '1986-05']
+  corn long Apr-Jun (weather premium) in -1.14%/m  out +0.12%/m  diff t=-1.42  halves -1.65/-0.85  placebo p=0.736  1990-2026
+  corn SHORT Jul-Sep (harvest pressure) in +1.68%/m  out -0.29%/m  diff t=+2.07  halves +2.64/+1.31  placebo p=0.290  1990-2026
+  soy long Apr-Jun             in +0.43%/m  out +0.18%/m  diff t=+0.37  halves -0.33/+0.85  placebo p=0.484  1990-2026
+  soy SHORT Jul-Sep            in +1.40%/m  out -0.79%/m  diff t=+2.87  halves +1.82/+2.56  placebo p=0.104  1990-2026
+  wheat long Apr-Jun           in -0.74%/m  out -0.33%/m  diff t=-0.42  halves -1.03/+0.22  placebo p=1.000  1990-2026
+  wheat SHORT Jun-Aug (N. hemisphere harvest) in +0.60%/m  out +0.38%/m  diff t=+0.21  halves -0.29/+0.71  placebo p=0.230  1990-2026
+  gold long Aug-Jan (jewellery season) in +0.62%/m  out +0.05%/m  diff t=+1.31  halves +0.69/+0.42  placebo p=0.096  1990-2026
+  silver long Aug-Jan          in +0.85%/m  out +0.40%/m  diff t=+0.55  halves +0.41/+0.47  placebo p=0.408  1990-2026
+  coffee long May-Jul (Brazil frost season) in -0.12%/m  out +0.33%/m  diff t=-0.35  halves -1.02/+0.11  placebo p=0.746  1990-2026
+  cattle long Feb-Apr (grilling-season build) in -0.27%/m  out +0.30%/m  diff t=-1.30  halves -0.68/-0.48  placebo p=0.902  1990-2026
+  cotton long Mar-May (planting) in -0.88%/m  out +0.17%/m  diff t=-1.28  halves -1.41/-0.65  placebo p=0.660  1990-2026
+
+  (11 pre-registered windows; Bonferroni bar p<0.005)
+
+=== S1b. Halloween tilt on Sleeve E overnight returns (SPY/QQQ/IWM, 1bp/side) ===
+  E overnight mean/day: Nov-Apr +4.9bp  May-Oct +3.7bp  (t of diff +0.61)
+  E baseline (x1 all year)         Sharpe  0.47  CAGR  5.88%  MaxDD -29.0%  avg gross 1.00x
+  x0.5 May-Oct                     Sharpe  0.47  CAGR  4.71%  MaxDD -28.8%  avg gross 0.74x
+  x0 May-Oct (flat all summer)     Sharpe  0.40  CAGR  3.55%  MaxDD -28.8%  avg gross 0.48x
+  x1.5 Nov-Apr, x0.5 May-Oct       Sharpe  0.46  CAGR  6.55%  MaxDD -40.7%  avg gross 0.98x

@@ -114,6 +114,22 @@ affects Sleeve B. Outputs are captured in `results/*_2026-10-15.txt`.
 | BTC session-of-day | `screen_btc_sessions.py` | **Nothing** (p=0.96 on 2.5y of hourly data) |
 | B breadth (10 -> 37 markets) | `audit_tsmom_breadth.py` | Broadening on raw yfinance `=F` **hurts** (0.47 -> 0.38): unadjusted roll gaps are wrong-signed in contango commodities (NG, CL, grains all <= 0). See data finding below |
 
+**Pattern round (same day, later).** A pre-registered battery of 19
+classic price patterns on 6 ETFs (`screen_price_patterns.py`, Bonferroni
+bar p<0.003), calendar seasonality with literature behind it
+(`screen_seasonality.py`), and the July ChronoMatrix audit
+(`audit_chronomatrix.py`, Temur's untracked script, output captured):
+
+| Pattern | Verdict |
+|---|---|
+| Short-term reversal in equity ETFs (3 down closes, RSI(2)<10, fresh 52w low) | **Real** at p<0.003 on SPY/QQQ/IWM (and TLT for streaks); the only cells in the battery that clear the bar. Next-day excess +15-40bp, present in both halves |
+| **E + reversal overlay** (`audit_overnight_reversal.py`) | **PASS 7/7 on Sharpe**: E 0.47 -> 0.55 (streak x2) / 0.56 (RSI2 x2); both walk-forward halves up (0.37->0.44, 0.57->0.67); 100% of 28 grid cells above E; placebo p=0.007; all leave-one-out up; MORE cost-robust than E. **Tail cost**: MaxDD -29% -> -37% (streak x2) or -31.5% (RSI2 x2); ES99 -3.3% -> -4.2%. Deployable cells: RSI2 x2 or streak x1.5. No new trades, just size on ~9% of nights. Conflicts with the 2%-daily-cap rule on the same nights E already breaches it |
+| Everything else in the battery (engulfing, inside day, NR7, gap fades, MA filters, Monday/Friday, pre-holiday, 3-up momentum) | **Nothing** at the bar; several negative |
+| Halloween / sell-in-May (10 world indices) | Same sign in 9/10 markets and both halves, each p~0.07-0.10 vs random 6-month windows; as an overlay on E it does nothing (overnight t=0.6) |
+| Faber 10-month SMA timing on the B ETF basket, long-only | Sharpe 0.83 vs 0.63 buy-and-hold, MaxDD -11.6% vs -38.9%, placebo p<0.001. A long-only cousin of B worth a head-to-head in the full-book audit |
+| Commodity seasonal windows (11, roll-adjusted) | None pass Bonferroni; soy/corn harvest shorts look good on t but placebo p=0.10/0.29 (seasonal autocorrelation) |
+| ChronoMatrix 27-node cycle + sweeps (5 instruments) | Cycle claims not supported anywhere (placebo p 0.87-0.96); SPY sweep-to-close +9bp p=0.01 is 1 of 5 at that level = multiple testing. Dead |
+
 **Data finding that matters for Sleeve B.** Every futures number in this
 repo so far (incl. `audit_tsmom_futures.py`) runs on yfinance's
 unadjusted front-month series. On the 21 markets where TradingView
