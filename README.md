@@ -163,6 +163,19 @@ bar p<0.003), calendar seasonality with literature behind it
 | Daily ticket + sizing reality | `daily_overnight_ticket.py` | Dry-run ticket for E/E v2/E3 on both rails with tests. Micro futures can't be sized to 1x below ~$150-200k; ETF shares can. Today's live ticket (2026-10-16 15:21 CT): QQQ fired (RSI2 0.6, x2), SPY marginal (10.6) |
 | July studies, outputs captured | `results/execution_e_analysis_*`, `audit_sector_overnight_*`, `audit_overnight_weekday_*` | Continuous prints 15:50-15:55 / 09:30-09:40 do no worse than the auction fills (slightly better, +1.7-2.4bp/night, t~1.6) -> the MES rail has no fill drag. Sector overnight basket corr 0.91 with E, WF 0.76 -> 0.35 (shelved, as in July). Tue/Wed/Fri-only E beats E in 3/7 windows, placebo p=0.05 (shelved) |
 
+**MNQ specifically (2026-10-21, `screen_mnq_sessions.py`, Ali's instrument):**
+2 years of hourly NQ=F (yfinance 730-day limit; screen-grade): overnight
+16:00->09:30 Sharpe 1.13 (+18.9%/yr) vs RTH 0.19 (+2.9%); the Asia session
+(18:00-02:00 ET) carries 42% of the total. The E v2 signal works on the
+future itself: 63 signal nights, next-overnight +40.6bp vs +2.8bp (t=2.3),
+x2 overlay Sharpe 1.47 vs 1.13. MNQ tracks QQQ's overnight at corr 1.000,
+tracking error 2.3bp/night (72 nights). So the MNQ edges are the ones
+already audited on QQQ over 26 years: E v2 on QQQ alone = Sharpe 0.63 ->
+0.80 with the overlay (`results/e_v2_qqq_only_*`), and B's trend (NQ is
+the strongest single market in B's basket at +0.60). One MNQ is ~$59k of
+exposure, so at $25k it is 2.4x leverage on a single-index version of E.
+Nothing intraday on NQ has survived (ORB, ChronoMatrix, sweeps).
+
 **Roll adjustment and Sleeve B (corrected 2026-10-16).** Every futures
 number in this repo runs on unadjusted front-month series (yfinance `=F`
 or TradingView `1!`), which splice contracts without removing the roll

@@ -1,0 +1,24 @@
+  j = pd.concat([on_from(mnq).rename("MNQ"), on_from(qqq).rename("QQQ")], axis=1).dropna()
+=== 1-2. Session decomposition + E v2 signal on the future (yfinance hourly, 2y) ===
+
+=== NQ=F: 2024-05-30 -> 2026-10-21, 13689 hourly bars ===
+  session            bars  ann.ret  ann.vol  Sharpe share of total placebo p
+  RTH 09:30-16       3565     3.6%    14.7%    0.25           18%     0.310
+  post 16-18          598     2.8%     4.2%    0.67           14%     0.173
+  Asia 18-02         4749     8.3%     9.6%    0.86           42%     0.110
+  Europe 02-09:30    4777     5.1%    11.7%    0.44           26%     0.280
+  daily split: overnight(16->09:30) Sharpe 1.13 ann +18.9%  |  RTH Sharpe 0.19 ann +2.9%  (587 days)
+  E v2 signal on the future: 63 signal nights, next-overnight mean +40.6bp vs other +2.8bp  (t=+2.34); x2 overlay Sharpe 1.47 vs plain 1.13
+
+=== ES=F: 2024-05-30 -> 2026-10-21, 13693 hourly bars ===
+  session            bars  ann.ret  ann.vol  Sharpe share of total placebo p
+  RTH 09:30-16       3565     4.4%    11.5%    0.38           27%     0.270
+  post 16-18          602     3.3%     3.4%    0.96           20%     0.060
+  Asia 18-02         4749     2.8%     6.9%    0.41           17%     0.300
+  Europe 02-09:30    4777     6.0%     8.4%    0.72           37%     0.123
+  daily split: overnight(16->09:30) Sharpe 1.18 ann +14.0%  |  RTH Sharpe 0.25 ann +3.1%  (587 days)
+  E v2 signal on the future: 58 signal nights, next-overnight mean +29.3bp vs other +2.6bp  (t=+1.91); x2 overlay Sharpe 1.41 vs plain 1.18
+
+=== 3. MNQ vs QQQ overnight tracking, 2026-03-16 -> 2026-06-26, 72 nights: corr 1.000, beta 1.000, tracking error 2.3bp/night, mean diff -1.8bp ===
+
+=== 4. From the B audits: standalone 12m TSMOM Sharpe on NQ=F (2000-2026, raw yfinance) +0.60, the highest single market in the basket; MNQ is already in B's deployment basket. ===

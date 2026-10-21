@@ -1,0 +1,4 @@
+QQQ alone, 1999-03-10 -> 2026-10-21 (what one MNQ overnight replicates), 1bp/side:
+  E (1x every night)       Sharpe 0.63  CAGR 9.4%  MaxDD -39.0%  halves 0.63/0.64  worst night -9.5%
+  E v2 (RSI2<10 -> 2x)     Sharpe 0.66  CAGR 12.3%  MaxDD -42.6%  halves 0.62/0.72  worst night -16.0%
+  QQQ buy-and-hold         Sharpe 0.52  CAGR 14.9%  MaxDD -83.0%
