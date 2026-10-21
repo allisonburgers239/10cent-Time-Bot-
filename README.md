@@ -542,7 +542,7 @@ Reference numbers to check TV against, same fills in Python on the repo's
 5-min files (`scripts/replicate_tv_strategy.py`, 2025-06-16 -> 2026-06-29,
 $25k, 256 trades each):
 
-  SPY  net +28.4%  win 58%  MaxDD -7.1%     QQQ  net +42.2%  win 56%  MaxDD -6.4%     IWM  net +27.0%  win 57%  MaxDD -13.2%
+  SPY  net +27.8%  win 58%  MaxDD -7.1%     QQQ  net +41.8%  win 56%  MaxDD -6.4%     IWM  net +27.3%  win 57%  MaxDD -13.3%
 
 Those are one bull year; the 26-year audited Sharpe is 0.56, not 2.5. If
 TV disagrees with these: 5-min chart with the 15:55 bar present, commission
