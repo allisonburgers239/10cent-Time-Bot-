@@ -171,7 +171,8 @@ future itself: 63 signal nights, next-overnight +40.6bp vs +2.8bp (t=2.3),
 x2 overlay Sharpe 1.47 vs 1.13. MNQ tracks QQQ's overnight at corr 1.000,
 tracking error 2.3bp/night (72 nights). So the MNQ edges are the ones
 already audited on QQQ over 26 years: E v2 on QQQ alone = Sharpe 0.63 ->
-0.80 with the overlay (`results/e_v2_qqq_only_*`), and B's trend (NQ is
+0.66 with the overlay, CAGR 9.4% -> 12.3%, MaxDD -39% -> -43%, worst night
+-16% (`results/e_v2_qqq_only_*`; the overlay helps QQQ less than the 3-ETF basket), and B's trend (NQ is
 the strongest single market in B's basket at +0.60). One MNQ is ~$59k of
 exposure, so at $25k it is 2.4x leverage on a single-index version of E.
 Nothing intraday on NQ has survived (ORB, ChronoMatrix, sweeps).
