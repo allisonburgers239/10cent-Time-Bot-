@@ -1,0 +1,57 @@
+//@version=6
+// Sleeve E v2 on MNQ (Micro Nasdaq futures) - 10c Time Bot
+// Hold MNQ from the 16:00 ET regular-session close to the 09:30 ET open.
+// On nights where the 2-day RSI of the daily (16:00) closes is below 10,
+// hold 2 contracts instead of 1.
+//
+// Chart: CME_MINI:MNQ1! on 5-minute bars (default session is fine; the
+// script keys off exchange time, so the 15:55 and 09:30 bars exist).
+// Sizing is in CONTRACTS (1 normally, 2 on signal nights). One MNQ is about
+// $59k of exposure, so with $25k this is ~2.4x leverage on one index; the
+// audited sleeve is 1x on a basket. Treat the numbers accordingly.
+// Continuous-contract note: MNQ1! has 4 roll gaps a year (~0.2-0.4% each)
+// that a real position would not experience; TV's P&L includes them.
+strategy("E v2 overnight MNQ (10c)", overlay = true, process_orders_on_close = true,
+     initial_capital = 25000, pyramiding = 0, calc_on_every_tick = false,
+     commission_type = strategy.commission.cash_per_contract, commission_value = 0.62,
+     slippage = 1, default_qty_type = strategy.fixed, default_qty_value = 1)
+
+useOverlay    = input.bool(true,  "RSI(2) < threshold -> extra contracts")
+rsiThr        = input.float(10.0, "RSI(2) threshold")
+baseContracts = input.int(1,      "Contracts on a normal night")
+signalMult    = input.int(2,      "Multiplier on a signal night (2 -> 2 contracts)")
+warmup        = input.int(10,     "RSI warm-up days (no signal before)")
+entryHHMM     = input.int(1555,   "Entry bar open time HHMM (ET): 5m 1555, 15m 1545, 30m 1530")
+exitHHMM      = input.int(930,    "Exit bar open time HHMM (ET)")
+
+hhmm = hour(time, "America/New_York") * 100 + minute(time, "America/New_York")
+isEntryBar = hhmm == entryHHMM
+isExitBar  = hhmm == exitHHMM
+
+var float prevClose = na
+var float avgUp = na
+var float avgDn = na
+var float rsi2 = na
+var int   nObs = 0
+if isEntryBar
+    if not na(prevClose)
+        float d  = close - prevClose
+        float up = math.max(d, 0.0)
+        float dn = math.max(-d, 0.0)
+        avgUp := na(avgUp) ? up : 0.5 * avgUp + 0.5 * up
+        avgDn := na(avgDn) ? dn : 0.5 * avgDn + 0.5 * dn
+        rsi2  := avgDn == 0 ? 100.0 : 100.0 - 100.0 / (1.0 + avgUp / avgDn)
+    prevClose := close
+    nObs += 1
+
+signal = useOverlay and not na(rsi2) and nObs > warmup and rsi2 < rsiThr
+int qty = signal ? baseContracts * signalMult : baseContracts
+
+if isEntryBar and strategy.position_size == 0
+    strategy.entry("ON", strategy.long, qty = qty, comment = signal ? str.tostring(qty) + " (signal)" : str.tostring(qty))
+
+if isExitBar and strategy.position_size > 0
+    strategy.close("ON", comment = "open")
+
+plotshape(isEntryBar and signal, title = "signal night", style = shape.triangleup, location = location.belowbar, color = color.orange, size = size.tiny)
+plot(rsi2, title = "RSI(2) of daily closes", display = display.data_window)
