@@ -1,0 +1,57 @@
+//@version=6
+// Sleeve E v2 - overnight hold with short-term-reversal sizing (10c Time Bot)
+// Buy the last regular-session bar's close (16:00 ET), sell the first bar of
+// the next session at its close (09:35 on a 5-min chart). On nights where the
+// 2-day RSI of the daily closes is below 10, size 2x.
+//
+// Load on a 5-minute (or 15/30-minute) chart of SPY / QQQ / IWM / GLD.
+// Extended-hours ON or OFF both work: bars are keyed by exchange time.
+// Audited reference (Python, same fills on the repo's 5-min data):
+//   scripts/replicate_tv_strategy.py -> results/replicate_tv_strategy_*.txt
+strategy("E v2 overnight (10c)", overlay = true, process_orders_on_close = true,
+     initial_capital = 25000, pyramiding = 0, calc_on_every_tick = false,
+     commission_type = strategy.commission.percent, commission_value = 0.01, slippage = 0)
+
+useOverlay = input.bool(true,  "RSI(2) < threshold -> multiplier")
+rsiThr     = input.float(10.0, "RSI(2) threshold")
+mult       = input.float(2.0,  "Signal multiplier")
+grossPct   = input.float(100,  "Base size, % of equity")
+entryHHMM  = input.int(1555,   "Entry bar open time HHMM (ET). 5m: 1555, 15m: 1545, 30m: 1530, 60m: 1500")
+exitHHMM   = input.int(930,    "Exit bar open time HHMM (ET)")
+
+hhmm = hour(time, "America/New_York") * 100 + minute(time, "America/New_York")
+isEntryBar = hhmm == entryHHMM
+isExitBar  = hhmm == exitHHMM
+
+// Daily close series built from the entry bar's close (what is known at 16:00),
+// Wilder RSI(2) = EWM with alpha 1/2, seeded on the first diff (matches pandas ewm adjust=false).
+var float prevClose = na
+var float avgUp = na
+var float avgDn = na
+var float rsi2 = na
+var int   nObs = 0          // daily closes seen; RSI is only trusted after warmup
+warmup = input.int(10, "RSI warm-up days (no signal before)")
+if isEntryBar
+    if not na(prevClose)
+        float d  = close - prevClose
+        float up = math.max(d, 0.0)
+        float dn = math.max(-d, 0.0)
+        avgUp := na(avgUp) ? up : 0.5 * avgUp + 0.5 * up
+        avgDn := na(avgDn) ? dn : 0.5 * avgDn + 0.5 * dn
+        rsi2  := avgDn == 0 ? 100.0 : 100.0 - 100.0 / (1.0 + avgUp / avgDn)
+    prevClose := close
+    nObs += 1
+
+signal = useOverlay and not na(rsi2) and nObs > warmup and rsi2 < rsiThr
+sizeMult = signal ? mult : 1.0
+
+if isEntryBar and strategy.position_size == 0
+    float qty = math.floor(strategy.equity * grossPct / 100.0 * sizeMult / close)
+    if qty > 0
+        strategy.entry("ON", strategy.long, qty = qty, comment = signal ? "x" + str.tostring(mult) : "x1")
+
+if isExitBar and strategy.position_size > 0
+    strategy.close("ON", comment = "open")
+
+plotshape(isEntryBar and signal, title = "signal night", style = shape.triangleup, location = location.belowbar, color = color.orange, size = size.tiny)
+plot(rsi2, title = "RSI(2) of daily closes", display = display.data_window)

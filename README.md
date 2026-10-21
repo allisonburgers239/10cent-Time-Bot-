@@ -524,6 +524,38 @@ zero on that sample. Longer 5-min history (Polygon, Databento, or
 a broker export) is required before iterating on filters; otherwise
 filter selection is overfitting to a 60-day noise window.
 
+## TradingView Strategy Tester (forward test without a broker)
+
+`pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on
+a 5-minute chart of SPY, QQQ, IWM or GLD (E3 = the same script on all four,
+one chart each; Pine strategies are single-symbol). Entry = close of the
+15:55 bar (the 16:00 print), exit = close of the 09:30 bar (09:35), RSI(2)
+of the 15:55 closes decides 1x or 2x, commission 0.01%/order.
+
+Why this is useful even though the bot has its own backtester: a strategy
+left running on a live chart keeps simulating forward on real bars, i.e. a
+forward test that needs no API credentials. It is NOT broker paper trading
+(nothing is executed) and it is NOT a substitute for the audit (one symbol,
+chart-depth data, TV's fill rules).
+
+Reference numbers to check TV against, same fills in Python on the repo's
+5-min files (`scripts/replicate_tv_strategy.py`, 2025-06-16 -> 2026-06-29,
+$25k, 256 trades each):
+
+  SPY  net +28.4%  win 58%  MaxDD -7.1%     QQQ  net +42.2%  win 56%  MaxDD -6.4%     IWM  net +27.0%  win 57%  MaxDD -13.2%
+
+Those are one bull year; the 26-year audited Sharpe is 0.56, not 2.5. If
+TV disagrees with these: 5-min chart with the 15:55 bar present, commission
+0.01% per order, "recalculate after order is filled" OFF, bar magnifier OFF,
+same date range. Half days (13:00 close) have no 15:55 bar and are skipped.
+
+Cheaper data path than manual exports: the "Claude Code Trading Bot"
+tutorial Ali shared (Steven Ace Trades, 2026-10-13) buys 16 years of NQ
+futures from Databento - that also unblocks the intraday-momentum sleeve on
+issue #3. The tutorial's method (real data with fees, unseen-year test,
+coin-flip placebo, document, combine, paper trade, size small) is this
+repo's harness.
+
 ## Quick start
 
 ```bash
