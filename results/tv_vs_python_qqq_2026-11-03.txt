@@ -1,0 +1,5 @@
+TV (margin fix): 266 entries 2025-10-20 -> 2026-11-03; 2x nights 36
+overlap 172 nights 2025-10-20 -> 2026-06-26
+signal agreement: 100.0%  (TV 2x nights 19, Python 19, both 19)
+per-night return corr TV vs Python 0.9986; mean |diff| 2.8bp (TV net of 2bp commission; BATS prices dividend-adjusted)
+overlap cumulative: TV +11.1% (per-trade returns, 1x/2x already in TV's Return%)   Python +21.8%

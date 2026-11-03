@@ -14,7 +14,8 @@
 strategy("E v2 overnight MNQ (10c)", overlay = true, process_orders_on_close = true,
      initial_capital = 25000, pyramiding = 0, calc_on_every_tick = false,
      commission_type = strategy.commission.cash_per_contract, commission_value = 0.62,
-     slippage = 1, default_qty_type = strategy.fixed, default_qty_value = 1)
+     slippage = 1, default_qty_type = strategy.fixed, default_qty_value = 1,
+     margin_long = 5, margin_short = 5)   // futures margin ~$1.5k per MNQ; without this TV rejects a 2-contract night on a $25k account
 
 useOverlay    = input.bool(true,  "RSI(2) < threshold -> extra contracts")
 rsiThr        = input.float(10.0, "RSI(2) threshold")

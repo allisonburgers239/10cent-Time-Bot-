@@ -10,7 +10,8 @@
 //   scripts/replicate_tv_strategy.py -> results/replicate_tv_strategy_*.txt
 strategy("E v2 overnight (10c)", overlay = true, process_orders_on_close = true,
      initial_capital = 25000, pyramiding = 0, calc_on_every_tick = false,
-     commission_type = strategy.commission.percent, commission_value = 0.01, slippage = 0)
+     commission_type = strategy.commission.percent, commission_value = 0.01, slippage = 0,
+     margin_long = 50, margin_short = 50)   // 2x nights exceed equity; TV rejects orders above 100% margin unless this is set
 
 useOverlay = input.bool(true,  "RSI(2) < threshold -> multiplier")
 rsiThr     = input.float(10.0, "RSI(2) threshold")
