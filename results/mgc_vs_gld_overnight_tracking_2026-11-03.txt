@@ -1,0 +1,9 @@
+MGC1! vs GLD overnight tracking check (issue #3 P3)
+Source: COMEX_MINI_MGC1!, 5.csv (TradingView chart export, 2026-07-19 -> 2026-11-03), GLD daily from yfinance.
+MGC overnight = 15:55 bar close -> next session 09:30 bar close (the Pine/E v2 fill rule).
+GLD overnight = daily close -> next daily open.
+
+nights 75   corr 0.9932   beta MGC~GLD 1.019   mean/night MGC +0.02% GLD +0.03%   sum MGC +1.6% GLD +2.2%
+
+Verdict: MGC tracks GLD's overnight return (corr 0.99, beta 1.0). E3's gold leg can be traded as MGC
+once account size allows 1 contract (~$40k notional at $3,940); below that, GLD shares.

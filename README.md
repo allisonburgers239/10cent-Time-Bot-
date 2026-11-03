@@ -579,6 +579,35 @@ TV disagrees with these: 5-min chart with the 15:55 bar present, commission
 0.01% per order, "recalculate after order is filled" OFF, bar magnifier OFF,
 same date range. Half days (13:00 close) have no 15:55 bar and are skipped.
 
+Verified in TradingView on 2026-11-03 (loaded through the browser into the
+team account, QQQ 5-min, chart depth 2025-10-20 -> 2026-11-03):
+
+  QQQ  net +25.7%  MaxDD -9.0%  265 trades  win 51%  PF 1.25  commission load 5.2%
+
+Python replica on the same nights: signal agreement 100%, per-night return
+correlation 0.9986 (`results/tv_vs_python_qqq_2026-11-03.txt`). One finding
+that cost an afternoon: **TradingView silently drops any order larger than
+equity unless the strategy declares margin** - the 2x nights never fired
+until `margin_long = 50, margin_short = 50` (shares) / `5` (MNQ) went into the
+`strategy()` call. Both Pine files now carry it; without it the tester
+shows 1x only and quietly disagrees with the Python.
+
+MNQ (`pine/e_v2_overnight_mnq.pine`, 1 contract / 2 on signal, chart depth
+2026-07-19 -> 2026-11-03): +0.7%, MaxDD -19.9%, 75 trades, PF 1.00. Three and
+a half months of a 2.4x-levered single index says nothing yet; it is the
+forward test, not evidence.
+
+Both strategies are saved in the team TradingView account ("E v2 overnight
+(10c)", "E v2 overnight MNQ (10c)") and the QQQ one runs on the layout
+"10c E v2 QQQ forward test". Leave that tab open; the trade list is the
+forward log.
+
+Chart-data export cap (relevant to issue #3): "Download chart data" writes
+the bars loaded on the chart, and a chart loads ~20k bars at most. So
+60-min SPY reaches 2015, 30-min SPY (regular hours) 2020, and 30-min ES1!
+(23-hour sessions) only 2025. Deeper intraday futures history needs
+Databento, not TradingView.
+
 Cheaper data path than manual exports: the "Claude Code Trading Bot"
 tutorial Ali shared (Steven Ace Trades, 2026-10-13) buys 16 years of NQ
 futures from Databento - that also unblocks the intraday-momentum sleeve on
