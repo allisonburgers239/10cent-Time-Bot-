@@ -554,6 +554,31 @@ zero on that sample. Longer 5-min history (Polygon, Databento, or
 a broker export) is required before iterating on filters; otherwise
 filter selection is overfitting to a 60-day noise window.
 
+### Retail-bot strategies screened on the new intraday data (2026-11-03)
+
+With the issue #3 exports in hand (30-min SPY 2020-, ES regular-hours 2021-,
+60-min SPY/QQQ/IWM 2015-) the strategies that retail bots and TradingView
+scripts most often run were tested the same way as the sleeves, 1 bp per side,
+per-year P&L shown so one good year cannot hide
+(`scripts/screen_retail_bot_strategies.py`, `results/retail_bot_strategies_2026-11-03.txt`):
+
+| Strategy | Best cell | Verdict |
+|---|---|---|
+| Intraday momentum (first 30 min -> last 30 min, Gao et al. 2018) | corr -0.07 on SPY: the sign has flipped | dead; fading it loses too after costs |
+| Opening-range breakout (30/60-min range, stop far side, 1% risk) | Sharpe 0.08 SPY | nothing; 2026 -33% |
+| Supertrend(10,3) long/flat | Sharpe 0.89 QQQ 60m vs 0.83 buy-and-hold | a trend filter, not an edge; long/short ~0 everywhere |
+| Monday-range breakout / fade (Ali's script) | breakout Sharpe 0.49 QQQ, negative 2025-26 | nothing; the fade is negative everywhere |
+| Fair value gap, continuation and return-to-gap (Ali's FVG script) | Sharpe -2 to -3 on SPY/ES 30-min | strongly negative; the gap direction is *anti*-predictive at 30 min |
+
+The same day's survey of where bot and AI traders make money
+(`results/bot_landscape_survey_2026-11-03.md`) says the same thing from the
+outside: every named retail strategy with a following has failed an honest
+costed replication, published predictors lose about half their return after
+publication, the one retail-open bot edge with real evidence (crypto funding
+carry) is our already-shelved Sleeve C, and live LLM-agent trading has no
+audited track record. Our two kept sleeves are slow, structural and decades
+old, which is the kind that survives.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

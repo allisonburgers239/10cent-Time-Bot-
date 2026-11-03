@@ -1,0 +1,105 @@
+
+=== Intraday momentum: sign(first bar) -> last bar, 1bp/side ===
+  SPY 30m momentum                   n  1706  Sharpe -1.26  ann   -7.1%  hit 0.433  worst-yr -13.6%  corr(first,last) -0.065
+      by year: 2020:-8.7 2021:-7.0 2022:-13.6 2023:-0.2 2024:-8.3 2025:-3.6 2026:-6.4
+  SPY 30m fade                       n  1706  Sharpe -0.54  ann   -3.0%  hit 0.461  worst-yr -9.7%  
+      by year: 2020:-1.3 2021:-3.0 2022:+3.6 2023:-9.7 2024:-1.7 2025:-6.3 2026:-2.0
+  ES RTH 30m momentum                n  1455  Sharpe -1.64  ann   -6.0%  hit 0.426  worst-yr -10.7%  corr(first,last) -0.011
+      by year: 2021:-5.0 2022:-10.4 2023:-1.3 2024:-10.7 2025:-3.8 2026:-3.7
+  ES RTH 30m fade                    n  1455  Sharpe -1.10  ann   -4.0%  hit 0.453  worst-yr -8.6%  
+      by year: 2021:-5.0 2022:+0.4 2023:-8.6 2024:+0.7 2025:-6.1 2026:-4.8
+  SPY 60m momentum                   n  2956  Sharpe -1.36  ann   -6.6%  hit 0.429  worst-yr -13.0%  corr(first,last) +0.014
+      by year: 2015:-1.9 2016:-5.0 2017:-5.3 2018:-13.0 2019:-6.6 2020:-12.5 2021:-8.0 2022:-6.9 2023:-3.4 2024:-5.2 2025:-2.1 2026:-7.4
+  SPY 60m fade                       n  2956  Sharpe -0.73  ann   -3.5%  hit 0.455  worst-yr -8.1%  
+      by year: 2015:-8.1 2016:-5.1 2017:-4.7 2018:+3.1 2019:-3.4 2020:+2.5 2021:-2.1 2022:-3.2 2023:-6.5 2024:-4.8 2025:-7.8 2026:-1.1
+  QQQ 60m momentum                   n  2955  Sharpe -1.15  ann   -6.3%  hit 0.445  worst-yr -15.3%  corr(first,last) +0.024
+      by year: 2015:-3.0 2016:-10.6 2017:-4.4 2018:-9.8 2019:-3.6 2020:-6.2 2021:-15.3 2022:-7.6 2023:-3.5 2024:-3.5 2025:+2.6 2026:-9.1
+  QQQ 60m fade                       n  2955  Sharpe -0.69  ann   -3.8%  hit 0.464  worst-yr -12.5%  
+      by year: 2015:-6.9 2016:+0.6 2017:-5.5 2018:-0.2 2019:-6.4 2020:-3.9 2021:+5.3 2022:-2.4 2023:-6.4 2024:-6.5 2025:-12.5 2026:+0.6
+  IWM 60m momentum                   n  2954  Sharpe -0.92  ann   -4.7%  hit 0.464  worst-yr -14.5%  corr(first,last) +0.015
+      by year: 2015:+0.8 2016:+7.7 2017:-6.0 2018:-8.1 2019:-5.8 2020:-9.0 2021:-7.4 2022:-14.5 2023:-3.9 2024:-1.6 2025:-3.2 2026:-4.1
+  IWM 60m fade                       n  2954  Sharpe -1.05  ann   -5.4%  hit 0.454  worst-yr -17.8%  
+      by year: 2015:-10.7 2016:-17.8 2017:-3.9 2018:-1.8 2019:-4.1 2020:-1.1 2021:-2.6 2022:+4.5 2023:-6.0 2024:-8.4 2025:-6.6 2026:-4.4
+
+=== Opening-range breakout (30-min OR, stop = far side, exit at close, 1% risk, 4x cap) ===
+  SPY 30m ORB-30 long+short          n  1717  Sharpe +0.08  ann   +1.8%  hit 0.342  worst-yr -33.2%  
+      by year: 2020:+7.5 2021:+7.8 2022:+14.7 2023:+7.4 2024:+0.6 2025:+7.7 2026:-33.2
+  SPY 30m ORB-30 long side only      n   898  Sharpe -0.22  ann   -4.4%  hit 0.371  worst-yr -18.8%  
+      by year: 2020:+4.3 2021:+6.1 2022:-4.6 2023:-3.1 2024:+1.6 2025:-0.8 2026:-18.8
+  SPY 30m ORB-30 short side only     n   806  Sharpe +0.27  ann   +6.9%  hit 0.306  worst-yr -14.4%  
+      by year: 2020:+5.0 2021:+0.7 2022:+19.6 2023:+10.8 2024:-5.6 2025:+5.8 2026:-14.4
+  ES RTH 30m ORB-30 long+short       n  1452  Sharpe -0.28  ann   -5.6%  hit 0.340  worst-yr -27.8%  
+      by year: 2021:+5.9 2022:+1.2 2023:-1.7 2024:-10.2 2025:+0.5 2026:-27.8
+  ES RTH 30m ORB-30 long side only   n   769  Sharpe -0.57  ann  -10.4%  hit 0.364  worst-yr -14.6%  
+      by year: 2021:+6.7 2022:-9.8 2023:-1.9 2024:-7.2 2025:-5.1 2026:-14.6
+  ES RTH 30m ORB-30 short side only  n   672  Sharpe -0.18  ann   -4.0%  hit 0.305  worst-yr -13.2%  
+      by year: 2021:-4.8 2022:+11.1 2023:+0.4 2024:-7.4 2025:+3.3 2026:-13.2
+  SPY 60m ORB-60 long+short          n  2963  Sharpe -0.33  ann   -6.1%  hit 0.394  worst-yr -30.8%  
+      by year: 2015:-23.7 2016:-8.3 2017:-8.6 2018:-4.4 2019:-30.8 2020:-3.9 2021:-8.5 2022:+17.8 2023:+8.5 2024:+5.1 2025:+15.5 2026:-30.0
+  QQQ 60m ORB-60 long+short          n  2969  Sharpe +0.02  ann   +0.4%  hit 0.433  worst-yr -19.4%  
+      by year: 2015:-17.2 2016:-14.7 2017:-18.1 2018:-9.4 2019:-3.9 2020:-19.4 2021:+0.3 2022:+29.3 2023:+19.4 2024:+24.6 2025:+20.4 2026:-6.5
+  IWM 60m ORB-60 long+short          n  2966  Sharpe -0.00  ann   -0.0%  hit 0.442  worst-yr -33.4%  
+      by year: 2015:-33.4 2016:+31.3 2017:+1.4 2018:-13.8 2019:-10.5 2020:+0.4 2021:+9.6 2022:+6.9 2023:+11.9 2024:-8.5 2025:+22.5 2026:-17.9
+
+=== Supertrend(10, 3): long/flat and long/short, 1bp/side per flip ===
+  SPY 60m long/flat                  n  2977  Sharpe +0.58  ann   +6.2%  hit 0.364  worst-yr -11.0%  vs buy&hold Sharpe +0.70
+      by year: 2015:-11.0 2016:+3.8 2017:+1.7 2018:+10.5 2019:+6.8 2020:+20.3 2021:+0.5 2022:+2.8 2023:+11.4 2024:+12.8 2025:+12.1 2026:+1.6
+  SPY 60m long/short                 n  2977  Sharpe +0.00  ann   +0.0%  hit 0.496  worst-yr -23.7%  
+      by year: 2015:-22.0 2016:-2.4 2017:-14.5 2018:+26.3 2019:-12.3 2020:+20.7 2021:-23.7 2022:+24.5 2023:+0.2 2024:+3.9 2025:+7.4 2026:-7.5
+  QQQ 60m long/flat                  n  2977  Sharpe +0.89  ann  +12.0%  hit 0.378  worst-yr -11.8%  vs buy&hold Sharpe +0.83
+      by year: 2015:+0.1 2016:+11.6 2017:+15.6 2018:+11.8 2019:+8.0 2020:+45.5 2021:+8.1 2022:-11.8 2023:+24.9 2024:+13.2 2025:+13.0 2026:+1.4
+  QQQ 60m long/short                 n  2977  Sharpe +0.28  ann   +5.8%  hit 0.511  worst-yr -17.3%  
+      by year: 2015:-9.0 2016:+16.2 2017:+3.4 2018:+22.5 2019:-17.3 2020:+46.7 2021:-9.0 2022:+12.0 2023:+5.4 2024:+2.6 2025:+5.1 2026:-9.8
+  IWM 60m long/flat                  n  2977  Sharpe +0.22  ann   +3.2%  hit 0.322  worst-yr -21.1%  vs buy&hold Sharpe +0.43
+      by year: 2015:-11.9 2016:+17.6 2017:-9.4 2018:+10.4 2019:+3.5 2020:+25.6 2021:+9.3 2022:-21.1 2023:+2.0 2024:+8.9 2025:+6.0 2026:-3.6
+  IWM 60m long/short                 n  2977  Sharpe -0.15  ann   -3.4%  hit 0.490  worst-yr -31.8%  
+      by year: 2015:-19.0 2016:+15.7 2017:-31.8 2018:+32.4 2019:-15.6 2020:+26.3 2021:+3.4 2022:-21.9 2023:-12.2 2024:+5.9 2025:-1.6 2026:-21.6
+  SPY daily long/flat                n  8498  Sharpe +0.46  ann   +5.0%  | long/short Sharpe -0.11  | buy&hold Sharpe +0.64  since 1993-01-29
+  QQQ daily long/flat                n  6956  Sharpe +0.44  ann   +6.8%  | long/short Sharpe +0.00  | buy&hold Sharpe +0.51  since 1999-03-10
+  IWM daily long/flat                n  6648  Sharpe +0.43  ann   +6.2%  | long/short Sharpe +0.06  | buy&hold Sharpe +0.46  since 2000-05-26
+  GLD daily long/flat                n  5523  Sharpe +0.46  ann   +5.9%  | long/short Sharpe +0.03  | buy&hold Sharpe +0.61  since 2004-11-18
+  BTC-USD daily long/flat            n  4430  Sharpe +0.98  ann  +42.6%  | long/short Sharpe +0.32  | buy&hold Sharpe +0.97  since 2014-09-17
+
+=== Monday range: breakout (stop mid, exit Fri) and fade (target mid), 1% risk, 4x cap, weekly ===
+  SPY 60m break                      weeks  551  Sharpe +0.26  ann   +3.2%  hit 0.352  worst-yr -17.0%
+      by year: 2015:+12.5 2016:+13.3 2017:-5.9 2018:+6.7 2019:+8.5 2020:+5.0 2021:+1.4 2022:-15.6 2023:+14.9 2024:+7.4 2025:+2.8 2026:-17.0
+  SPY 60m fade                       weeks  551  Sharpe -0.37  ann   -2.3%  hit 0.534  worst-yr -10.8%
+      by year: 2015:-8.1 2016:-6.6 2017:-1.6 2018:-0.0 2019:-1.5 2020:-0.2 2021:-3.6 2022:+11.7 2023:-4.4 2024:-2.1 2025:-10.8 2026:+2.6
+  QQQ 60m break                      weeks  546  Sharpe +0.49  ann   +6.2%  hit 0.381  worst-yr -11.0%
+      by year: 2015:+6.1 2016:+12.1 2017:+13.8 2018:+9.4 2019:-2.7 2020:+2.5 2021:+8.9 2022:-8.4 2023:+26.8 2024:+12.3 2025:-4.7 2026:-11.0
+  QQQ 60m fade                       weeks  546  Sharpe -0.23  ann   -1.4%  hit 0.524  worst-yr -10.6%
+      by year: 2015:-1.4 2016:-2.3 2017:-1.6 2018:-2.5 2019:+3.3 2020:-10.6 2021:-1.2 2022:+12.1 2023:-8.5 2024:+1.3 2025:-4.8 2026:+1.0
+  IWM 60m break                      weeks  555  Sharpe +0.20  ann   +2.2%  hit 0.380  worst-yr -11.0%
+      by year: 2015:-8.7 2016:+18.0 2017:-10.5 2018:-5.0 2019:+8.1 2020:+1.1 2021:+19.2 2022:-11.0 2023:+13.1 2024:+9.2 2025:-3.8 2026:-6.4
+  IWM 60m fade                       weeks  555  Sharpe -0.39  ann   -2.4%  hit 0.533  worst-yr -8.5%
+      by year: 2015:+6.8 2016:-8.2 2017:-3.0 2018:-2.3 2019:-4.0 2020:-1.6 2021:-8.5 2022:+3.6 2023:-3.6 2024:-0.2 2025:+0.0 2026:-4.5
+  ES RTH 30m break                   weeks  272  Sharpe -0.12  ann   -1.5%  hit 0.298  worst-yr -24.1%
+      by year: 2021:+7.0 2022:-24.1 2023:+17.0 2024:+8.2 2025:+2.0 2026:-18.1
+  ES RTH 30m fade                    weeks  272  Sharpe -0.11  ann   -0.7%  hit 0.574  worst-yr -8.6%
+      by year: 2021:-7.8 2022:+17.3 2023:-5.0 2024:-1.5 2025:-8.6 2026:+2.1
+
+=== Fair value gap (ICT): 3-bar imbalance, continuation vs return-to-gap entry, 1bp/side ===
+  SPY 30m FVG continue hold 1 bars   n  1672  Sharpe -2.16  ann  -15.6%  hit 0.419  worst-yr -22.4%  trades 6058 per-trade -1.7 bps
+      by year: 2020:-22.4 2021:-0.2 2022:-17.0 2023:-8.9 2024:-15.2 2025:-21.9 2026:-18.2
+  SPY 30m FVG continue hold 4 bars   n  1672  Sharpe -0.94  ann  -19.2%  hit 0.456  worst-yr -33.3%  trades 6057 per-trade -2.1 bps
+      by year: 2020:-5.7 2021:+8.1 2022:-23.2 2023:-33.3 2024:-32.0 2025:-19.8 2026:-21.3
+  SPY 30m FVG fill hold 1 bars       n  1576  Sharpe -0.71  ann   -6.1%  hit 0.456  worst-yr -13.8%  trades 3523 per-trade -1.1 bps
+      by year: 2020:+21.8 2021:-7.3 2022:-8.4 2023:-9.9 2024:-13.8 2025:-13.2 2026:-7.5
+  SPY 30m FVG fill hold 4 bars       n  1576  Sharpe -0.57  ann   -9.4%  hit 0.488  worst-yr -22.5%  trades 3523 per-trade -1.7 bps
+      by year: 2020:+27.6 2021:-9.4 2022:-1.5 2023:-22.5 2024:-21.2 2025:-22.3 2026:-9.7
+  ES RTH 30m FVG continue hold 1 bars n  1434  Sharpe -3.05  ann  -18.2%  hit 0.404  worst-yr -27.8%  trades 5513 per-trade -1.9 bps
+      by year: 2021:-7.9 2022:-19.7 2023:-10.8 2024:-17.8 2025:-27.8 2026:-19.7
+  ES RTH 30m FVG continue hold 4 bars n  1434  Sharpe -1.48  ann  -23.9%  hit 0.446  worst-yr -33.3%  trades 5512 per-trade -2.5 bps
+      by year: 2021:+8.3 2022:-28.1 2023:-31.0 2024:-33.3 2025:-28.1 2026:-24.0
+  ES RTH 30m FVG fill hold 1 bars    n  1334  Sharpe -2.57  ann  -13.5%  hit 0.400  worst-yr -14.9%  trades 2990 per-trade -2.4 bps
+      by year: 2021:-12.2 2022:-11.7 2023:-13.2 2024:-12.2 2025:-14.9 2026:-7.4
+  ES RTH 30m FVG fill hold 4 bars    n  1334  Sharpe -1.63  ann  -20.0%  hit 0.451  worst-yr -25.7%  trades 2990 per-trade -3.5 bps
+      by year: 2021:-9.1 2022:-22.6 2023:-25.7 2024:-22.6 2025:-17.9 2026:-7.8
+  QQQ 60m FVG continue hold 1 bars   n  2602  Sharpe -1.19  ann  -11.7%  hit 0.465  worst-yr -25.8%  trades 6074 per-trade -2.0 bps
+      by year: 2015:-9.6 2016:-8.1 2017:-6.7 2018:-3.6 2019:-3.4 2020:-22.5 2021:+0.5 2022:-25.8 2023:-15.7 2024:-10.0 2025:-13.2 2026:-3.2
+  QQQ 60m FVG continue hold 4 bars   n  2602  Sharpe +0.25  ann   +5.9%  hit 0.509  worst-yr -26.0%  trades 6074 per-trade +1.0 bps
+      by year: 2015:+16.4 2016:-26.0 2017:+7.6 2018:+32.1 2019:+2.7 2020:+15.3 2021:+12.2 2022:-1.5 2023:-10.3 2024:+7.6 2025:-21.4 2026:+26.6
+  QQQ 60m FVG fill hold 1 bars       n  1884  Sharpe +0.11  ann   +1.2%  hit 0.503  worst-yr -9.9%  trades 2654 per-trade +0.3 bps
+      by year: 2015:-6.5 2016:-9.9 2017:-1.9 2018:-9.1 2019:-2.4 2020:+35.0 2021:+3.5 2022:+13.2 2023:-5.4 2024:-4.2 2025:-5.9 2026:+2.7
+  QQQ 60m FVG fill hold 4 bars       n  1884  Sharpe +0.45  ann   +8.1%  hit 0.527  worst-yr -20.9%  trades 2654 per-trade +2.3 bps
+      by year: 2015:+15.7 2016:-20.9 2017:-6.3 2018:-7.0 2019:-3.3 2020:+44.4 2021:+4.8 2022:+25.9 2023:+7.2 2024:-3.5 2025:-12.9 2026:+16.5
