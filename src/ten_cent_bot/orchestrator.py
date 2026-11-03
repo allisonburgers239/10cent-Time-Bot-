@@ -192,3 +192,27 @@ def save_state(path: Path, positions: dict[str, int], account_equity: float) -> 
             indent=2,
         )
     )
+
+
+def drawdown_gate(
+    equity: pd.Series | None,
+    alert_dd: float = 0.15,
+    stop_dd: float = 0.25,
+) -> tuple[bool, str | None, str | None]:
+    """Sleeve-level circuit breaker that does not pretend to time the sleeve.
+
+    Returns (allowed, block_reason, alert).  Blocks only on a catastrophic
+    drawdown from the equity-history peak (`stop_dd`), which is a
+    "something is broken, a human looks" bound, not a trading signal.  Emits
+    an alert at `alert_dd`.  The 2026-11-03 audit showed the old 30-day-Sharpe
+    rule would have kept Sleeve E off 75% of the time; this replaces it for
+    both tickets.
+    """
+    if equity is None or len(equity) < 2:
+        return True, None, None
+    dd = float(equity.iloc[-1] / equity.cummax().iloc[-1] - 1)
+    if dd <= -stop_dd:
+        return False, f"sleeve drawdown {dd:.1%} <= -{stop_dd:.0%}: STOP and review", f"drawdown {dd:.1%}"
+    if dd <= -alert_dd:
+        return True, None, f"REVIEW: sleeve drawdown {dd:.1%} (alert at -{alert_dd:.0%}, stop at -{stop_dd:.0%})"
+    return True, None, None

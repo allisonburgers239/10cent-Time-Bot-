@@ -90,12 +90,28 @@ economic value is now formally supported.
 - Indicators whose alpha source is unspecified
 - Anything that can't be backtested
 
-## Risk rules (hard-coded)
+## Risk and operating rules (what is actually implemented, 2026-11-03)
 
-- 1% risk per trade
-- 2% daily loss cap - flatten and stop
-- No-trade window for high-impact macro events (FOMC, CPI, NFP +/- 30 min)
-- Sleeve kill-switch on 30-day rolling Sharpe < 0.3
+The original list ("1% risk per trade, 2% daily loss cap, macro blackout,
+30-day Sharpe kill switch") was aspirational: nothing fed the kill switch
+and nothing enforced the cap. `scripts/audit_e_cooldown.py` measured each
+rule on Sleeve E's history before wiring anything:
+
+| Rule | Measured on E v2 (2000-2026) | Status |
+|---|---|---|
+| 2% daily loss cap, applied as "skip the next entry after a >2% night" | Sharpe 0.56 -> 0.60, worst night -12% -> -10% (E3 v2: 0.67 -> 0.60) | **Wired** in `daily_overnight_ticket.py` (`risk.daily_loss_cap_hit`) |
+| 30-day rolling Sharpe < 0.3 -> sleeve off (`orchestrator.risk_gate`) | Sleeve off 75% of days; CAGR 8.8% -> 2.3%, Sharpe 0.56 -> 0.40 | **Not wired. Wrong rule for a daily sleeve** (and a 30-day window is meaningless for monthly B). Kept in code for tests only |
+| Drawdown circuit breaker (off at -15/-20/-25%, on at a new 120d high) | Sits out most of the sample; E's crashes recover too fast for any auto-off rule (see the VIX-regime diagnostic: the edge is largest right after drops) | **Not wired as auto-off** |
+| **Drawdown gate: alert at -15%, hard stop at -25% from the equity-history peak** (`orchestrator.drawdown_gate`) | Never triggered historically on E v2 (MaxDD -31% at 1x would have: that is the point - a human looks) | **Wired** in both tickets; needs `data/equity_history.csv`, which both tickets now append |
+| Stale / implausible quote at order time | n/a | **Wired**: no trade if the last 1-min bar is >10 min old or the quote moved >8% vs prior close (`risk.price_is_fresh`, `price_is_plausible`) |
+| NYSE holiday + early-close calendar (`calendar_nyse.py`) | n/a | **Wired**: no ticket on non-trading days; early-close days warn to run at 12:50 |
+| Futures contract rolls (`rolls.py`) | n/a | **Wired** in `monthly_rebalance.py`: tracks the contract month per position in `data/state.json`, prints ROLL orders when the held month is past its roll date (equity index 8 days before 3rd Friday, energy/rates ~17th of the month before, metals/grains ~3 days before prior month-end) |
+| 1% risk per trade | not applicable to B/E as sized (vol-targeted / 1x notional) | Unchanged; `risk.position_size` exists for stop-based sleeves only |
+| Macro-event blackout (FOMC/CPI/NFP +/-30 min) | E enters at 16:00 and exits 09:30, outside every window | Not needed for E; relevant only to a future intraday sleeve |
+
+Equity history is the one new operational input: run each ticket daily /
+monthly and `data/equity_history.csv` accumulates; the drawdown gate works
+from the second entry.
 
 ## Status
 

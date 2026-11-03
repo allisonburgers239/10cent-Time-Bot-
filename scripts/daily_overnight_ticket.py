@@ -33,9 +33,14 @@ from pathlib import Path
 import pandas as pd
 
 from ten_cent_bot import overnight as ov
+from ten_cent_bot import calendar_nyse as cal
 from ten_cent_bot.contracts import CONTRACTS
+from ten_cent_bot.orchestrator import drawdown_gate
+from ten_cent_bot.risk import daily_loss_cap_hit, price_is_fresh, price_is_plausible
+from ten_cent_bot.state import append_equity, load_equity_history
 
 ROOT = Path(__file__).resolve().parents[1]
+EQUITY_FILE = ROOT / "data" / "equity_history.csv"
 BASKETS = {"e": ov.E_TICKERS, "e3": ov.E3_TICKERS}
 FUT_MAP = {"SPY": ("MES", "ES=F", 10.0), "QQQ": ("MNQ", "NQ=F", 40.0), "IWM": ("M2K", "RTY=F", 10.0), "GLD": ("MGC", "GC=F", 10.0)}
 #  (micro symbol, futures price ticker, approx ETF->futures price ratio used only as a fallback)
@@ -108,12 +113,13 @@ def fetch(tickers: list[str]) -> tuple[dict, dict, dict]:
     import yfinance as yf
     hist = yf.download(tickers, period="90d", interval="1d", auto_adjust=True, progress=False)["Close"]
     closes = {t: hist[t].dropna() for t in tickers}
-    last = {}
+    last = {}; last_time = {}
     for t in tickers:
         try:
-            last[t] = float(yf.Ticker(t).fast_info["last_price"])
+            m1 = yf.Ticker(t).history(period="1d", interval="1m")
+            last[t] = float(m1["Close"].iloc[-1]); last_time[t] = pd.Timestamp(m1.index[-1]).tz_convert("America/New_York").tz_localize(None)
         except Exception:
-            last[t] = float(closes[t].iloc[-1])
+            last[t] = float(closes[t].iloc[-1]); last_time[t] = pd.Timestamp("1970-01-01")
     futs = {}
     for t in tickers:
         _, ft, _ = FUT_MAP[t]
@@ -126,7 +132,7 @@ def fetch(tickers: list[str]) -> tuple[dict, dict, dict]:
     for t in tickers:
         closes[t].index = pd.to_datetime(closes[t].index).tz_localize(None).normalize()
         closes[t] = closes[t][closes[t].index < today]
-    return closes, last, futs
+    return closes, last, futs, last_time
 
 
 def main() -> int:
@@ -137,14 +143,41 @@ def main() -> int:
     p.add_argument("--rail", choices=("futures", "etf"), default="futures")
     p.add_argument("--gross", type=float, default=1.0, help="gross exposure target as a multiple of equity (audited: 1.0)")
     a = p.parse_args()
-    closes, last, futs = fetch(BASKETS[a.basket])
+    closes, last, futs, last_time = fetch(BASKETS[a.basket])
     legs = plan_overnight(closes, last, a.equity, a.basket, a.overlay, a.rail, futs, a.gross)
     txt = ticket(legs, a.equity, a.basket, a.overlay, a.rail)
+
+    # ---- operating gates (fail closed) ------------------------------------
+    today = datetime.now(timezone.utc).astimezone().date()
+    blocks: list[str] = []; warns: list[str] = []
+    if not cal.is_trading_day(today):
+        blocks.append(f"{today} is not an NYSE trading day")
+    elif cal.is_early_close(today):
+        warns.append("EARLY CLOSE today (13:00 ET): the entry print is 13:00, run this at 12:50")
+    now_et = pd.Timestamp.now(tz="America/New_York").tz_localize(None)
+    for t in BASKETS[a.basket]:
+        ok, why = price_is_fresh(last_time[t], now_et, 10)
+        if not ok: blocks.append(f"{t}: {why}")
+        ok, why = price_is_plausible(last[t], float(closes[t].iloc[-1]), 0.08)
+        if not ok: blocks.append(f"{t}: {why}")
+    hist = load_equity_history(EQUITY_FILE)
+    hit, why = daily_loss_cap_hit(hist, 0.02)
+    if hit: blocks.append(why)
+    allowed, why, alert = drawdown_gate(hist, alert_dd=0.15, stop_dd=0.25)
+    if not allowed: blocks.append(why)
+    elif alert: warns.append(alert)
+    if hist is None or len(hist) < 2:
+        warns.append("equity history is empty; drawdown gate starts working from the second run")
+    append_equity(EQUITY_FILE, a.equity, today)
+
     print(txt)
+    for w in warns: print(f"WARNING: {w}")
+    if blocks:
+        print("\n!! NO TRADE TONIGHT:"); [print(f"   - {b}") for b in blocks]
     out = ROOT / "data" / "last_overnight_ticket.json"
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps({"generated": datetime.now(timezone.utc).isoformat(), "equity": a.equity, "basket": a.basket, "overlay": a.overlay, "rail": a.rail,
-                               "legs": [L.__dict__ for L in legs]}, indent=2, default=float))
+                               "legs": [L.__dict__ for L in legs], "blocked": blocks, "warnings": warns}, indent=2, default=float))
     return 0
 
 

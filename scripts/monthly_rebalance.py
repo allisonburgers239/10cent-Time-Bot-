@@ -17,6 +17,7 @@ Cron suggestion (1st trading day of month, after close):
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -24,7 +25,9 @@ import pandas as pd
 import yfinance as yf
 
 from ten_cent_bot.contracts import CONTRACTS, DEPLOYMENT_BASKET
+from ten_cent_bot import rolls
 from ten_cent_bot.orchestrator import (
+    drawdown_gate,
     load_state,
     plan_rebalance,
     save_state,
@@ -33,6 +36,7 @@ from ten_cent_bot.tsmom import TSMOMConfig
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_STATE_FILE = ROOT / "data" / "state.json"
+EQUITY_FILE = ROOT / "data" / "equity_history.csv"
 
 
 def fetch_monthly_prices(basket: list[str]) -> tuple[pd.DataFrame, dict[str, float]]:
@@ -151,7 +155,38 @@ def main() -> int:
 
     print("\n" + plan.trade_ticket())
 
-    if not plan.orders:
+    # ---- operating rules (2026-11-03) --------------------------------------
+    from ten_cent_bot.state import append_equity, load_equity_history
+    import datetime as _dt
+    hist = load_equity_history(EQUITY_FILE)
+    allowed, why, alert = drawdown_gate(hist, alert_dd=0.15, stop_dd=0.25)
+    append_equity(EQUITY_FILE, float(account_equity), _dt.date.today())
+    if alert:
+        print(f"\nWARNING: {alert}")
+    if not allowed:
+        print(f"\n!! NO REBALANCE: {why}")
+        return 0
+
+    # contract rolls: which month each held position should be in
+    today = _dt.date.today()
+    held_contracts = {} if args.source != "file" else dict(load_state(args.state_file).get("contracts", {}))
+    roll_lines = []
+    new_contracts = {}
+    for sym in basket:
+        y, mth = rolls.active_contract(sym, today)
+        active = rolls.contract_symbol(sym, y, mth)
+        new_contracts[sym] = active
+        held = held_contracts.get(sym)
+        qty = current_positions.get(sym, 0)
+        if held and held != active and qty != 0 and rolls.roll_due(sym, held, today):
+            side_out, side_in = ("SELL", "BUY") if qty > 0 else ("BUY", "SELL")
+            roll_lines.append(f"  ROLL {sym}: {side_out} {abs(qty)} {held}  ->  {side_in} {abs(qty)} {active}")
+    print("\nContract months: " + ", ".join(f"{s}={c}" for s, c in new_contracts.items()))
+    if roll_lines:
+        print("Rolls due BEFORE the rebalance orders:")
+        print("\n".join(roll_lines))
+
+    if not plan.orders and not roll_lines:
         return 0
 
     if args.auto_fire:
@@ -179,7 +214,9 @@ def main() -> int:
             delta = o.qty if o.side == "BUY" else -o.qty
             new_positions[o.symbol] = new_positions.get(o.symbol, 0) + delta
         save_state(args.state_file, new_positions, float(account_equity))
-        print(f"\nState updated: {args.state_file}")
+        st = load_state(args.state_file); st["contracts"] = new_contracts
+        args.state_file.write_text(json.dumps(st, indent=2))
+        print(f"\nState updated: {args.state_file} (positions + contract months)")
 
     return 0
 
