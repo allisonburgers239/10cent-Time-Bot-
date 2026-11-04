@@ -142,9 +142,18 @@ def main() -> int:
     p.add_argument("--overlay", choices=("none", "v2"), default="v2")
     p.add_argument("--rail", choices=("futures", "etf"), default="futures")
     p.add_argument("--gross", type=float, default=1.0, help="gross exposure target as a multiple of equity (audited: 1.0)")
+    p.add_argument("--vol-scale", choices=("none", "vix"), default="none", help="size every leg by min(2, 20/VIX) using the latest VIX quote (screened 2026-11-04, off by default)")
     a = p.parse_args()
     closes, last, futs, last_time = fetch(BASKETS[a.basket])
-    legs = plan_overnight(closes, last, a.equity, a.basket, a.overlay, a.rail, futs, a.gross)
+    gross = a.gross
+    if a.vol_scale == "vix":
+        import yfinance as yf
+        vix_now = float(yf.Ticker("^VIX").history(period="5d")["Close"].dropna().iloc[-1])
+        vcfg = ov.OvernightConfig(vol_scale="vix")
+        factor = float(ov.vol_scale_factor(pd.Series([vix_now]), vcfg).iloc[0])
+        gross = a.gross * factor
+        print(f"VIX {vix_now:.1f} -> vol-scale factor {factor:.2f}x (gross {a.gross:.2f} -> {gross:.2f}); total per-leg size still capped at {vcfg.vol_scale_cap}x by the reversal cap")
+    legs = plan_overnight(closes, last, a.equity, a.basket, a.overlay, a.rail, futs, gross)
     txt = ticket(legs, a.equity, a.basket, a.overlay, a.rail)
 
     # ---- operating gates (fail closed) ------------------------------------

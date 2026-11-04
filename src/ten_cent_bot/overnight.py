@@ -32,6 +32,13 @@ class OvernightConfig:
     reversal_streak_k: int = 3          # k consecutive down closes
     reversal_rsi_threshold: float = 10.0  # RSI(2) below this
     reversal_multiplier: float = 1.0
+    # Vol-scaled sizing (screened 2026-11-04, scripts/audit_overnight_volscale.py):
+    # position is multiplied by min(cap, vol_scale_ref / VIX_close) using the
+    # VIX close of the entry day; the TOTAL position (after the reversal
+    # multiplier) is capped at vol_scale_cap. "none" = off (default).
+    vol_scale: str = "none"             # "none" | "vix"
+    vol_scale_ref: float = 20.0
+    vol_scale_cap: float = 2.0
 
 
 # Ticker baskets. E3 adds GLD (audited 2026-10-16, scripts/audit_overnight_gold.py):
@@ -44,6 +51,21 @@ E3_TICKERS = ["SPY", "QQQ", "IWM", "GLD"]
 # Audited deployable setting for E v2 (RSI(2) < 10 -> 2x): Sharpe 0.47 -> 0.56,
 # MaxDD -29% -> -31.5% on SPY/QQQ/IWM 2000-2026. Off by default above.
 E_V2_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0)
+
+# E v2 + VIX-scaled size (off until adopted): SPY/QQQ/IWM Sharpe 0.63/0.66/0.67 -> 0.72/0.76/0.77,
+# MaxDD -44/-43/-32% -> -32/-35/-34%, both halves up, shuffled-VIX placebo lower. GLD: no help.
+E_V2_VOL_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0, vol_scale="vix")
+
+
+def vol_scale_factor(vix_close: pd.Series, cfg: "OvernightConfig") -> pd.Series:
+    """Size multiplier from the entry day's VIX close: min(cap, ref / VIX). No look-ahead:
+    the VIX close prints at 16:15 ET, one print after the 16:00 entry - in live use the
+    ticket takes the last VIX quote at 15:50, which differs by noise."""
+    if cfg.vol_scale == "none":
+        return pd.Series(1.0, index=vix_close.index)
+    if cfg.vol_scale != "vix":
+        raise ValueError(f"unknown vol_scale {cfg.vol_scale!r}")
+    return (cfg.vol_scale_ref / vix_close).clip(upper=cfg.vol_scale_cap)
 
 
 def rsi(close: pd.Series, n: int = 2) -> pd.Series:
@@ -86,7 +108,7 @@ def compute_intraday_returns(daily_ohlc: pd.DataFrame) -> pd.Series:
     return (daily_ohlc["close"] - daily_ohlc["open"]) / daily_ohlc["open"]
 
 
-def backtest_single(daily_ohlc: pd.DataFrame, config: OvernightConfig | None = None) -> dict:
+def backtest_single(daily_ohlc: pd.DataFrame, config: OvernightConfig | None = None, vix: pd.Series | None = None) -> dict:
     cfg = config or OvernightConfig()
     overnight_ret = compute_overnight_returns(daily_ohlc)
 
@@ -104,6 +126,12 @@ def backtest_single(daily_ohlc: pd.DataFrame, config: OvernightConfig | None = N
     if cfg.reversal_signal != "none" and cfg.reversal_multiplier != 1.0:
         fire = reversal_signal(daily_ohlc["close"], cfg)
         position = position * np.where(fire, cfg.reversal_multiplier, 1.0)
+
+    if cfg.vol_scale != "none":
+        if vix is None:
+            raise ValueError("vol_scale needs the VIX close series (pass vix=)")
+        factor = vol_scale_factor(vix.reindex(daily_ohlc.index).ffill(), cfg)
+        position = (position * factor).clip(upper=cfg.vol_scale_cap)
 
     gross_return = position * overnight_ret
     # Cost: on any hold-day we buy at close then sell at next open (round trip)

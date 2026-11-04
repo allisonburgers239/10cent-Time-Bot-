@@ -63,3 +63,29 @@ def test_overlay_scales_cost_with_size():
 def test_unknown_signal_rejected():
     with pytest.raises(ValueError):
         reversal_signal(pd.Series([1.0, 2.0]), OvernightConfig(reversal_signal="magic", reversal_multiplier=2.0))
+
+
+def test_vol_scale_uses_entry_day_vix_and_caps_total():
+    import numpy as np
+    import pandas as pd
+    from ten_cent_bot import overnight as ov
+
+    idx = pd.bdate_range("2024-01-01", periods=40)
+    close = pd.Series(np.linspace(100, 110, 40), index=idx)
+    df = pd.DataFrame({"open": close.shift(1).fillna(100), "close": close})
+    vix = pd.Series(10.0, index=idx)          # calm: factor 2.0
+    vix.iloc[20:] = 40.0                      # panic: factor 0.5
+    cfg = ov.OvernightConfig(vol_scale="vix", reversal_signal="rsi2", reversal_multiplier=2.0)
+    pos = ov.backtest_single(df, cfg, vix=vix)["position"]
+    assert pos.iloc[5] == 2.0                 # min(2, 20/10) = 2 even with no signal
+    assert pos.iloc[25] == 0.5 or pos.iloc[25] == 1.0   # 20/40 = 0.5x, or 1.0 if the reversal signal fired that day
+    assert pos.max() <= cfg.vol_scale_cap     # total never above the cap
+    # no look-ahead: a later VIX change must not move an earlier position
+    vix2 = vix.copy(); vix2.iloc[30:] = 5.0
+    pos2 = ov.backtest_single(df, cfg, vix=vix2)["position"]
+    assert (pos2.iloc[:30] == pos.iloc[:30]).all()
+    # off by default
+    assert ov.OvernightConfig().vol_scale == "none"
+    import pytest
+    with pytest.raises(ValueError):
+        ov.backtest_single(df, cfg)           # vix missing

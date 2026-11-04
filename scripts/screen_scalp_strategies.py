@@ -45,6 +45,8 @@ from ten_cent_bot.tv_data import load_tv_csv
 ROOT = Path(__file__).resolve().parent.parent
 TZ = "America/New_York"
 RNG = np.random.default_rng(11)
+OPTIMISTIC = "--optimistic" in sys.argv   # target checked before stop when a bar touches both
+LONG_ONLY = "--long-only" in sys.argv
 
 
 def find(pattern: str) -> str | None:
@@ -114,10 +116,15 @@ def fill(df: pd.DataFrame, t: Trade, cost_bp: float) -> tuple[float, int] | None
     exit_px = c[end]
     exit_i = end
     for k in range(t.i, end + 1):
-        if t.stop is not None and ((t.side == 1 and l[k] <= t.stop) or (t.side == -1 and h[k] >= t.stop)):
+        hit_stop = t.stop is not None and ((t.side == 1 and l[k] <= t.stop) or (t.side == -1 and h[k] >= t.stop))
+        hit_tgt = t.target is not None and ((t.side == 1 and h[k] >= t.target) or (t.side == -1 and l[k] <= t.target))
+        if hit_stop and hit_tgt:
+            exit_px, exit_i = (t.target if OPTIMISTIC else t.stop), k
+            break
+        if hit_stop:
             exit_px, exit_i = t.stop, k
             break
-        if t.target is not None and ((t.side == 1 and h[k] >= t.target) or (t.side == -1 and l[k] <= t.target)):
+        if hit_tgt:
             exit_px, exit_i = t.target, k
             break
     r = t.side * (exit_px / entry - 1) - 2 * cost_bp / 1e4
@@ -329,6 +336,8 @@ STRATS = {
 def evaluate(df: pd.DataFrame, trades: list[Trade], cost_bp: float) -> dict | None:
     rows = []
     for t in trades:
+        if LONG_ONLY and t.side != 1:
+            continue
         f = fill(df, t, cost_bp)
         if f is None:
             continue
@@ -357,7 +366,9 @@ def evaluate(df: pd.DataFrame, trades: list[Trade], cost_bp: float) -> dict | No
 
 
 def main() -> None:
-    only = sys.argv[1] if len(sys.argv) > 1 else None
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    only = args[0] if args else None
+    print(f"fill model: {'OPTIMISTIC (target first)' if OPTIMISTIC else 'conservative (stop first)'}; {'LONG ONLY' if LONG_ONLY else 'long+short'}")
     all_rows = []
     for label, pat, cost, rth in INSTRUMENTS:
         if only and only.lower() not in label.lower():

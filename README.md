@@ -105,6 +105,7 @@ rule on Sleeve E's history before wiring anything:
 | **Drawdown gate: alert at -15%, hard stop at -25% from the equity-history peak** (`orchestrator.drawdown_gate`) | Never triggered historically on E v2 (MaxDD -31% at 1x would have: that is the point - a human looks) | **Wired** in both tickets; needs `data/equity_history.csv`, which both tickets now append |
 | Stale / implausible quote at order time | n/a | **Wired**: no trade if the last 1-min bar is >10 min old or the quote moved >8% vs prior close (`risk.price_is_fresh`, `price_is_plausible`) |
 | NYSE holiday + early-close calendar (`calendar_nyse.py`) | n/a | **Wired**: no ticket on non-trading days; early-close days warn to run at 12:50 |
+| VIX-scaled sizing of E (`--vol-scale vix`) | Sharpe 0.80 -> 0.92 (E), 0.88 -> 1.00 (E3), MaxDD -31.5% -> -21.1%, placebo p=0.000 | **Built, OFF by default** (2026-11-04); Temur's call to switch on; not in the Pine forward test |
 | Dry-run must not fake fills | n/a | **Fixed 2026-11-04**: `monthly_rebalance.py` writes `data/pending_rebalance.json`; positions change only on `--confirm-fills` |
 | Equity too small for the Sleeve B basket | at $25k only 3 of 10 markets get a contract (silver, bonds, FX, copper round to 0) | **Warned 2026-11-04** in the ticket (`RebalancePlan.unfunded`, `min_equity_full_basket`); B needs ~$100k+ to be the audited basket |
 | Futures contract rolls (`rolls.py`) | n/a | **Wired** in `monthly_rebalance.py`: tracks the contract month per position in `data/state.json`, prints ROLL orders when the held month is past its roll date (equity index 8 days before 3rd Friday, energy/rates ~17th of the month before, metals/grains ~3 days before prior month-end) |
@@ -643,6 +644,39 @@ payoff, a wide stop the reverse, and expectancy lands at the same place -
 the drift - minus costs. An edge has to come from a condition where the
 distribution itself is shifted (the overnight premium is one); a payoff
 shape alone cannot create one.
+
+### Own-ideas round and a self-review of the testing (2026-11-04, evening)
+
+Temur asked whether the batteries could have missed an edge. Four honest
+weaknesses, and what was done about each:
+
+1. The scalp fill rule assumed the stop fires first when a bar touches both
+   stop and target. Re-run with the optimistic rule (`--optimistic`): the
+   verdict does not move (best cells still t 1.1-1.6 on one year of data).
+2. Long and short were pooled. Re-run long-only (`--long-only`): same verdict.
+3. Default parameters only, to avoid overfitting. Still true; a walk-forward
+   parameter sweep is the remaining gap, and it only matters if some cell were
+   near significance, which none is.
+4. One-year single-stock samples cannot show a small real edge. True, and
+   not fixable with chart exports.
+
+Then six ideas of my own, chosen because the data goes back far enough to
+answer (`scripts/screen_own_ideas.py`, `results/own_ideas_2026-11-04.txt`):
+
+| Idea | Result |
+|---|---|
+| **Size the overnight hold by the VIX** (position x min(2, 20/VIX), total capped at 2x) | **Passes the full audit** (`scripts/audit_overnight_volscale.py`, `results/audit_overnight_volscale_2026-11-04.txt`): E basket Sharpe 0.80 -> 0.92, E3 0.88 -> 1.00, E3 MaxDD -31.5% -> -21.1%, worst night -12.0% -> -8.6%, better in all seven 5-year blocks, both halves, every leave-one-out, shuffled-VIX placebo p = 0.000, every (ref, cap) cell in the grid above the baseline. Why it works: the premium per night grows with VIX but the variance grows faster (VIX>35: +1.4 bp at 189 bp std), so equalising risk per night helps. Caveats: CAGR is slightly lower (12.0% -> 11.0%, run gross 1.1x to match), it needs ETF-level costs (at 2 bp/side the gain is gone), and GLD gets no help (VIX is not gold's vol). Built as `overnight.E_V2_VOL_CONFIG` and `daily_overnight_ticket.py --vol-scale vix`, **off by default** until Temur switches it on; the TradingView script does not have it. |
+| Sector overnight reversal (long the worst-3 intraday sectors overnight, short the best-3; hourly 2015-) | nothing: cross-sectional correlation +0.02, long/short -5 bp/night, same as random ranks; shorting sectors overnight just pays the premium away |
+| QQQ/SPY ratio reversion (z-score of the ratio, 5-min and hourly) | loses at every window after two legs of costs |
+| Single-stock gap fill / fade (5-min, 8 stocks) | gaps >2% fill only 10-30% of the time; fade and ride both land at cost; one PLTR cell at t 2.6 out of 32 cells |
+| BTC/ETH drift around funding settlements | +2 bp in the 30 minutes before funding on BTC, t 1.0; 5 bp/side fees make it -24 bp/day |
+| Intraday relative strength among the 8 stocks (rank the first hour, trade to the close) | cross-sectional correlation -0.002; nothing |
+
+Net of the day: one real improvement to the sleeve we already run (risk
+sizing), zero new edges. That is consistent with everything else: the
+overnight premium is the one shifted distribution we can reach with this
+data, and the work that pays is running it better, not finding a second one
+in intraday bars.
 
 ## TradingView Strategy Tester (forward test without a broker)
 

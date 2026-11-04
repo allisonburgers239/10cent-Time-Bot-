@@ -1,0 +1,55 @@
+=== 0. Why: SPY overnight return and vol by VIX bucket ===
+  VIX  0-13  nights  1533  mean  +2.2bp  std  25.0bp  mean/std +0.087
+  VIX 13-16  nights  1843  mean  +2.8bp  std  36.0bp  mean/std +0.079
+  VIX 16-20  nights  1934  mean  +4.6bp  std  49.1bp  mean/std +0.093
+  VIX 20-25  nights  1679  mean  +5.9bp  std  62.9bp  mean/std +0.093
+  VIX 25-35  nights  1161  mean  +5.5bp  std  95.8bp  mean/std +0.058
+  VIX 35-100 nights   349  mean  +1.4bp  std 188.5bp  mean/std +0.007
+  -> the premium per night grows with VIX but the variance grows faster; 20/VIX equalises risk per night.
+
+=== 1. Baseline: E v2 vs E v2 + VIX scale (1993-, 1bp/side) ===
+  E (SPY/QQQ/IWM)    E v2: Sharpe  0.80  CAGR  12.0%  MaxDD -31.5%  n 8499
+  E (SPY/QQQ/IWM)    +VIX: Sharpe  0.92  CAGR  11.0%  MaxDD -27.4%  n 8499
+  E3 (+GLD)          E v2: Sharpe  0.88  CAGR  11.7%  MaxDD -31.5%  n 8499
+  E3 (+GLD)          +VIX: Sharpe  1.00  CAGR  10.8%  MaxDD -21.1%  n 8499
+  SPY   E v2: Sharpe  0.63  CAGR   8.7%  MaxDD -44.4%  n 8499   +VIX: Sharpe  0.72  CAGR   7.4%  MaxDD -32.3%  n 8499
+  QQQ   E v2: Sharpe  0.66  CAGR  12.2%  MaxDD -42.6%  n 6957   +VIX: Sharpe  0.76  CAGR  11.6%  MaxDD -34.6%  n 6957
+  IWM   E v2: Sharpe  0.67  CAGR  11.8%  MaxDD -32.4%  n 6649   +VIX: Sharpe  0.77  CAGR  10.8%  MaxDD -33.8%  n 6649
+  GLD   E v2: Sharpe  0.43  CAGR   7.0%  MaxDD -60.3%  n 5524   +VIX: Sharpe  0.41  CAGR   6.8%  MaxDD -65.6%  n 5524
+
+=== 2. Walk-forward halves and 5-year sub-periods (E basket) ===
+  first half  E v2 0.94  +VIX 1.17
+  second half E v2 0.66  +VIX 0.70
+  1995-1999: E v2  2.43  +VIX  2.50  better
+  2000-2004: E v2  0.54  +VIX  0.71  better
+  2005-2009: E v2  0.41  +VIX  0.57  better
+  2010-2014: E v2  0.59  +VIX  0.62  better
+  2015-2019: E v2  0.54  +VIX  0.57  better
+  2020-2024: E v2  0.72  +VIX  0.79  better
+  2025-2029: E v2  0.80  +VIX  0.82  better
+
+=== 3. Leave-one-ticker-out (E3) ===
+  without SPY: E v2 0.87  +VIX 0.97
+  without QQQ: E v2 0.87  +VIX 0.97
+  without IWM: E v2 0.81  +VIX 0.91
+  without GLD: E v2 0.80  +VIX 0.92
+
+=== 4. Cost sensitivity (bp per side) ===
+  0.5bp: E v2 0.99  +VIX 1.19
+  1.0bp: E v2 0.80  +VIX 0.92
+  2.0bp: E v2 0.41  +VIX 0.37
+  3.0bp: E v2 0.02  +VIX -0.17
+  5.0bp: E v2 -0.76  +VIX -1.26
+
+=== 5. Parameter grid (ref, cap) on the E basket ===
+  ref 15: cap 1.5: 0.92  cap 2.0: 0.93  cap 3.0: 0.94
+  ref 20: cap 1.5: 0.88  cap 2.0: 0.92  cap 3.0: 0.93
+  ref 25: cap 1.5: 0.86  cap 2.0: 0.89  cap 3.0: 0.92
+  ref 30: cap 1.5: 0.85  cap 2.0: 0.87  cap 3.0: 0.92
+
+=== 6. Placebo: VIX series shuffled (200 seeds) ===
+  real 0.916  placebo mean 0.753 sd 0.045  p(placebo >= real) = 0.000
+
+=== 7. Tail: worst nights and worst year, E basket ===
+  E v2: worst night -12.04%  worst year 2008 -17.3%  avg position size 1.10x  (max 2.0x)
+  +VIX: worst night -8.59%  worst year 2022 -17.0%  avg position size 1.23x  (max 2.0x)
