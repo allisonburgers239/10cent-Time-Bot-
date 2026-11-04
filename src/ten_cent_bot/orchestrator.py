@@ -36,6 +36,10 @@ class RebalancePlan:
     current_positions: dict[str, int]
     orders: list[Order]
     skipped_reason: str | None = None
+    # markets whose signal is non-zero but whose target rounds to 0 contracts
+    unfunded: tuple[str, ...] = ()
+    # equity at which every signalled market would get at least one contract
+    min_equity_full_basket: float | None = None
 
     def trade_ticket(self) -> str:
         lines = [
@@ -54,6 +58,14 @@ class RebalancePlan:
             lines.append(f"{symbol:>6}  {cur:>+7}  {tgt:>+6}  {action}")
         lines.append("-" * 40)
         lines.append(f"{len(self.orders)} order(s) to enter")
+        if self.unfunded:
+            n_sig = len(self.unfunded) + sum(1 for v in self.target_positions.values() if v != 0)
+            lines.append(
+                f"\nWARNING: at ${self.account_equity:,.0f} only {n_sig - len(self.unfunded)} of {n_sig} signalled "
+                f"markets get a contract; too small for: {', '.join(self.unfunded)}. "
+                f"Sleeve B is not the audited basket at this size - it needs about "
+                f"${self.min_equity_full_basket:,.0f} for one contract in every signalled market."
+            )
         if self.skipped_reason:
             lines.append(f"\n!! SKIPPED: {self.skipped_reason}")
         return "\n".join(lines)
@@ -163,6 +175,19 @@ def plan_rebalance(
     if not allowed:
         orders = []
 
+    # thin-basket diagnostic: which signalled markets round to zero, and what
+    # equity would fund one contract in each of them
+    unfunded: list[str] = []
+    need = 0.0
+    for sym in basket:
+        w = float(weights.get(sym, 0.0))
+        if w == 0.0 or np.isnan(w):
+            continue
+        notional = last_prices[sym] * CONTRACTS[sym].point_value
+        need = max(need, notional / abs(w) * 0.5)  # 0.5: round() funds a contract at half a notional
+        if target.get(sym, 0) == 0:
+            unfunded.append(sym)
+
     return RebalancePlan(
         as_of=monthly_prices.index[-1],
         account_equity=account_equity,
@@ -170,6 +195,8 @@ def plan_rebalance(
         current_positions={s: current_positions.get(s, 0) for s in basket},
         orders=orders,
         skipped_reason=reason,
+        unfunded=tuple(unfunded),
+        min_equity_full_basket=need if unfunded else None,
     )
 
 
@@ -185,13 +212,39 @@ def load_state(path: Path) -> dict:
     return json.loads(path.read_text())
 
 
-def save_state(path: Path, positions: dict[str, int], account_equity: float) -> None:
+def save_state(path: Path, positions: dict[str, int], account_equity: float, contracts: dict[str, str] | None = None) -> None:
+    st = {"positions": positions, "account_equity": account_equity}
+    if contracts is not None:
+        st["contracts"] = contracts
+    path.write_text(json.dumps(st, indent=2))
+
+
+def write_pending(path: Path, plan: "RebalancePlan", contracts: dict[str, str]) -> None:
+    """A dry run must not pretend its orders were filled. Record the plan as
+    PENDING; `apply_pending` moves it into the state file once a human says
+    the fills happened (`--confirm-fills`)."""
     path.write_text(
         json.dumps(
-            {"positions": positions, "account_equity": account_equity},
+            {
+                "as_of": str(plan.as_of.date()),
+                "account_equity": plan.account_equity,
+                "orders": [{"symbol": o.symbol, "side": o.side, "qty": o.qty} for o in plan.orders],
+                "target_positions": plan.target_positions,
+                "contracts": contracts,
+            },
             indent=2,
         )
     )
+
+
+def apply_pending(pending_path: Path, state_path: Path) -> dict:
+    """Confirm the pending plan: its target positions become the held positions."""
+    if not pending_path.exists():
+        raise FileNotFoundError(f"no pending rebalance at {pending_path}")
+    pend = json.loads(pending_path.read_text())
+    save_state(state_path, {k: int(v) for k, v in pend["target_positions"].items()}, float(pend["account_equity"]), pend.get("contracts"))
+    pending_path.unlink()
+    return load_state(state_path)
 
 
 def drawdown_gate(

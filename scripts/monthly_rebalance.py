@@ -2,8 +2,9 @@
 
 Default mode is dry-run with a file-backed position store, so you can run
 it today before Tradovate API credentials are issued. Outputs a trade
-ticket you execute on the Tradovate UI; you then update the state file
-with the fills.
+ticket you execute on the Tradovate UI. A dry run never changes the position
+file: it writes data/pending_rebalance.json, and `--confirm-fills` moves that
+plan into data/state.json once the orders are actually filled.
 
 Modes:
   --source file    (default) read positions from data/state.json
@@ -27,15 +28,17 @@ import yfinance as yf
 from ten_cent_bot.contracts import CONTRACTS, DEPLOYMENT_BASKET
 from ten_cent_bot import rolls
 from ten_cent_bot.orchestrator import (
+    apply_pending,
     drawdown_gate,
     load_state,
     plan_rebalance,
-    save_state,
+    write_pending,
 )
 from ten_cent_bot.tsmom import TSMOMConfig
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_STATE_FILE = ROOT / "data" / "state.json"
+PENDING_FILE = ROOT / "data" / "pending_rebalance.json"
 EQUITY_FILE = ROOT / "data" / "equity_history.csv"
 
 
@@ -66,6 +69,11 @@ def main() -> int:
     parser.add_argument("--auto-fire", action="store_true", help="actually place orders (default dry-run)")
     parser.add_argument("--state-file", type=Path, default=DEFAULT_STATE_FILE)
     parser.add_argument(
+        "--confirm-fills",
+        action="store_true",
+        help="the orders from the last dry run were executed: move the pending plan into the state file and exit",
+    )
+    parser.add_argument(
         "--equity-override",
         type=float,
         default=None,
@@ -90,6 +98,11 @@ def main() -> int:
         help="TSMOM lookback (default 12). Audit sweet spot was 12-18.",
     )
     args = parser.parse_args()
+
+    if args.confirm_fills:
+        st = apply_pending(PENDING_FILE, args.state_file)
+        print(f"Fills confirmed. Positions now: {st['positions']}")
+        return 0
 
     tsmom_cfg = TSMOMConfig(
         lookback_months=args.lookback_months,
@@ -207,16 +220,14 @@ def main() -> int:
     else:
         print("\n(dry-run: no orders sent. Use --auto-fire with --source tradovate to actually trade.)")
 
-    # Persist post-trade positions when running in file mode
+    # File mode: a dry run records the plan as PENDING. Positions only change
+    # after a human confirms the fills (`--confirm-fills`), never on a dry run.
     if args.source == "file":
-        new_positions = dict(current_positions)
-        for o in plan.orders:
-            delta = o.qty if o.side == "BUY" else -o.qty
-            new_positions[o.symbol] = new_positions.get(o.symbol, 0) + delta
-        save_state(args.state_file, new_positions, float(account_equity))
-        st = load_state(args.state_file); st["contracts"] = new_contracts
-        args.state_file.write_text(json.dumps(st, indent=2))
-        print(f"\nState updated: {args.state_file} (positions + contract months)")
+        write_pending(PENDING_FILE, plan, new_contracts)
+        print(
+            f"\nPlan saved as pending: {PENDING_FILE}\n"
+            f"After you execute these orders run:  monthly_rebalance.py --confirm-fills"
+        )
 
     return 0
 

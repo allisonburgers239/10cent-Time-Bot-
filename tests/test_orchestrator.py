@@ -104,3 +104,37 @@ def test_contracts_basket_resolves():
     for sym in DEPLOYMENT_BASKET:
         assert sym in CONTRACTS, f"Missing contract spec: {sym}"
         assert CONTRACTS[sym].point_value > 0
+
+
+def test_thin_basket_warning_and_pending_flow(tmp_path):
+    import json
+    import numpy as np
+    import pandas as pd
+    from ten_cent_bot.orchestrator import RebalancePlan, apply_pending, load_state, write_pending
+
+    plan = RebalancePlan(
+        as_of=pd.Timestamp("2026-11-30"), account_equity=25000.0,
+        target_positions={"MES": 1, "SI": 0}, current_positions={"MES": 0, "SI": 0},
+        orders=[Order("MES", "BUY", 1)], unfunded=("SI",), min_equity_full_basket=90000.0,
+    )
+    txt = plan.trade_ticket()
+    assert "WARNING" in txt and "SI" in txt and "$90,000" in txt
+    pending = tmp_path / "pending.json"; state = tmp_path / "state.json"
+    write_pending(pending, plan, {"MES": "MESZ6", "SI": "SIZ6"})
+    assert load_state(state)["positions"] == {}          # a dry run changes nothing
+    st = apply_pending(pending, state)
+    assert st["positions"] == {"MES": 1, "SI": 0} and st["contracts"]["MES"] == "MESZ6"
+    assert not pending.exists()
+
+
+def test_plan_rebalance_flags_unfunded_markets():
+    import numpy as np
+    import pandas as pd
+    from ten_cent_bot.orchestrator import plan_rebalance
+
+    idx = pd.date_range("2015-01-31", periods=60, freq="ME")
+    prices = pd.DataFrame({"MES": np.linspace(100, 300, 60), "SI": np.linspace(10, 40, 60)}, index=idx)
+    plan = plan_rebalance(prices, {"MES": 300.0, "SI": 40.0}, {"MES": 0, "SI": 0}, 2000.0, ["MES", "SI"])
+    # at $2k a silver contract (5000 oz x $40 = $200k) can never be funded
+    assert "SI" in plan.unfunded
+    assert plan.min_equity_full_basket is not None and plan.min_equity_full_basket > 2000
