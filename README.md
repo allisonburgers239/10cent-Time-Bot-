@@ -775,6 +775,39 @@ an uptrend, and half of them report earnings within 5 days. The closest
 uptrend name, ESTC, has a 4-hour RSI of 36 and is still above its lower
 band. Full table in `results/trend_exhaustion_scan_2026-11-04.txt`.
 
+### Sleeve I candidate - ETF oversold swing: full audit (2026-11-04)
+
+Built as a library sleeve (`src/ten_cent_bot/swing_reversal.py`, 5 tests) and
+audited in `scripts/audit_swing_reversal.py` ->
+`results/audit_swing_reversal_2026-11-04.txt`. Rule: two 4-hour session bars a
+day; buy next open when the 4h close is below the lower Bollinger(20,2), 4h
+RSI(14) < 30 and yesterday's close is above the daily EMA(200); hold 10 bars
+(5 days), no stop; 1/5 of capital per trade, 5 slots; 1 bp/side. 12 ETFs
+(SPY/QQQ/IWM + 9 sectors), 2015-2026, 704 signals.
+
+| Section | Result |
+|---|---|
+| 0 library == audit | 300 portfolio trades identical to the audit's, max diff 0 |
+| 1 baseline | per trade +79 bp, hit 66%, t 7.9; vs any uptrend bar +12 bp, excess t 6.7; positive mean on 12/12 ETFs. Portfolio: Sharpe 0.79, **CAGR 2.7%**, MaxDD -9.6% |
+| 2 walk-forward | params chosen on 2015-20 (rsi 30 / hold 15 / k 1.5) -> 2021-26 test Sharpe 1.11; defaults 1.28. But the 2015-20 train period itself: Sharpe 0.14, CAGR 0.4% |
+| 3 grid | 54 cells: hold 10-15 all positive (t 3-10); hold 6 (3 days) weak; thr 25 best per trade, fewest trades. Robust, not knife-edge |
+| 4 sub-periods | 2015-16 +, **2017-18 negative (-40 bp/trade)**, 2019-20 weak, 2021-26 strong (Sharpe 0.7 / 1.6 / 2.3) |
+| 5 leave-one-out | Sharpe 0.67-0.86 for every drop; no single ETF carries it |
+| 6 costs | 0.5 -> 5 bp/side: Sharpe 0.81 -> 0.68. Insensitive (5-day hold) |
+| 7 placebo | random uptrend bars, same count: +12 bp (sd 8) vs real +79, p = 0.000; shuffled dates p = 0.000 |
+| 8 tail | worst trade -8.6% (XLE 2018-02-02), worst week -4.5%, **longest drawdown 897 trading days (3.5 years)**, 5th-percentile trade -3.6% |
+| 9 overlap with E v2 | **90% of SPY/QQQ/IWM signals fall on E v2 signal days** (it is the same oversold reversal); sector ETFs are the only new information. Book 80% E3 v2 / 20% swing: Sharpe 0.84 -> 0.91 but CAGR 8.7% -> 7.5% (idle capital drag); corr -0.02 |
+| 10 daily bars 1993- | SPY n 19 (+138 bp, t 1.9), QQQ n 12, IWM n 8: too few signals to say anything over 30 years; the effect is a 4-hour, 2015+ finding |
+
+**Verdict: real signal, weak sleeve. Not adopted.** The per-trade edge is
+genuine (placebo p = 0 two ways, every ETF positive, robust to parameters and
+costs), but as a use of capital it fails the standard: 2.7% a year, flat
+for 2015-2020, a 3.5-year drawdown, and 90% overlap with E v2 on the index
+ETFs. It earns its keep only when capital is large enough that 20% sitting
+mostly idle costs nothing (~$100k+), and even then it lifts the book's Sharpe
+by 0.07 while lowering its return. Kept in the library for that day; the
+daily scan stays off.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

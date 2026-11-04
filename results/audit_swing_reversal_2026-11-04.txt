@@ -1,0 +1,99 @@
+=== 0. Data and library check ===
+  SPY: 7929 4h bars 2015-01-02 -> 2026-11-03
+  QQQ: 7926 4h bars 2015-01-02 -> 2026-11-03
+  IWM: 7923 4h bars 2015-01-02 -> 2026-11-03
+  XLB: 7653 4h bars 2015-01-02 -> 2026-06-29
+  XLE: 7654 4h bars 2015-01-02 -> 2026-06-29
+  XLF: 7656 4h bars 2015-01-02 -> 2026-06-29
+  XLI: 7653 4h bars 2015-01-02 -> 2026-06-29
+  XLK: 7654 4h bars 2015-01-02 -> 2026-06-29
+  XLP: 7653 4h bars 2015-01-02 -> 2026-06-29
+  XLU: 7653 4h bars 2015-01-02 -> 2026-06-29
+  XLV: 7653 4h bars 2015-01-02 -> 2026-06-29
+  XLY: 7654 4h bars 2015-01-02 -> 2026-06-29
+  library == audit: 300 portfolio trades matched, max |diff| 0.00e+00
+
+=== 1. Baseline (RSI14<30, close<BB(20,2), yesterday close > EMA200, hold 10 x 4h bars, 1bp/side) ===
+  pooled per-trade: n 704 mean +79bp median +79bp hit 0.66 t +7.9 | uptrend baseline +12bp (n 70634) | excess t +6.7
+    SPY: n  61 mean   +50bp hit 0.64 t +1.8
+    QQQ: n  67 mean   +92bp hit 0.63 t +2.8
+    IWM: n  59 mean   +64bp hit 0.61 t +1.9
+    XLB: n  60 mean  +143bp hit 0.77 t +5.1
+    XLE: n  33 mean   +51bp hit 0.58 t +0.8
+    XLF: n  57 mean   +54bp hit 0.63 t +1.2
+    XLI: n  68 mean   +92bp hit 0.75 t +2.7
+    XLK: n  62 mean  +135bp hit 0.68 t +3.5
+    XLP: n  62 mean   +49bp hit 0.66 t +2.4
+    XLU: n  48 mean   +13bp hit 0.54 t +0.4
+    XLV: n  50 mean  +101bp hit 0.76 t +3.0
+    XLY: n  77 mean   +78bp hit 0.66 t +2.3
+  portfolio 5 slots            trades  300 win 0.64 mean    +54bp worst   -863bp | CAGR  +2.7% Sharpe  0.79 MaxDD  -9.6%
+  portfolio 1 slots            trades  136 win 0.62 mean    +53bp worst   -595bp | CAGR  +6.0% Sharpe  0.81 MaxDD -10.8%
+  portfolio 2 slots            trades  209 win 0.61 mean    +43bp worst   -863bp | CAGR  +3.7% Sharpe  0.64 MaxDD -12.2%
+  portfolio 3 slots            trades  253 win 0.62 mean    +47bp worst   -863bp | CAGR  +3.3% Sharpe  0.68 MaxDD -12.3%
+  portfolio 12 slots           trades  339 win 0.65 mean    +65bp worst   -863bp | CAGR  +1.5% Sharpe  0.91 MaxDD  -3.8%
+
+=== 2. Walk-forward: pick (rsi_thr, hold, bb_k) on 2015-2020, test on 2021-2026 ===
+  chosen on train: rsi_thr 30 hold 15 bb_k 1.5 (train Sharpe 0.61)
+  TEST 2021-2026, chosen params trades  166 win 0.62 mean    +83bp worst   -866bp | CAGR  +4.8% Sharpe  1.11 MaxDD  -5.7%
+  TEST 2021-2026, default params trades  156 win 0.67 mean    +79bp worst   -710bp | CAGR  +4.3% Sharpe  1.28 MaxDD  -2.7%
+  TRAIN 2015-2020, default params trades  135 win 0.59 mean    +11bp worst   -863bp | CAGR  +0.4% Sharpe  0.14 MaxDD  -9.6%
+
+=== 3. Parameter grid (per-trade mean bp / t / portfolio Sharpe) ===
+  ema100 k1.5: thr25/h6:  +19/+1.0/0.15  thr25/h10: +112/+5.0/0.73  thr25/h15: +120/+3.6/0.48  thr30/h6:  +22/+2.2/0.34  thr30/h10:  +61/+5.5/0.51  thr30/h15:  +79/+5.6/0.64  thr35/h6:  +17/+3.5/0.40  thr35/h10:  +37/+6.5/0.35  thr35/h15:  +55/+8.0/0.52
+  ema100 k2.0: thr25/h6:  +21/+0.9/0.16  thr25/h10: +128/+5.0/0.77  thr25/h15: +150/+4.0/0.52  thr30/h6:  +17/+1.3/0.26  thr30/h10:  +66/+4.9/0.52  thr30/h15:  +93/+5.8/0.61  thr35/h6:  +16/+2.5/0.43  thr35/h10:  +45/+6.2/0.41  thr35/h15:  +68/+8.0/0.52
+  ema100 k2.5: thr25/h6:   +7/+0.2/0.16  thr25/h10: +154/+4.4/0.76  thr25/h15: +223/+4.4/0.62  thr30/h6:  -23/-1.1/0.08  thr30/h10:  +50/+2.7/0.58  thr30/h15:  +87/+3.9/0.60  thr35/h6:   -9/-0.8/0.22  thr35/h10:  +32/+2.9/0.49  thr35/h15:  +53/+4.0/0.49
+  ema200 k1.5: thr25/h6:  +47/+3.2/0.15  thr25/h10: +122/+8.1/0.45  thr25/h15:  +85/+3.7/0.43  thr30/h6:  +35/+4.8/0.72  thr30/h10:  +77/+9.3/0.71  thr30/h15:  +85/+7.9/0.96  thr35/h6:  +18/+4.3/0.49  thr35/h10:  +42/+8.5/0.21  thr35/h15:  +61/+10.5/0.51
+  ema200 k2.0: thr25/h6:  +40/+2.1/0.18  thr25/h10: +134/+7.3/0.53  thr25/h15: +103/+3.7/0.41  thr30/h6:  +25/+2.6/0.58  thr30/h10:  +79/+7.9/0.79  thr30/h15:  +87/+6.7/0.90  thr35/h6:  +15/+2.6/0.43  thr35/h10:  +46/+7.4/0.24  thr35/h15:  +69/+9.3/0.58
+  ema200 k2.5: thr25/h6:  -16/-0.6/-0.07  thr25/h10: +110/+4.3/0.43  thr25/h15: +112/+3.2/0.32  thr30/h6:  -26/-1.7/0.17  thr30/h10:  +49/+3.4/0.64  thr30/h15:  +71/+3.9/0.67  thr35/h6:  -19/-1.9/0.16  thr35/h10:  +28/+2.8/0.42  thr35/h15:  +52/+4.6/0.64
+
+=== 4. Sub-periods (2-year blocks, default params) ===
+  2015-2016                    trades   38 win 0.61 mean    +62bp worst   -272bp | CAGR  +2.4% Sharpe  0.94 MaxDD  -1.9%
+  2017-2018                    trades   51 win 0.55 mean    -40bp worst   -863bp | CAGR  -2.1% Sharpe -0.63 MaxDD  -7.2%
+  2019-2020                    trades   47 win 0.60 mean    +29bp worst   -671bp | CAGR  +1.3% Sharpe  0.30 MaxDD  -4.5%
+  2021-2022                    trades   56 win 0.68 mean    +44bp worst   -710bp | CAGR  +2.4% Sharpe  0.68 MaxDD  -2.7%
+  2023-2024                    trades   55 win 0.65 mean    +98bp worst   -291bp | CAGR  +5.5% Sharpe  1.64 MaxDD  -1.7%
+  2025-2026                    trades   38 win 0.74 mean   +149bp worst   -145bp | CAGR  +6.3% Sharpe  2.25 MaxDD  -0.5%
+
+=== 5. Leave-one-ETF-out ===
+  without SPY                  trades  283 win 0.65 mean    +60bp worst   -863bp | CAGR  +2.9% Sharpe  0.84 MaxDD  -8.5%
+  without QQQ                  trades  274 win 0.64 mean    +55bp worst   -863bp | CAGR  +2.5% Sharpe  0.78 MaxDD  -8.8%
+  without IWM                  trades  282 win 0.66 mean    +60bp worst   -863bp | CAGR  +2.9% Sharpe  0.84 MaxDD  -9.2%
+  without XLB                  trades  282 win 0.64 mean    +54bp worst   -863bp | CAGR  +2.5% Sharpe  0.77 MaxDD -10.0%
+  without XLE                  trades  284 win 0.63 mean    +52bp worst   -710bp | CAGR  +2.5% Sharpe  0.75 MaxDD  -8.9%
+  without XLF                  trades  286 win 0.64 mean    +57bp worst   -863bp | CAGR  +2.8% Sharpe  0.85 MaxDD  -8.6%
+  without XLI                  trades  282 win 0.65 mean    +61bp worst   -863bp | CAGR  +2.9% Sharpe  0.86 MaxDD  -7.4%
+  without XLK                  trades  278 win 0.64 mean    +47bp worst   -863bp | CAGR  +2.2% Sharpe  0.67 MaxDD  -9.1%
+  without XLP                  trades  282 win 0.64 mean    +56bp worst   -863bp | CAGR  +2.6% Sharpe  0.77 MaxDD  -9.4%
+  without XLU                  trades  279 win 0.65 mean    +60bp worst   -863bp | CAGR  +2.8% Sharpe  0.82 MaxDD  -9.4%
+  without XLV                  trades  286 win 0.63 mean    +50bp worst   -863bp | CAGR  +2.4% Sharpe  0.70 MaxDD -11.7%
+  without XLY                  trades  277 win 0.64 mean    +52bp worst   -863bp | CAGR  +2.4% Sharpe  0.74 MaxDD  -9.6%
+
+=== 6. Cost sensitivity (bp per side) ===
+  0.5 bp/side                  trades  300 win 0.65 mean    +55bp worst   -862bp | CAGR  +2.8% Sharpe  0.81 MaxDD  -9.5%
+  1.0 bp/side                  trades  300 win 0.64 mean    +54bp worst   -863bp | CAGR  +2.7% Sharpe  0.79 MaxDD  -9.6%
+  2.0 bp/side                  trades  300 win 0.63 mean    +52bp worst   -865bp | CAGR  +2.6% Sharpe  0.76 MaxDD  -9.8%
+  3.0 bp/side                  trades  300 win 0.63 mean    +50bp worst   -867bp | CAGR  +2.5% Sharpe  0.74 MaxDD -10.0%
+  5.0 bp/side                  trades  300 win 0.63 mean    +46bp worst   -871bp | CAGR  +2.3% Sharpe  0.68 MaxDD -10.4%
+
+=== 7. Placebo ===
+  random uptrend bars, same count per ETF: placebo mean +12bp sd 8bp | real +79bp | p(placebo >= real) = 0.000
+  shuffled signal dates: mean +18bp sd 11bp | p(shuffled >= real) = 0.000
+
+=== 8. Tail ===
+  worst 5 trades: XLE 2018-02-02 -863bp, IWM 2021-11-23 -710bp, XLI 2020-02-24 -671bp, XLE 2022-06-13 -655bp, XLF 2020-02-24 -614bp
+  worst day -4.46% | worst week -4.46% | longest drawdown 897 trading days | max concurrent positions 5
+  trade return percentiles (bp): 5% -361  25% -78  50% +63  75% +192  95% +429
+
+=== 9. Overlap with E v2 (daily RSI(2) < 10 on the same ETF) ===
+  SPY/QQQ/IWM swing signals: 187; on an E v2 signal day: 168 (90%) | swing return when E v2 also fires +60bp (n 168), when it does not +155bp (n 19)
+  2015-2026 common days 2977: E3 v2+VIX alone Sharpe 0.84 CAGR 8.7% | swing alone Sharpe 0.79 CAGR 2.8% | corr -0.02
+    book 90% E3 / 10% swing: Sharpe 0.87 CAGR 8.1%
+    book 80% E3 / 20% swing: Sharpe 0.91 CAGR 7.5%
+    book 70% E3 / 30% swing: Sharpe 0.95 CAGR 6.9%
+    book 50% E3 / 50% swing: Sharpe 1.06 CAGR 5.8%
+
+=== 10. Daily-bar variant, SPY/QQQ/IWM 1993- (daily RSI14<30, close<BB(20,2), close>EMA200 yesterday, hold 5 days) ===
+  SPY: since 1993-01-29  n 19 mean +138bp hit 0.53 t +1.9 | uptrend base +20bp | excess t +1.7 | positive years 7/10
+  QQQ: since 1999-03-10  n 12 mean +189bp hit 0.75 t +1.6 | uptrend base +28bp | excess t +1.4 | positive years 6/9
+  IWM: since 2000-05-26  n 8 mean +31bp hit 0.62 t +0.3 | uptrend base +11bp | excess t +0.2 | positive years 3/4
