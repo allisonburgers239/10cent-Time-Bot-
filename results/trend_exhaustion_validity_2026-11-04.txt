@@ -1,0 +1,140 @@
+
+BATS_IWM, 60: 7923 4h bars, 59 signals with trend, 97 without
+  H2           signal    +47bp (n 59, t +2.3, hit 0.63) | base    +3bp | no-trend    -30bp (n 97)
+  H4           signal    +41bp (n 59, t +1.7, hit 0.53) | base    +5bp | no-trend    -43bp (n 97)
+  H6           signal    +42bp (n 59, t +1.5, hit 0.56) | base    +8bp | no-trend    -51bp (n 97)
+  H10          signal    +66bp (n 59, t +2.0, hit 0.63) | base   +14bp | no-trend    -45bp (n 97)
+  swing_trade  n 35 mean -11bp win 0.23 t -0.4 total -3.9%
+
+BATS_QQQ, 60: 7926 4h bars, 67 signals with trend, 60 without
+  H2           signal    +75bp (n 67, t +3.7, hit 0.67) | base    +6bp | no-trend    +28bp (n 60)
+  H4           signal    +38bp (n 67, t +1.4, hit 0.58) | base   +12bp | no-trend    +43bp (n 60)
+  H6           signal    +67bp (n 67, t +2.1, hit 0.66) | base   +17bp | no-trend    +47bp (n 60)
+  H10          signal    +94bp (n 67, t +2.9, hit 0.63) | base   +28bp | no-trend   +144bp (n 60)
+  swing_trade  n 47 mean +17bp win 0.36 t +0.6 total +8.2%
+
+BATS_SPY, 60: 7929 4h bars, 61 signals with trend, 82 without
+  H2           signal     +0bp (n 61, t +0.0, hit 0.64) | base    +4bp | no-trend     +9bp (n 82)
+  H4           signal    -22bp (n 61, t -0.8, hit 0.59) | base    +8bp | no-trend    +15bp (n 82)
+  H6           signal    -16bp (n 61, t -0.5, hit 0.54) | base   +12bp | no-trend    +22bp (n 82)
+  H10          signal    +52bp (n 61, t +1.8, hit 0.64) | base   +19bp | no-trend    +53bp (n 82)
+  swing_trade  n 38 mean +1bp win 0.34 t +0.1 total +0.5%
+
+BATS_XLB, 60: 7653 4h bars, 60 signals with trend, 102 without
+  H2           signal    +25bp (n 60, t +1.4, hit 0.62) | base    +4bp | no-trend    -30bp (n 102)
+  H4           signal    +24bp (n 60, t +1.6, hit 0.60) | base    +7bp | no-trend    -43bp (n 102)
+  H6           signal    +60bp (n 60, t +2.8, hit 0.72) | base   +10bp | no-trend    -60bp (n 102)
+  H10          signal   +145bp (n 60, t +5.2, hit 0.78) | base   +16bp | no-trend    -61bp (n 102)
+  swing_trade  n 33 mean +17bp win 0.39 t +0.6 total +5.7%
+
+BATS_XLE, 60: 7654 4h bars, 33 signals with trend, 139 without
+  H2           signal     -5bp (n 33, t -0.1, hit 0.52) | base    +3bp | no-trend    -32bp (n 139)
+  H4           signal     +6bp (n 33, t +0.1, hit 0.48) | base    +6bp | no-trend    -41bp (n 139)
+  H6           signal     +6bp (n 33, t +0.1, hit 0.61) | base    +9bp | no-trend    -45bp (n 139)
+  H10          signal    +53bp (n 33, t +0.8, hit 0.58) | base   +16bp | no-trend    -27bp (n 139)
+  swing_trade  n 24 mean +76bp win 0.42 t +1.5 total +18.3%
+
+BATS_XLF, 60: 7656 4h bars, 57 signals with trend, 79 without
+  H2           signal    +34bp (n 57, t +1.4, hit 0.65) | base    +4bp | no-trend     +0bp (n 79)
+  H4           signal    +29bp (n 57, t +0.9, hit 0.67) | base    +8bp | no-trend     -9bp (n 79)
+  H6           signal    +35bp (n 57, t +0.9, hit 0.60) | base   +12bp | no-trend     +2bp (n 79)
+  H10          signal    +56bp (n 57, t +1.3, hit 0.63) | base   +20bp | no-trend     +6bp (n 79)
+  swing_trade  n 31 mean +17bp win 0.35 t +0.6 total +5.3%
+
+BATS_XLI, 60: 7653 4h bars, 68 signals with trend, 75 without
+  H2           signal    +12bp (n 68, t +0.6, hit 0.53) | base    +5bp | no-trend    +30bp (n 75)
+  H4           signal     +3bp (n 68, t +0.1, hit 0.59) | base    +9bp | no-trend    +49bp (n 75)
+  H6           signal    +15bp (n 68, t +0.4, hit 0.59) | base   +13bp | no-trend    +55bp (n 75)
+  H10          signal    +94bp (n 68, t +2.7, hit 0.75) | base   +22bp | no-trend    +92bp (n 75)
+  swing_trade  n 41 mean +3bp win 0.34 t +0.1 total +1.1%
+
+BATS_XLK, 60: 7654 4h bars, 62 signals with trend, 53 without
+  H2           signal    +60bp (n 62, t +2.6, hit 0.63) | base    +8bp | no-trend    +21bp (n 53)
+  H4           signal    +49bp (n 62, t +1.7, hit 0.63) | base   +15bp | no-trend    +34bp (n 53)
+  H6           signal    +59bp (n 62, t +1.5, hit 0.63) | base   +22bp | no-trend    +64bp (n 53)
+  H10          signal   +137bp (n 62, t +3.6, hit 0.68) | base   +36bp | no-trend   +119bp (n 53)
+  swing_trade  n 39 mean +15bp win 0.41 t +0.5 total +5.7%
+
+BATS_XLP, 60: 7653 4h bars, 62 signals with trend, 74 without
+  H2           signal    -18bp (n 62, t -0.9, hit 0.50) | base    +3bp | no-trend    +14bp (n 74)
+  H4           signal    -28bp (n 62, t -1.3, hit 0.55) | base    +6bp | no-trend     +7bp (n 74)
+  H6           signal    -15bp (n 62, t -0.8, hit 0.50) | base    +8bp | no-trend    +21bp (n 74)
+  H10          signal    +51bp (n 62, t +2.5, hit 0.66) | base   +13bp | no-trend    +59bp (n 74)
+  swing_trade  n 35 mean +0bp win 0.29 t +0.0 total +0.2%
+
+BATS_XLU, 60: 7653 4h bars, 48 signals with trend, 83 without
+  H2           signal    -19bp (n 48, t -0.7, hit 0.54) | base    +4bp | no-trend    +23bp (n 83)
+  H4           signal     +2bp (n 48, t +0.1, hit 0.52) | base    +7bp | no-trend    +36bp (n 83)
+  H6           signal     +3bp (n 48, t +0.1, hit 0.50) | base   +10bp | no-trend    +15bp (n 83)
+  H10          signal    +15bp (n 48, t +0.5, hit 0.54) | base   +17bp | no-trend    +35bp (n 83)
+  swing_trade  n 29 mean +13bp win 0.31 t +0.6 total +3.8%
+
+BATS_XLV, 60: 7653 4h bars, 50 signals with trend, 87 without
+  H2           signal     +4bp (n 50, t +0.2, hit 0.52) | base    +4bp | no-trend     +7bp (n 87)
+  H4           signal    -24bp (n 50, t -0.9, hit 0.54) | base    +7bp | no-trend    +11bp (n 87)
+  H6           signal     -9bp (n 50, t -0.2, hit 0.58) | base   +10bp | no-trend    +37bp (n 87)
+  H10          signal   +103bp (n 50, t +3.0, hit 0.76) | base   +16bp | no-trend    +80bp (n 87)
+  swing_trade  n 29 mean +0bp win 0.24 t +0.0 total +0.1%
+
+BATS_XLY, 60: 7654 4h bars, 77 signals with trend, 74 without
+  H2           signal    +24bp (n 77, t +1.2, hit 0.60) | base    +4bp | no-trend    +40bp (n 74)
+  H4           signal    +18bp (n 77, t +0.7, hit 0.62) | base    +9bp | no-trend    +42bp (n 74)
+  H6           signal    +45bp (n 77, t +1.5, hit 0.61) | base   +13bp | no-trend     +4bp (n 74)
+  H10          signal    +80bp (n 77, t +2.4, hit 0.66) | base   +21bp | no-trend    +21bp (n 74)
+  swing_trade  n 45 mean +52bp win 0.47 t +1.9 total +23.5%
+
+BATS_AAPL, 5: 525 4h bars, 2 signals with trend, 8 without
+  swing_trade  n 1 mean +614bp win 1.00 t +0.0 total +6.1%
+
+BATS_AMD, 5: 525 4h bars, 1 signals with trend, 8 without
+  swing_trade  n 1 mean +139bp win 1.00 t +0.0 total +1.4%
+
+BATS_AMZN, 5: 515 4h bars, 1 signals with trend, 6 without
+  swing_trade  n 1 mean -113bp win 0.00 t +0.0 total -1.1%
+
+BATS_COIN, 5: 525 4h bars, 0 signals with trend, 14 without
+
+BATS_IWM, 5: 519 4h bars, 0 signals with trend, 0 without
+
+BATS_MSTR, 5: 515 4h bars, 0 signals with trend, 14 without
+
+BATS_NVDA, 5: 525 4h bars, 0 signals with trend, 4 without
+
+BATS_PLTR, 5: 515 4h bars, 3 signals with trend, 17 without
+  swing_trade  n 1 mean -169bp win 0.00 t +0.0 total -1.7%
+
+BATS_QQQ, 5: 519 4h bars, 0 signals with trend, 3 without
+
+BATS_SPY, 5: 519 4h bars, 0 signals with trend, 2 without
+
+BATS_TSLA, 5: 515 4h bars, 0 signals with trend, 7 without
+
+BATS_XLB, 5: 519 4h bars, 10 signals with trend, 7 without
+  H2           signal    +77bp (n 10, t +2.1, hit 0.70) | base    +9bp | no-trend    +55bp (n 7)
+  H4           signal   +156bp (n 10, t +3.7, hit 1.00) | base   +17bp | no-trend    +74bp (n 7)
+  H6           signal   +248bp (n 10, t +5.0, hit 0.90) | base   +24bp | no-trend    +49bp (n 7)
+  H10          signal   +253bp (n 10, t +3.9, hit 0.90) | base   +39bp | no-trend   +154bp (n 7)
+  swing_trade  n 4 mean +29bp win 0.50 t +0.2 total +1.2%
+
+BATS_XLE, 5: 519 4h bars, 1 signals with trend, 0 without
+  swing_trade  n 1 mean +125bp win 1.00 t +0.0 total +1.2%
+
+BATS_XLF, 5: 519 4h bars, 1 signals with trend, 1 without
+  swing_trade  n 1 mean +175bp win 1.00 t +0.0 total +1.8%
+
+BATS_XLI, 5: 519 4h bars, 0 signals with trend, 3 without
+
+BATS_XLK, 5: 519 4h bars, 1 signals with trend, 4 without
+  swing_trade  n 1 mean -140bp win 0.00 t +0.0 total -1.4%
+
+BATS_XLP, 5: 519 4h bars, 4 signals with trend, 5 without
+  swing_trade  n 2 mean -73bp win 0.00 t +0.0 total -1.5%
+
+BATS_XLU, 5: 519 4h bars, 3 signals with trend, 2 without
+  swing_trade  n 3 mean -2bp win 0.33 t -0.0 total -0.1%
+
+BATS_XLV, 5: 519 4h bars, 1 signals with trend, 3 without
+  swing_trade  n 1 mean -96bp win 0.00 t +0.0 total -1.0%
+
+BATS_XLY, 5: 519 4h bars, 4 signals with trend, 3 without
+  swing_trade  n 3 mean +209bp win 1.00 t +2.2 total +6.3%

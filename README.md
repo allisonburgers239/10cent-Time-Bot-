@@ -736,6 +736,45 @@ next move will be somewhat bigger than normal; it does not say which way,
 and buying the break does not pay. Live state at the first run is in
 `results/squeeze_scan_2026-11-04.txt`.
 
+### Trend-exhaustion swing scan, and the audit behind it (2026-11-04)
+
+Temur's ask: daily uptrend (close > EMA200) + 4-hour exhaustion (close below
+the lower Bollinger(20,2) and RSI(14) < 30) + bearish sentiment, no earnings
+inside 7 days, ranked by the z-distance below the 4-hour SMA20, for a 3-5 day
+reversal. Built as `scripts/scan_trend_exhaustion.py` (public TradingView
+scanner for the top-50 mid-cap tech universe, earnings date and daily rating;
+yfinance hourly bars resampled to two 4-hour session bars a day). "Sentiment"
+is TradingView's daily technical rating plus the VIX; there is no
+institutional-selling field anywhere, so none is claimed.
+
+Audit (`scripts/audit_trend_exhaustion.py`, `results/audit_trend_exhaustion_2026-11-04.txt`):
+
+| Universe | Signals | 5-day return after signal | Right baseline (uptrend bars) | Excess t | Positive years |
+|---|---|---|---|---|---|
+| 12 ETFs (SPY/QQQ/IWM + 9 sectors), hourly 2015-2026 | 704 | +81 bp, hit 67% | +14 bp (placebo +14, sd 8) | **6.7** | 12 of 12 (2015-2026) |
+| top-50 mid-cap tech, yfinance hourly 2024-2026 | 336 | +53 bp, hit 50% | +41 bp (placebo +41, sd 39) | 0.3 | 2 of 3 (2025: -102 bp) |
+
+So: on broad ETFs the 5-day bounce after "uptrend + oversold 4-hour" is real
+and steady - it is the same short-term-reversal effect that E v2 uses, seen
+on a 5-day horizon, and the RSI(14)<30 condition carries most of it (+69 bp
+alone vs +22 bp for the band alone). On the mid-cap tech stocks Temur asked
+about it does not exist in the two years available: no better than any
+uptrend bar, 50% hit rate, worst trade -36%. The tight-stop swing version
+(stop below the 10-bar low, target the SMA20) also fails on the ETFs: win
+rate 23-47%, the stop gets hit before the bounce.
+
+Portfolio simulation of the ETF version (every signal, 5-day hold, 5 slots,
+1 bp/side): Sharpe 0.79, MaxDD -9.5%, but only 2.7% a year because the
+capital is idle most of the time (1.6 of 5 slots used on average). Candidate
+for a slow swing sleeve on ETFs, **not adopted**: it still needs the overlap
+test against E v2 (same reversal, same nights) and the full 7-section audit.
+
+Today's scan: zero matches. Every oversold mid-cap tech name (SANM, KTOS,
+AMKR, VICR, ONTO, NVMI ...) is 20-46% below its 200-day EMA, so none is in
+an uptrend, and half of them report earnings within 5 days. The closest
+uptrend name, ESTC, has a 4-hour RSI of 36 and is still above its lower
+band. Full table in `results/trend_exhaustion_scan_2026-11-04.txt`.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on
