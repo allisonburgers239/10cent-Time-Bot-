@@ -1,0 +1,23 @@
+     symbol        day  gap_pct  pm_high  pm_volume  early_vwap  vwap_now   last  last_vs_vwap_pct  share_bars_above_vwap  last_vs_pm_high_pct                                                    verdict
+NASDAQ:ARRY 2026-11-04    10.32     5.30     570771        5.60      5.52   5.34             -3.32                   0.12                 0.75              below VWAP but still above the pre-market low
+NASDAQ:CRCT 2026-11-04    19.63     7.14       3306        7.65      8.61   8.68              0.84                   0.93                21.57   BUY imbalance: holding above VWAP, above pre-market high
+ NASDAQ:DOX 2026-11-04   -31.26    43.73      41083       43.40     44.86  45.09              0.52                   0.84                 3.11   BUY imbalance: holding above VWAP, above pre-market high
+NASDAQ:DUOL 2026-11-04    25.45   161.00      30524      161.69    168.36 162.62             -3.41                   0.82                 1.01                                         no clear imbalance
+NASDAQ:LYEL 2026-11-04    11.84    12.10        148       14.18     15.45  15.11             -2.22                   0.61                24.88                                         no clear imbalance
+NASDAQ:NRIX 2026-11-04   -33.53    18.79      18977       16.21     15.47  16.18              4.62                   0.44               -13.89                                         no clear imbalance
+  NYSE:ALIT 2026-11-04    34.18    13.66      16171       15.71     15.11  13.42            -11.21                   0.09                -1.76              below VWAP but still above the pre-market low
+   NYSE:UNM 2026-11-04   -16.62    83.85        820       76.15     74.76  74.13             -0.85                   0.18               -11.59 SELL imbalance: cascading below VWAP, below pre-market low
+
+Screener (TradingView, 15:20 ET 2026-11-04): market=america, stocks, gap >= +3% or <= -3%, relative_volume_10d_calc >= 2.5,
+price >= $5, volume >= 500k -> 24 gappers up, 12 down. Top 8 by relative volume, news inside 12h for all 8:
+  ALIT 8.98x  +35% gap  Q3 beat, outlook raised
+  LYEL 8.45x  +12% gap  $80M private placement
+  CRCT 7.38x  +17% gap  Q3 earnings + special dividend
+  ARRY 6.44x  +11% gap  all-stock merger with SHLS + clean-energy rally after midterms
+  DOX  6.30x  -31% gap  T-Mobile business at risk; worst day in 24 years
+  NRIX 5.88x  -34% gap  Sanofi discontinues partnered program
+  DUOL 5.76x  +25% gap  earnings, PT raises
+  UNM  4.85x  -18% gap  Q3 miss on disability claims
+Caveat: relative_volume_10d_calc is today's volume vs the 10-day average, not time-of-day adjusted (TradingView has
+no time-of-day relative-volume column). Pre-market high/low from the extended-hours 5-min export.
+Alerts (price cross, 5-min) set at the pre-market high for CRCT 7.14, DOX 43.73, UNM 83.85, ALIT 13.66, LYEL 12.10, ARRY 5.30.
