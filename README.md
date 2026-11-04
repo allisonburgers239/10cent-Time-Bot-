@@ -99,7 +99,7 @@ rule on Sleeve E's history before wiring anything:
 
 | Rule | Measured on E v2 (2000-2026) | Status |
 |---|---|---|
-| 2% daily loss cap, applied as "skip the next entry after a >2% night" | Sharpe 0.56 -> 0.60, worst night -12% -> -10% (E3 v2: 0.67 -> 0.60) | **Wired** in `daily_overnight_ticket.py` (`risk.daily_loss_cap_hit`) |
+| 2% daily loss cap, applied as "skip the next entry after a >2% night" | Helps plain E (0.56 -> 0.60) but hurts E v2 (SPY 0.63 -> 0.60, E3 v2 0.67 -> 0.60): the night after a >2% loss averages +16 bp vs +4 normally, i.e. it is the reversal E v2 doubles into | **Removed 2026-11-04** (Temur). Only the drawdown gate brakes E now |
 | 30-day rolling Sharpe < 0.3 -> sleeve off (`orchestrator.risk_gate`) | Sleeve off 75% of days; CAGR 8.8% -> 2.3%, Sharpe 0.56 -> 0.40 | **Not wired. Wrong rule for a daily sleeve** (and a 30-day window is meaningless for monthly B). Kept in code for tests only |
 | Drawdown circuit breaker (off at -15/-20/-25%, on at a new 120d high) | Sits out most of the sample; E's crashes recover too fast for any auto-off rule (see the VIX-regime diagnostic: the edge is largest right after drops) | **Not wired as auto-off** |
 | **Drawdown gate: alert at -15%, hard stop at -25% from the equity-history peak** (`orchestrator.drawdown_gate`) | Never triggered historically on E v2 (MaxDD -31% at 1x would have: that is the point - a human looks) | **Wired** in both tickets; needs `data/equity_history.csv`, which both tickets now append |

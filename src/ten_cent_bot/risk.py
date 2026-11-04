@@ -25,18 +25,6 @@ def position_size(
 import pandas as pd  # noqa: E402
 
 
-def daily_loss_cap_hit(equity: pd.Series, cap: float = 0.02) -> tuple[bool, str | None]:
-    """README rule: 2% daily loss -> flatten and stop. For an overnight sleeve
-    the stop is applied to the NEXT entry: if the last recorded day lost more
-    than `cap` of equity, skip tonight.  Needs >= 2 equity points."""
-    if equity is None or len(equity) < 2:
-        return False, None
-    last = float(equity.iloc[-1] / equity.iloc[-2] - 1)
-    if last < -cap:
-        return True, f"last session {last:.2%} < -{cap:.0%} daily loss cap: skip tonight"
-    return False, None
-
-
 def price_is_fresh(last_bar_time: pd.Timestamp, now: pd.Timestamp, max_age_min: int = 10) -> tuple[bool, str | None]:
     """Fail closed if the quote used for the signal is older than max_age_min."""
     age = (now - last_bar_time).total_seconds() / 60

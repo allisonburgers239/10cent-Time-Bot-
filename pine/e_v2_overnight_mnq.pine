@@ -1,33 +1,32 @@
 //@version=6
-// Sleeve E v2 on MNQ (Micro Nasdaq futures) - 10c Time Bot
-// Hold MNQ from the 16:00 ET regular-session close to the 09:30 ET open.
-// On nights where the 2-day RSI of the daily (16:00) closes is below 10,
-// hold 2 contracts instead of 1.
+// Sleeve E v2 on micro Nasdaq futures (10c Time Bot)
+// Buy at the 16:00 ET print, sell at the 09:30 ET print. 1 contract normally,
+// 2 contracts on nights where the 2-day RSI of the 16:00 closes is below 10.
 //
-// Chart: CME_MINI:MNQ1! on 5-minute bars (default session is fine; the
-// script keys off exchange time, so the 15:55 and 09:30 bars exist).
-// Sizing is in CONTRACTS (1 normally, 2 on signal nights). One MNQ is about
-// $59k of exposure, so with $25k this is ~2.4x leverage on one index; the
-// audited sleeve is 1x on a basket. Treat the numbers accordingly.
-// Continuous-contract note: MNQ1! has 4 roll gaps a year (~0.2-0.4% each)
-// that a real position would not experience; TV's P&L includes them.
-strategy("E v2 overnight MNQ (10c)", overlay = true, process_orders_on_close = true,
+// Load on a 5-minute chart of CME_MINI:MNQ1! (1/15-minute also work).
+// Orders fill at the NEXT bar's open (process_orders_on_close = false):
+//   - the buy is placed on the 15:55 bar and fills at the 16:00 bar open;
+//   - the sell is placed on the 09:25 bar and fills at the 09:30 bar open.
+// Futures trade through both times, so no extended-hours setting is needed.
+// MNQ1! is a continuous contract: each quarterly roll adds a small price jump
+// that a real position would not feel. Expect small differences from reality.
+strategy("E v2 overnight MNQ (10c)", overlay = true, process_orders_on_close = false,
      initial_capital = 25000, pyramiding = 0, calc_on_every_tick = false,
-     commission_type = strategy.commission.cash_per_contract, commission_value = 0.62,
-     slippage = 1, default_qty_type = strategy.fixed, default_qty_value = 1,
-     margin_long = 5, margin_short = 5)   // futures margin ~$1.5k per MNQ; without this TV rejects a 2-contract night on a $25k account
+     commission_type = strategy.commission.cash_per_contract, commission_value = 0.62, slippage = 1,
+     margin_long = 5, margin_short = 5)   // futures: ~5% intraday margin; without this TV rejects the 2-contract nights
 
-useOverlay    = input.bool(true,  "RSI(2) < threshold -> extra contracts")
+useOverlay    = input.bool(true,  "RSI(2) < threshold -> more contracts")
 rsiThr        = input.float(10.0, "RSI(2) threshold")
 baseContracts = input.int(1,      "Contracts on a normal night")
-signalMult    = input.int(2,      "Multiplier on a signal night (2 -> 2 contracts)")
+signalMult    = input.int(2,      "Multiplier on a signal night")
 warmup        = input.int(10,     "RSI warm-up days (no signal before)")
-entryHHMM     = input.int(1555,   "Entry bar open time HHMM (ET): 5m 1555, 15m 1545, 30m 1530")
-exitHHMM      = input.int(930,    "Exit bar open time HHMM (ET)")
 
-hhmm = hour(time, "America/New_York") * 100 + minute(time, "America/New_York")
-isEntryBar = hhmm == entryHHMM
-isExitBar  = hhmm == exitHHMM
+if not timeframe.isminutes or timeframe.multiplier > 15
+    runtime.error("Use a 1, 5 or 15-minute chart.")
+
+minOfDay   = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
+isEntryBar = minOfDay + timeframe.multiplier == 960   // 15:55 bar: next bar opens at 16:00
+isPreOpen  = minOfDay + timeframe.multiplier == 570   // 09:25 bar: next bar opens at 09:30
 
 var float prevClose = na
 var float avgUp = na
@@ -49,10 +48,10 @@ signal = useOverlay and not na(rsi2) and nObs > warmup and rsi2 < rsiThr
 int qty = signal ? baseContracts * signalMult : baseContracts
 
 if isEntryBar and strategy.position_size == 0
-    strategy.entry("ON", strategy.long, qty = qty, comment = signal ? str.tostring(qty) + " (signal)" : str.tostring(qty))
+    strategy.entry("ON", strategy.long, qty = qty, comment = signal ? "x" + str.tostring(signalMult) : "x1")
 
-if isExitBar and strategy.position_size > 0
-    strategy.close("ON", comment = "open")
+if isPreOpen and strategy.position_size > 0
+    strategy.close("ON", comment = "open")   // fills at the 09:30 bar open
 
 plotshape(isEntryBar and signal, title = "signal night", style = shape.triangleup, location = location.belowbar, color = color.orange, size = size.tiny)
 plot(rsi2, title = "RSI(2) of daily closes", display = display.data_window)

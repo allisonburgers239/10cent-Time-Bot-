@@ -5,7 +5,7 @@ import pandas as pd
 from ten_cent_bot import calendar_nyse as cal
 from ten_cent_bot import rolls
 from ten_cent_bot.orchestrator import risk_gate
-from ten_cent_bot.risk import daily_loss_cap_hit, price_is_fresh, price_is_plausible
+from ten_cent_bot.risk import price_is_fresh, price_is_plausible
 from ten_cent_bot.state import append_equity, load_equity_history
 
 
@@ -51,10 +51,7 @@ def test_roll_rules_gold_and_crude():
     assert rolls.parse_symbol("MGCG7", "MGC", dt.date(2026, 11, 3)) == (2027, 2)
 
 
-def test_daily_loss_cap_and_data_guards():
-    eq = pd.Series([100.0, 97.0])
-    hit, why = daily_loss_cap_hit(eq); assert hit and "skip" in why
-    assert not daily_loss_cap_hit(pd.Series([100.0, 99.0]))[0]
+def test_data_guards():
     now = pd.Timestamp("2026-11-03 15:50")
     assert price_is_fresh(pd.Timestamp("2026-11-03 15:45"), now)[0]
     assert not price_is_fresh(pd.Timestamp("2026-11-03 15:20"), now)[0]

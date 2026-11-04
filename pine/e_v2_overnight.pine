@@ -1,14 +1,21 @@
 //@version=6
 // Sleeve E v2 - overnight hold with short-term-reversal sizing (10c Time Bot)
-// Buy the last regular-session bar's close (16:00 ET), sell the first bar of
-// the next session at its close (09:35 on a 5-min chart). On nights where the
-// 2-day RSI of the daily closes is below 10, size 2x.
+// Buy at the 16:00 ET closing print, sell at the 09:30 ET opening print.
+// On nights where the 2-day RSI of the daily closes is below 10, size 2x.
 //
-// Load on a 5-minute (or 15/30-minute) chart of SPY / QQQ / IWM / GLD.
-// Extended-hours ON or OFF both work: bars are keyed by exchange time.
+// REQUIRES: a 5-minute chart (1/15-minute also work) of SPY / QQQ / IWM / GLD
+// with EXTENDED HOURS ON (chart settings -> Symbol -> Session -> Extended).
+// Why: orders here fill at the NEXT bar's open (process_orders_on_close = false).
+//   - the buy is placed on the last regular bar (15:55) and fills at the open
+//     of the 16:00 post-market bar = the closing print;
+//   - the sell is placed on the last pre-market bar (09:25) and fills at the
+//     open of the 09:30 bar = the opening print.
+// Without extended hours the buy would fill at the NEXT DAY's open, which is
+// wrong, so the script stops with an error instead. A delayed open is handled:
+// if we are still long on the first regular bar, it sells there.
 // Audited reference (Python, same fills on the repo's 5-min data):
 //   scripts/replicate_tv_strategy.py -> results/replicate_tv_strategy_*.txt
-strategy("E v2 overnight (10c)", overlay = true, process_orders_on_close = true,
+strategy("E v2 overnight (10c)", overlay = true, process_orders_on_close = false,
      initial_capital = 25000, pyramiding = 0, calc_on_every_tick = false,
      commission_type = strategy.commission.percent, commission_value = 0.01, slippage = 0,
      margin_long = 50, margin_short = 50)   // 2x nights exceed equity; TV rejects orders above 100% margin unless this is set
@@ -17,12 +24,14 @@ useOverlay = input.bool(true,  "RSI(2) < threshold -> multiplier")
 rsiThr     = input.float(10.0, "RSI(2) threshold")
 mult       = input.float(2.0,  "Signal multiplier")
 grossPct   = input.float(100,  "Base size, % of equity")
-entryHHMM  = input.int(1555,   "Entry bar open time HHMM (ET). 5m: 1555, 15m: 1545, 30m: 1530, 60m: 1500")
-exitHHMM   = input.int(930,    "Exit bar open time HHMM (ET)")
+warmup     = input.int(10,     "RSI warm-up days (no signal before)")
 
-hhmm = hour(time, "America/New_York") * 100 + minute(time, "America/New_York")
-isEntryBar = hhmm == entryHHMM
-isExitBar  = hhmm == exitHHMM
+if not timeframe.isminutes or timeframe.multiplier > 15
+    runtime.error("Use a 1, 5 or 15-minute chart.")
+
+minOfDay   = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
+isEntryBar = session.islastbar_regular                                        // 15:55 bar (12:55 on half days); its close = closing print
+isPreOpen  = session.ispremarket and minOfDay + timeframe.multiplier == 570   // 09:25 bar: next bar opens at 09:30
 
 // Daily close series built from the entry bar's close (what is known at 16:00),
 // Wilder RSI(2) = EWM with alpha 1/2, seeded on the first diff (matches pandas ewm adjust=false).
@@ -30,8 +39,7 @@ var float prevClose = na
 var float avgUp = na
 var float avgDn = na
 var float rsi2 = na
-var int   nObs = 0          // daily closes seen; RSI is only trusted after warmup
-warmup = input.int(10, "RSI warm-up days (no signal before)")
+var int   nObs = 0
 if isEntryBar
     if not na(prevClose)
         float d  = close - prevClose
@@ -46,13 +54,22 @@ if isEntryBar
 signal = useOverlay and not na(rsi2) and nObs > warmup and rsi2 < rsiThr
 sizeMult = signal ? mult : 1.0
 
+// Extended-hours guard: the bar right after the entry bar must be a post-market bar.
+var bool armed = false
+if armed and not session.ispostmarket
+    runtime.error("Extended hours are OFF on this chart. Turn them ON (Symbol settings -> Session) or the fills are wrong.")
+armed := isEntryBar
+
 if isEntryBar and strategy.position_size == 0
     float qty = math.floor(strategy.equity * grossPct / 100.0 * sizeMult / close)
     if qty > 0
         strategy.entry("ON", strategy.long, qty = qty, comment = signal ? "x" + str.tostring(mult) : "x1")
 
-if isExitBar and strategy.position_size > 0
-    strategy.close("ON", comment = "open")
+if strategy.position_size > 0
+    if isPreOpen
+        strategy.close("ON", comment = "open")                          // fills at the 09:30 bar open
+    else if session.isfirstbar_regular
+        strategy.close("ON", comment = "late open", immediately = true) // delayed open: get out on the first regular bar
 
 plotshape(isEntryBar and signal, title = "signal night", style = shape.triangleup, location = location.belowbar, color = color.orange, size = size.tiny)
 plot(rsi2, title = "RSI(2) of daily closes", display = display.data_window)

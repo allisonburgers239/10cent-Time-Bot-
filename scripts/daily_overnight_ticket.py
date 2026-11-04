@@ -36,7 +36,7 @@ from ten_cent_bot import overnight as ov
 from ten_cent_bot import calendar_nyse as cal
 from ten_cent_bot.contracts import CONTRACTS
 from ten_cent_bot.orchestrator import drawdown_gate
-from ten_cent_bot.risk import daily_loss_cap_hit, price_is_fresh, price_is_plausible
+from ten_cent_bot.risk import price_is_fresh, price_is_plausible
 from ten_cent_bot.state import append_equity, load_equity_history
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -161,8 +161,6 @@ def main() -> int:
         ok, why = price_is_plausible(last[t], float(closes[t].iloc[-1]), 0.08)
         if not ok: blocks.append(f"{t}: {why}")
     hist = load_equity_history(EQUITY_FILE)
-    hit, why = daily_loss_cap_hit(hist, 0.02)
-    if hit: blocks.append(why)
     allowed, why, alert = drawdown_gate(hist, alert_dd=0.15, stop_dd=0.25)
     if not allowed: blocks.append(why)
     elif alert: warns.append(alert)

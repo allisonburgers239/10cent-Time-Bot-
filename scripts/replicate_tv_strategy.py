@@ -3,8 +3,9 @@ convention, computed in Python on the repo's 5-min BATS exports
 (SPY/QQQ/IWM, 2025-06 -> 2026-06).
 
 TV convention replicated exactly:
-  entry  = close of the 15:55 bar (process_orders_on_close), qty = floor(equity * mult / price)
-  exit   = close of the 09:30 bar (= 09:35 print)
+  entry  = close of the 15:55 bar (= the 16:00 closing print), qty = floor(equity * mult / price)
+  exit   = OPEN of the 09:30 bar (= the 09:30 opening print; changed 2026-11-04 from the
+           09:30 bar's close, which was the 09:35 print - the Pine now fills at next-bar open)
   RSI(2) = Wilder EWM (alpha 1/2) on the sequence of 15:55 closes, seeded on the first diff
   cost   = 0.01% per side (commission_value = 0.01)
   equity compounds; no entry on days without a 15:55 bar (half days)
@@ -27,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def run(sym: str, equity0: float = 25000.0, thr: float = 10.0, mult: float = 2.0, cost: float = 0.0001):
     bars = load_tv_csv(ROOT / f"BATS_{sym}, 5.csv").tz_convert("America/New_York")
     ent = bars.between_time("15:55", "15:55")["close"]; ent.index = ent.index.normalize()
-    ext = bars.between_time("09:30", "09:30")["close"]; ext.index = ext.index.normalize()
+    ext = bars.between_time("09:30", "09:30")["open"]; ext.index = ext.index.normalize()
     ent = ent[~ent.index.duplicated()]; ext = ext[~ext.index.duplicated()]
     days = sorted(ent.index)
     au = ad = None; prev = None; equity = equity0; trades = []; eq_curve = []

@@ -18,7 +18,17 @@ import yfinance as yf
 from ten_cent_bot import overnight as ov
 from ten_cent_bot.metrics import max_drawdown, sharpe
 from ten_cent_bot.orchestrator import risk_gate
-from ten_cent_bot.risk import daily_loss_cap_hit
+
+
+def daily_loss_cap_hit(equity: pd.Series, cap: float = 0.02) -> tuple[bool, str | None]:
+    """Removed from risk.py on 2026-11-04 (the night after a >2% loss is E's best night;
+    the cap cost ~1.2%/yr and lowered Sharpe on E v2). Kept here so this audit still runs."""
+    if equity is None or len(equity) < 2:
+        return False, None
+    last = float(equity.iloc[-1] / equity.iloc[-2] - 1)
+    if last < -cap:
+        return True, f"last session {last:.2%} < -{cap:.0%} daily loss cap: skip tonight"
+    return False, None
 
 
 def summ(r):
