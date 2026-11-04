@@ -678,6 +678,34 @@ overnight premium is the one shifted distribution we can reach with this
 data, and the work that pays is running it better, not finding a second one
 in intraday bars.
 
+### Daily gap + volume + news scan (Temur's idea, logging since 2026-11-04)
+
+The idea: at ~10:00 ET, find stocks gapping >= 3% on >= 2.5x relative volume
+with news inside 12 hours, and read whether the first 30 minutes show an
+institutional imbalance (holding above the session VWAP and the pre-market
+high = buyers; cascading below VWAP and the pre-market low = sellers).
+
+It cannot be backtested - TradingView keeps no history of what the screener
+showed on past mornings - so it is being **forward-logged**:
+
+- `scripts/daily_scan.py` runs the public TradingView scanner (no login),
+  pulls 5-minute pre/post-market bars from yfinance, checks the headline feed,
+  computes VWAP / pre-market high / verdict, and appends to `results/scan_log.csv`.
+- `ops/install_daily_scan.sh` installs it as a launchd job, Mon-Fri 10:00 ET
+  (09:00 Central). The Mac has to be awake.
+- `scripts/score_scan_log.py` fills in each day's close and scores the log.
+
+**Pre-registered test (so we cannot fool ourselves later):** the verdict at
+10:00 predicts 10:00 -> close. Claim: `BUY_IMBALANCE` names beat
+`SELL_IMBALANCE` names by more than ~20 bp round trip. First read after ~30
+trading days. Anything else that shows up in the log is a new hypothesis to
+test next, not a result. Known weakness: TradingView's relative volume is
+today-vs-10-day-average, not time-of-day adjusted, so morning readings run hot.
+
+First manual run (2026-11-04, 15:30 ET, 8 names): CRCT and DOX buyers in
+control, UNM sellers, the rest two-sided (`results/scan_gap_volume_vwap_2026-11-04.txt`).
+Alerts were set at each pre-market high through the TradingView API.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

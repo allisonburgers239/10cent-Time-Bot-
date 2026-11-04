@@ -1,0 +1,17 @@
+scan_time_et,symbol,rel_volume,screener_gap_pct,news_12h,headline,prev_close,open,gap_pct,pm_high,pm_low,vwap,last,last_vs_vwap_pct,share_above_vwap,bars,verdict
+2026-11-04 15:15,NYSE:ALIT,9.09,34.98,True,Why is Alight (ALIT) stock soaring today,10.16,13.66,34.4488,13.565,11.55,15.0659,13.19,-12.4513,0.0857,70,LEAN_DOWN
+2026-11-04 15:15,NASDAQ:LYEL,8.59,12.26,True,Lyell Immunopharma raises $80M in private placement; shares up 35%,10.79,13.93,29.101,12.0,11.324,15.3686,15.23,-0.9016,0.6912,68,TWO_SIDED
+2026-11-04 15:15,NASDAQ:CRCT,7.72,17.25,True,Cricut Q3 Earnings Call Highlights Innovation-Led Growth,5.975,7.0,17.1548,7.15,6.5794,8.6005,8.76,1.8547,0.9429,70,BUY_IMBALANCE
+2026-11-04 15:15,NASDAQ:ARRY,6.5,10.56,True,"Clean energy, solar stocks surge after Democrats sweep midterm elections",4.66,5.12,9.8712,5.3,4.57,5.474,5.44,-0.6219,0.2,70,LEAN_DOWN
+2026-11-04 15:15,NASDAQ:DOX,6.38,-31.23,True,Did You Lose Money on Amdocs Limited Stock? The Law Offices of Howard G. Smith Announces Securities Fraud Investigation ,62.49,43.24,-30.8049,43.89,34.15,44.7333,44.635,-0.2197,0.8714,70,TWO_SIDED
+2026-11-04 15:15,NASDAQ:DUOL,6.06,25.0,True,Duolingo Is Maintained at Neutral by JP Morgan,127.96,161.75,26.4067,161.0,142.0,167.9797,161.375,-3.9319,0.8286,70,TWO_SIDED
+2026-11-04 15:15,NASDAQ:NRIX,5.93,-33.54,True,Nurix says Sanofi discontinues autoimmune disease drug program,25.84,17.16,-33.5913,19.01,17.0,15.5428,16.04,3.1992,0.4286,70,TWO_SIDED
+2026-11-04 15:15,NASDAQ:SHLS,5.05,4.6,True,SHLS: A stock merger targets more than $100M in annual synergies by year three,8.48,8.86,4.4811,9.33,8.42,9.2601,9.11,-1.6208,0.2143,70,LEAN_DOWN
+2026-11-04 15:15,NYSE:ALIT,9.09,34.98,True,Why is Alight (ALIT) stock soaring today,10.16,13.66,34.4488,13.565,11.55,15.0659,13.19,-12.4513,0.0857,70,LEAN_DOWN
+2026-11-04 15:15,NASDAQ:LYEL,8.59,12.26,True,Lyell Immunopharma raises $80M in private placement; shares up 35%,10.79,13.93,29.101,12.0,11.324,15.3686,15.23,-0.9016,0.6912,68,TWO_SIDED
+2026-11-04 15:15,NASDAQ:CRCT,7.72,17.25,True,Cricut Q3 Earnings Call Highlights Innovation-Led Growth,5.975,7.0,17.1548,7.15,6.5794,8.6005,8.7418,1.6431,0.9429,70,BUY_IMBALANCE
+2026-11-04 15:15,NASDAQ:ARRY,6.5,10.56,True,"Clean energy, solar stocks surge after Democrats sweep midterm elections",4.66,5.12,9.8712,5.3,4.57,5.474,5.415,-1.0786,0.2,70,LEAN_DOWN
+2026-11-04 15:15,NASDAQ:DOX,6.38,-31.23,True,Did You Lose Money on Amdocs Limited Stock? The Law Offices of Howard G. Smith Announces Securities Fraud Investigation ,62.49,43.24,-30.8049,43.89,34.15,44.7333,44.635,-0.2197,0.8714,70,TWO_SIDED
+2026-11-04 15:15,NASDAQ:DUOL,6.06,25.0,True,Duolingo Is Maintained at Neutral by JP Morgan,127.96,161.75,26.4067,161.0,142.0,167.9797,161.5,-3.8575,0.8286,70,TWO_SIDED
+2026-11-04 15:15,NASDAQ:NRIX,5.93,-33.54,True,Nurix says Sanofi discontinues autoimmune disease drug program,25.84,17.16,-33.5913,19.01,17.0,15.5428,16.04,3.1992,0.4286,70,TWO_SIDED
+2026-11-04 15:15,NASDAQ:SHLS,5.05,4.6,True,SHLS: A stock merger targets more than $100M in annual synergies by year three,8.48,8.86,4.4811,9.33,8.42,9.2601,9.08,-1.9448,0.2143,70,LEAN_DOWN
