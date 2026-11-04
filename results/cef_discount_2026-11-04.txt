@@ -1,0 +1,10 @@
+funds with price + NAV: 35; 1980-03-17 -> 2026-11-04
+months 259, avg funds per month 29, months with a z<=-1.5 fund 67%
+  all funds equal-weight (benchmark)               n 259  mean +0.87%/mo  Sharpe +0.64  t +3.0  halves +0.74/+1.01
+  NAV return of all funds                          n 259  mean +0.08%/mo  Sharpe +0.07  t +0.3  halves -0.07/+0.24
+  widest-5 discounts vs own history, 1-month hold  n 259  mean +1.22%/mo  Sharpe +0.78  t +3.6  halves +1.24/+1.20
+    ...their NAV return (asset part)               n 259  mean +0.01%/mo  Sharpe +0.01  t +0.0  halves -0.02/+0.04
+  funds with z <= -1.5                             n 174  mean +1.19%/mo  Sharpe +0.65  t +2.5  halves +0.63/+1.74
+  funds with z >= +1.5 (should be worse)           n 230  mean -0.76%/mo  Sharpe -0.41  t -1.8  halves -0.65/-0.86
+  widest-5 minus all-funds: +0.35%/mo t +2.7 | by year: 2005:+1.9 2006:-1.6 2007:+11.1 2008:+2.1 2009:+24.9 2010:+12.6 2011:-4.4 2012:+0.2 2013:+6.5 2014:+2.7 2015:+8.7 2016:-0.8 2017:-3.3 2018:+1.2 2019:-3.2 2020:+20.2 2021:+8.1 2022:+1.9 2023:+1.7 2024:+0.6 2025:+0.5 2026:-1.6
+  placebo random-5: mean +0.77%/mo sd 0.10 | p(placebo >= widest5) = 0.000

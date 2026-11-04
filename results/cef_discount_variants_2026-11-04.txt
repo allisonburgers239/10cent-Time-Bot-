@@ -1,0 +1,20 @@
+CEF discount variants (excess of widest-k over all-funds equal weight, %/month, t, Sharpe of the strategy)
+  window 12m widest-3 cost 5bp/side: strat +1.12%/mo Sharpe 0.67 | excess +0.23%/mo t +1.4 | excess 2011+ +0.13%/mo t +0.9
+  window 12m widest-3 cost 10bp/side: strat +1.02%/mo Sharpe 0.61 | excess +0.13%/mo t +0.8 | excess 2011+ +0.03%/mo t +0.2
+  window 12m widest-5 cost 5bp/side: strat +1.16%/mo Sharpe 0.76 | excess +0.27%/mo t +2.3 | excess 2011+ +0.14%/mo t +1.4
+  window 12m widest-5 cost 10bp/side: strat +1.06%/mo Sharpe 0.69 | excess +0.17%/mo t +1.5 | excess 2011+ +0.04%/mo t +0.4
+  window 12m widest-8 cost 5bp/side: strat +1.12%/mo Sharpe 0.78 | excess +0.24%/mo t +2.8 | excess 2011+ +0.11%/mo t +1.5
+  window 12m widest-8 cost 10bp/side: strat +1.02%/mo Sharpe 0.71 | excess +0.14%/mo t +1.6 | excess 2011+ +0.01%/mo t +0.2
+  window 24m widest-3 cost 5bp/side: strat +1.22%/mo Sharpe 0.73 | excess +0.35%/mo t +2.1 | excess 2011+ +0.22%/mo t +1.4
+  window 24m widest-3 cost 10bp/side: strat +1.12%/mo Sharpe 0.67 | excess +0.25%/mo t +1.5 | excess 2011+ +0.12%/mo t +0.8
+  window 24m widest-5 cost 5bp/side: strat +1.22%/mo Sharpe 0.78 | excess +0.35%/mo t +2.7 | excess 2011+ +0.21%/mo t +1.7
+  window 24m widest-5 cost 10bp/side: strat +1.12%/mo Sharpe 0.71 | excess +0.25%/mo t +1.9 | excess 2011+ +0.11%/mo t +0.9
+  window 24m widest-8 cost 5bp/side: strat +1.06%/mo Sharpe 0.72 | excess +0.18%/mo t +2.0 | excess 2011+ +0.09%/mo t +0.9
+  window 24m widest-8 cost 10bp/side: strat +0.96%/mo Sharpe 0.65 | excess +0.08%/mo t +0.9 | excess 2011+ -0.01%/mo t -0.1
+  window 36m widest-3 cost 5bp/side: strat +1.28%/mo Sharpe 0.70 | excess +0.42%/mo t +2.2 | excess 2011+ +0.18%/mo t +1.2
+  window 36m widest-3 cost 10bp/side: strat +1.18%/mo Sharpe 0.65 | excess +0.32%/mo t +1.7 | excess 2011+ +0.08%/mo t +0.5
+  window 36m widest-5 cost 5bp/side: strat +1.20%/mo Sharpe 0.75 | excess +0.35%/mo t +2.7 | excess 2011+ +0.20%/mo t +1.6
+  window 36m widest-5 cost 10bp/side: strat +1.10%/mo Sharpe 0.68 | excess +0.25%/mo t +1.9 | excess 2011+ +0.10%/mo t +0.8
+  window 36m widest-8 cost 5bp/side: strat +1.17%/mo Sharpe 0.78 | excess +0.31%/mo t +3.4 | excess 2011+ +0.18%/mo t +2.0
+  window 36m widest-8 cost 10bp/side: strat +1.07%/mo Sharpe 0.71 | excess +0.21%/mo t +2.3 | excess 2011+ +0.08%/mo t +0.9
+  deepest absolute discount, widest-5: strat +1.32%/mo | excess +0.45%/mo t +3.6

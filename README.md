@@ -808,6 +808,20 @@ mostly idle costs nothing (~$100k+), and even then it lifts the book's Sharpe
 by 0.07 while lowering its return. Kept in the library for that day; the
 daily scan stays off.
 
+### Forced-flow ideas (2026-11-04 evening): who has to trade on a schedule?
+
+Temur's framing: an edge is money left by people who must trade regardless of
+price (the overnight premium = institutions that cannot hold overnight; the
+reversal multiplier = margin-call selling that has finished). Four candidates
+were named; two are testable with free data today, two are not.
+
+| Idea | Test | Result |
+|---|---|---|
+| **1. Big stocks down >= 15% in a week on 2x volume, non-earnings, buy the close, hold 5 days** | 398 stocks > $5B today (survivorship-biased: an upper bound), 10 years, earnings weeks removed with yfinance's earnings-date history (`scripts/screen_crash_week_reversal.py`) | Headline looks great: +2.9% next week (t 2.6) vs +0.4% for any week. But 214 of 296 events are March 2020 and most of the rest are the April-2025 tariff week. Split by whether the whole market crashed that week: market-wide weeks +3.4%; single-stock crashes +1.9%; single-stock crashes excluding 2020 and 2025 **+0.2% (t 0.2), below the +0.4% baseline**. The bounce is the index V-recovery, not forced selling in one name. Shelved. |
+| **3. Closed-end funds at an unusually wide discount to NAV, hold a month** | 35 CEFs with Yahoo price + NAV history (2004-2026, survivorship in the list), z-score of the discount vs its own 2-year history, widest-5 each month, 5 bp/side (`scripts/screen_cef_discount.py`, variants file) | Real but small. Widest-5: +1.22%/month, Sharpe 0.78, vs +0.87%/month and 0.64 for holding all 35 funds; excess +0.35%/month, t 2.7, both halves, placebo p = 0.000; the gain is entirely discount narrowing (the NAVs of the picked funds return 0.0%). Funds at unusually *narrow* discounts lose -0.76%/month, the mirror image. Caveats: the excess shrinks to +0.1-0.2%/month after 2011 (t 0.9-2.0), halves at 10 bp/side, and the biggest years are 2009, 2010 and 2020 (discounts blow out in panics and close after). The deepest-absolute-discount variant is the strongest (+0.45%/month excess, t 3.6). **Candidate for a slow monthly sleeve** at retail size; needs the full audit and a cleaner fund list (including dead funds) before adoption. |
+| 2. Selling overpriced options before earnings | Needs options price history (IBKR account). Not testable here. | Open |
+| 4. The overnight premium in other countries (DAX, KOSPI, HSI, Nikkei) | Proven in October on index data; needs futures access and ~$100k to size. | Open; the most certain of the four, parked on capital |
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on
