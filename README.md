@@ -706,6 +706,36 @@ First manual run (2026-11-04, 15:30 ET, 8 names): CRCT and DOX buyers in
 control, UNM sellers, the rest two-sided (`results/scan_gap_volume_vwap_2026-11-04.txt`).
 Alerts were set at each pre-market high through the TradingView API.
 
+### Volatility-squeeze scanner, and whether a squeeze means anything (2026-11-04)
+
+Temur's ask: scan 1- and 5-minute bars for a Bollinger-inside-Keltner squeeze
+(BB(20,2) inside KC(20, 1.5 ATR)), rolling 100-bar volatility, the volume lean
+of the last 10 bars, the breakout levels, and alerts 0.05% beyond the range.
+Built as `scripts/squeeze_scan.py` (yfinance 1m/5m with pre/post market, no
+login; 15-symbol watchlist "10c HF volatility" also created in TradingView).
+Alerts are set through the TradingView API on live 1-minute squeezes.
+
+Before trusting the premise, `scripts/screen_squeeze_validity.py` tested it
+on 24 five-minute files (ETFs and stocks 1 year, micro futures 3.5 months,
+~4,000 squeeze releases; `results/squeeze_validity_2026-11-04.txt`):
+
+- **Size of the move after a squeeze releases:** 10-20% larger than after a
+  random bar on single stocks (AMD 1.3x, t 3.3; QQQ/IWM 1.2x, t 2.1-2.6),
+  no larger on SPY or the index futures (ratio 0.9-1.0). Real but small.
+  "Massive imminent breakout" is not what the data shows.
+- **Direction from the volume lean (up-volume share of the last 10 bars):**
+  no predictive power anywhere. Correlation with the next move's sign is
+  between -0.17 and +0.08; buyers-lean squeezes went up 30-60% of the time.
+  Where there is any pattern it is contrarian (AMD, NVDA, TSLA, MES).
+- **The breakout trade itself** (buy/sell the first close beyond the range,
+  stop at the midpoint, 12 bars): negative on 19 of 24 files, -2 to -11 bp a
+  trade, MES t -5.5. Chasing the alert is a losing trade on average.
+
+So the scanner is useful as a map of where ranges are tight and where the
+next move will be somewhat bigger than normal; it does not say which way,
+and buying the break does not pay. Live state at the first run is in
+`results/squeeze_scan_2026-11-04.txt`.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

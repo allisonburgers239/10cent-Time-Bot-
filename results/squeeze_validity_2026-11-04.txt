@@ -1,0 +1,156 @@
+
+BATS_AAPL, 5: 20359 bars, 186 squeeze releases, volume=True
+  move3_release_vs_base    0.84 vs 0.80 ATR (ratio 1.04, t +0.5)
+  move6_release_vs_base    1.27 vs 1.11 ATR (ratio 1.15, t +1.6)
+  move12_release_vs_base   1.74 vs 1.50 ATR (ratio 1.17, t +1.8)
+  direction                buyers-lean n 58 up-rate 0.50 | sellers-lean n 55 up-rate 0.53 | corr(share, sign) -0.014
+  breakout_trade           n 138 mean -3.4bp win 0.33 t -0.9
+
+BATS_AMD, 5: 20359 bars, 198 squeeze releases, volume=True
+  move3_release_vs_base    1.04 vs 0.78 ATR (ratio 1.33, t +3.2)
+  move6_release_vs_base    1.39 vs 1.06 ATR (ratio 1.31, t +3.3)
+  move12_release_vs_base   1.82 vs 1.41 ATR (ratio 1.29, t +3.3)
+  direction                buyers-lean n 66 up-rate 0.42 | sellers-lean n 68 up-rate 0.65 | corr(share, sign) -0.171
+  breakout_trade           n 147 mean -11.3bp win 0.38 t -1.2
+
+BATS_AMZN, 5: 19974 bars, 181 squeeze releases, volume=True
+  move3_release_vs_base    0.91 vs 0.80 ATR (ratio 1.13, t +1.6)
+  move6_release_vs_base    1.29 vs 1.11 ATR (ratio 1.16, t +1.8)
+  move12_release_vs_base   1.79 vs 1.50 ATR (ratio 1.20, t +2.2)
+  direction                buyers-lean n 47 up-rate 0.45 | sellers-lean n 59 up-rate 0.56 | corr(share, sign) -0.055
+  breakout_trade           n 142 mean -6.6bp win 0.37 t -1.8
+
+BATS_COIN, 5: 20359 bars, 144 squeeze releases, volume=True
+  move3_release_vs_base    0.89 vs 0.83 ATR (ratio 1.07, t +0.8)
+  move6_release_vs_base    1.25 vs 1.14 ATR (ratio 1.10, t +1.2)
+  move12_release_vs_base   1.62 vs 1.54 ATR (ratio 1.05, t +0.7)
+  direction                buyers-lean n 42 up-rate 0.52 | sellers-lean n 50 up-rate 0.50 | corr(share, sign) +0.009
+  breakout_trade           n 112 mean -3.7bp win 0.48 t -0.4
+
+BATS_IWM, 5: 20094 bars, 144 squeeze releases, volume=False
+  move3_release_vs_base    0.94 vs 0.85 ATR (ratio 1.10, t +1.2)
+  move6_release_vs_base    1.43 vs 1.18 ATR (ratio 1.21, t +2.1)
+  move12_release_vs_base   2.06 vs 1.63 ATR (ratio 1.26, t +2.6)
+  breakout_trade           n 107 mean -1.2bp win 0.45 t -0.4
+
+BATS_MSTR, 5: 19974 bars, 155 squeeze releases, volume=True
+  move3_release_vs_base    0.87 vs 0.83 ATR (ratio 1.05, t +0.6)
+  move6_release_vs_base    1.31 vs 1.14 ATR (ratio 1.15, t +1.8)
+  move12_release_vs_base   1.70 vs 1.56 ATR (ratio 1.09, t +1.2)
+  direction                buyers-lean n 37 up-rate 0.57 | sellers-lean n 53 up-rate 0.42 | corr(share, sign) +0.051
+  breakout_trade           n 127 mean +4.2bp win 0.45 t +0.4
+
+BATS_NVDA, 5: 20364 bars, 189 squeeze releases, volume=True
+  move3_release_vs_base    0.90 vs 0.79 ATR (ratio 1.14, t +1.7)
+  move6_release_vs_base    1.18 vs 1.08 ATR (ratio 1.10, t +1.4)
+  move12_release_vs_base   1.57 vs 1.45 ATR (ratio 1.08, t +1.0)
+  direction                buyers-lean n 54 up-rate 0.30 | sellers-lean n 69 up-rate 0.48 | corr(share, sign) -0.108
+  breakout_trade           n 135 mean -6.0bp win 0.36 t -1.3
+
+BATS_PLTR, 5: 19974 bars, 173 squeeze releases, volume=True
+  move3_release_vs_base    1.01 vs 0.80 ATR (ratio 1.26, t +2.8)
+  move6_release_vs_base    1.27 vs 1.09 ATR (ratio 1.17, t +1.8)
+  move12_release_vs_base   1.73 vs 1.47 ATR (ratio 1.18, t +2.3)
+  direction                buyers-lean n 54 up-rate 0.43 | sellers-lean n 56 up-rate 0.48 | corr(share, sign) -0.065
+  breakout_trade           n 134 mean +7.0bp win 0.49 t +0.9
+
+BATS_QQQ, 5: 20094 bars, 177 squeeze releases, volume=False
+  move3_release_vs_base    0.96 vs 0.80 ATR (ratio 1.19, t +2.2)
+  move6_release_vs_base    1.31 vs 1.11 ATR (ratio 1.19, t +2.1)
+  move12_release_vs_base   1.86 vs 1.53 ATR (ratio 1.22, t +2.1)
+  breakout_trade           n 136 mean -2.1bp win 0.40 t -0.8
+
+BATS_SPY, 5: 20094 bars, 180 squeeze releases, volume=False
+  move3_release_vs_base    0.81 vs 0.81 ATR (ratio 1.00, t +0.1)
+  move6_release_vs_base    1.18 vs 1.13 ATR (ratio 1.04, t +0.6)
+  move12_release_vs_base   1.62 vs 1.58 ATR (ratio 1.03, t +0.4)
+  breakout_trade           n 142 mean -2.7bp win 0.39 t -1.4
+
+BATS_TSLA, 5: 19974 bars, 192 squeeze releases, volume=True
+  move3_release_vs_base    0.98 vs 0.79 ATR (ratio 1.24, t +2.5)
+  move6_release_vs_base    1.23 vs 1.10 ATR (ratio 1.12, t +1.5)
+  move12_release_vs_base   1.74 vs 1.48 ATR (ratio 1.18, t +2.4)
+  direction                buyers-lean n 71 up-rate 0.37 | sellers-lean n 67 up-rate 0.49 | corr(share, sign) -0.088
+  breakout_trade           n 138 mean -3.8bp win 0.46 t -0.6
+
+BATS_XLB, 5: 20094 bars, 114 squeeze releases, volume=False
+  move3_release_vs_base    0.90 vs 0.91 ATR (ratio 0.99, t -0.1)
+  move6_release_vs_base    1.32 vs 1.26 ATR (ratio 1.05, t +0.4)
+  move12_release_vs_base   1.92 vs 1.73 ATR (ratio 1.11, t +1.1)
+  breakout_trade           n 88 mean +1.1bp win 0.45 t +0.4
+
+BATS_XLE, 5: 20094 bars, 153 squeeze releases, volume=False
+  move3_release_vs_base    0.73 vs 0.86 ATR (ratio 0.85, t -2.4)
+  move6_release_vs_base    1.13 vs 1.18 ATR (ratio 0.96, t -0.6)
+  move12_release_vs_base   1.58 vs 1.57 ATR (ratio 1.01, t +0.1)
+  breakout_trade           n 113 mean -3.4bp win 0.43 t -1.2
+
+BATS_XLF, 5: 20094 bars, 126 squeeze releases, volume=False
+  move3_release_vs_base    1.07 vs 0.89 ATR (ratio 1.21, t +2.0)
+  move6_release_vs_base    1.25 vs 1.22 ATR (ratio 1.02, t +0.3)
+  move12_release_vs_base   1.74 vs 1.67 ATR (ratio 1.04, t +0.5)
+  breakout_trade           n 98 mean -2.7bp win 0.40 t -1.0
+
+BATS_XLI, 5: 20094 bars, 134 squeeze releases, volume=False
+  move3_release_vs_base    1.10 vs 0.86 ATR (ratio 1.27, t +2.1)
+  move6_release_vs_base    1.56 vs 1.21 ATR (ratio 1.29, t +2.4)
+  move12_release_vs_base   2.25 vs 1.67 ATR (ratio 1.35, t +2.8)
+  breakout_trade           n 108 mean +3.9bp win 0.50 t +1.4
+
+BATS_XLK, 5: 20094 bars, 158 squeeze releases, volume=False
+  move3_release_vs_base    0.99 vs 0.84 ATR (ratio 1.18, t +2.0)
+  move6_release_vs_base    1.34 vs 1.14 ATR (ratio 1.17, t +1.9)
+  move12_release_vs_base   1.77 vs 1.57 ATR (ratio 1.13, t +1.4)
+  breakout_trade           n 125 mean -5.6bp win 0.42 t -2.1
+
+BATS_XLP, 5: 20094 bars, 130 squeeze releases, volume=False
+  move3_release_vs_base    0.87 vs 0.89 ATR (ratio 0.98, t -0.3)
+  move6_release_vs_base    1.08 vs 1.21 ATR (ratio 0.89, t -1.6)
+  move12_release_vs_base   1.47 vs 1.62 ATR (ratio 0.91, t -1.2)
+  breakout_trade           n 106 mean -3.3bp win 0.43 t -1.9
+
+BATS_XLU, 5: 20094 bars, 108 squeeze releases, volume=False
+  move3_release_vs_base    0.84 vs 0.91 ATR (ratio 0.93, t -1.0)
+  move6_release_vs_base    1.19 vs 1.25 ATR (ratio 0.95, t -0.6)
+  move12_release_vs_base   1.68 vs 1.69 ATR (ratio 0.99, t -0.1)
+  breakout_trade           n 90 mean -4.3bp win 0.41 t -1.7
+
+BATS_XLV, 5: 20094 bars, 156 squeeze releases, volume=False
+  move3_release_vs_base    1.04 vs 0.86 ATR (ratio 1.21, t +2.3)
+  move6_release_vs_base    1.33 vs 1.17 ATR (ratio 1.14, t +1.8)
+  move12_release_vs_base   1.75 vs 1.57 ATR (ratio 1.11, t +1.4)
+  breakout_trade           n 121 mean -1.4bp win 0.46 t -0.8
+
+BATS_XLY, 5: 20094 bars, 116 squeeze releases, volume=False
+  move3_release_vs_base    0.95 vs 0.88 ATR (ratio 1.08, t +0.8)
+  move6_release_vs_base    1.36 vs 1.23 ATR (ratio 1.10, t +1.1)
+  move12_release_vs_base   1.79 vs 1.69 ATR (ratio 1.06, t +0.6)
+  breakout_trade           n 97 mean +2.1bp win 0.45 t +0.7
+
+CME_MINI_M2K1!, 5: 20995 bars, 204 squeeze releases, volume=True
+  move3_release_vs_base    0.86 vs 0.92 ATR (ratio 0.93, t -1.3)
+  move6_release_vs_base    1.18 vs 1.31 ATR (ratio 0.90, t -1.8)
+  move12_release_vs_base   1.78 vs 1.90 ATR (ratio 0.94, t -0.9)
+  direction                buyers-lean n 57 up-rate 0.44 | sellers-lean n 74 up-rate 0.51 | corr(share, sign) -0.099
+  breakout_trade           n 161 mean -3.2bp win 0.30 t -2.9
+
+CME_MINI_MES1!, 5: 19896 bars, 233 squeeze releases, volume=True
+  move3_release_vs_base    0.86 vs 0.86 ATR (ratio 1.01, t +0.1)
+  move6_release_vs_base    1.26 vs 1.23 ATR (ratio 1.03, t +0.5)
+  move12_release_vs_base   1.77 vs 1.77 ATR (ratio 1.00, t +0.0)
+  direction                buyers-lean n 83 up-rate 0.42 | sellers-lean n 84 up-rate 0.56 | corr(share, sign) -0.117
+  breakout_trade           n 173 mean -4.0bp win 0.27 t -5.5
+
+CME_MINI_MNQ1!, 5: 19896 bars, 233 squeeze releases, volume=True
+  move3_release_vs_base    0.87 vs 0.87 ATR (ratio 1.00, t +0.0)
+  move6_release_vs_base    1.15 vs 1.25 ATR (ratio 0.92, t -1.3)
+  move12_release_vs_base   1.74 vs 1.81 ATR (ratio 0.96, t -0.6)
+  direction                buyers-lean n 70 up-rate 0.60 | sellers-lean n 73 up-rate 0.44 | corr(share, sign) +0.078
+  breakout_trade           n 170 mean -3.3bp win 0.39 t -2.4
+
+COMEX_MINI_MGC1!, 5: 21018 bars, 255 squeeze releases, volume=True
+  move3_release_vs_base    0.95 vs 0.86 ATR (ratio 1.10, t +1.3)
+  move6_release_vs_base    1.27 vs 1.24 ATR (ratio 1.02, t +0.4)
+  move12_release_vs_base   2.00 vs 1.80 ATR (ratio 1.11, t +1.5)
+  direction                buyers-lean n 75 up-rate 0.49 | sellers-lean n 98 up-rate 0.49 | corr(share, sign) -0.034
+  breakout_trade           n 202 mean -4.4bp win 0.33 t -2.9
