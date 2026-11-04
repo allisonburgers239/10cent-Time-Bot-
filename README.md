@@ -579,6 +579,30 @@ carry) is our already-shelved Sleeve C, and live LLM-agent trading has no
 audited track record. Our two kept sleeves are slow, structural and decades
 old, which is the kind that survives.
 
+### Out-of-the-box theories (2026-11-04)
+
+TradingView's chart export turned out to go back much further on indices than
+on ETFs (`TVC_DJI, 1D.csv` 1898-, `SP_SPX, 1D.csv` 1871-, both close-to-close
+only because historical index opens are not real), so the calendar-type
+theories got 80-128 years of data. Script `scripts/screen_out_of_the_box.py`,
+full numbers in `results/out_of_the_box_2026-11-04.txt`, follow-ups on the
+tradeable ETFs inline there.
+
+| Theory | What the data says | Verdict |
+|---|---|---|
+| Moon phase (Dichev & Janes 2003) | Dow +4.8 bp/day near new moon vs +2.3 near full, 128 yrs, t 1.3; S&P t 2.0. Holds in most decades. On SPY overnight it adds nothing (0.64 vs 0.63). | real-looking curiosity, no trade |
+| Session before an NYSE holiday (Ariel 1990) | Dow +19.5 bp vs +2.2 normal, t 7.1, 128 yrs, both halves strong. On ETFs since 1993 it has faded (SPY +2.8 bp, t 0.6; GLD +8.6, t 2.3). Holding E through the pre-holiday day: Sharpe +0.00 to +0.05. | faded; free +0.2-0.7%/yr if we ever want it |
+| Options-expiration week | +4.6 bp/day vs +3.5 average, t 2.5, fading in the second half; OPEX day and quad witching slightly negative, not significant | nothing |
+| Turnaround Tuesday | Tuesday after a down Monday +6.6 bp (Dow, t 3.1), but negative 1940s-1970s, positive since 1980. On ETFs the gain is the Monday NIGHT (+12 bp SPY, t 4.5). Adding 2x on those nights to E v2: +0.01 to +0.03 Sharpe, and the placebo (2x after a down close on any other weekday) does as well. | it is E v2's reversal signal wearing a hat |
+| Fade the big overnight gap | after a >1% gap either way the day session is positive on average (+11 to +17 bp, t 1-2); fading loses (SPY Sharpe -0.41) | nothing |
+| Size the overnight hold by yesterday's volume / range (stress) | overnight return flat across quintiles; 2x on top-quintile days lowers Sharpe on all three ETFs | nothing; E v2's RSI is the right stress gauge |
+| Bitcoin day-of-week | Monday +48 bp/day (t 3.3, both halves +), weekends half the Sharpe of weekdays | one cell of seven, note only |
+| ES sessions: Asia -> US | sign of the Asia session is *negatively* related to the US day (corr -0.17, t -3.6, 4 yrs hourly ES; NQ agrees). Fading it by year: 2023 +6%, 2024 -12%, 2025 +34%, 2026 +4%. | 2025 artifact until proven otherwise; re-check in a year |
+
+Net: nothing deployable. The two calendar effects with real history (pre-holiday,
+new moon) are the kind of thing that was large before index funds and is small
+now; the ES session fade is the only one worth re-testing with new data.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on
