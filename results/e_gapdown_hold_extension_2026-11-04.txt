@@ -1,0 +1,17 @@
+E v2 with a gap-down hold extension (exit at first-bar close instead of 09:30 when open/prev close <= -2%)
+  SPY 30m 2020-  thr -1.0%: days 110 | E v2 Sharpe 0.54 CAGR 8.9% -> with hold 0.67 CAGR 10.7% | added per event +11bp t+1.8 | by year: 2020:+986 2021:-61 2022:-233 2023:+159 2024:-11 2025:+288 2026:+130
+  SPY 30m 2020-  thr -1.5%: days  41 | E v2 Sharpe 0.54 CAGR 8.9% -> with hold 0.68 CAGR 10.8% | added per event +32bp t+2.5 | by year: 2020:+847 2022:+209 2024:+67 2025:+228 2026:-38
+  SPY 30m 2020-  thr -2.0%: days  25 | E v2 Sharpe 0.54 CAGR 8.9% -> with hold 0.69 CAGR 10.9% | added per event +54bp t+2.8 | by year: 2020:+728 2022:+309 2024:+67 2025:+239
+  SPY 30m 2020-  thr -3.0%: days  11 | E v2 Sharpe 0.54 CAGR 8.9% -> with hold 0.66 CAGR 10.5% | added per event +99bp t+3.5 | by year: 2020:+763 2024:+67 2025:+255
+  SPY 60m 2015-  thr -1.0%: days 144 | E v2 Sharpe 0.47 CAGR 6.8% -> with hold 0.57 CAGR 8.0% | added per event +10bp t+1.2 | by year: 2015:+672 2016:+401 2018:+120 2019:+6 2020:+437 2021:-262 2022:-638 2023:+146 2024:-55 2025:+406 2026:+189
+  SPY 60m 2015-  thr -1.5%: days  59 | E v2 Sharpe 0.47 CAGR 6.8% -> with hold 0.59 CAGR 8.2% | added per event +28bp t+1.6 | by year: 2015:+612 2016:+282 2018:+252 2019:+13 2020:+396 2022:-4 2024:+56 2025:+103 2026:-76
+  SPY 60m 2015-  thr -2.0%: days  30 | E v2 Sharpe 0.47 CAGR 6.8% -> with hold 0.59 CAGR 8.2% | added per event +56bp t+2.0 | by year: 2015:+612 2016:+178 2020:+632 2022:+145 2024:+56 2025:+41
+  SPY 60m 2015-  thr -3.0%: days  13 | E v2 Sharpe 0.47 CAGR 6.8% -> with hold 0.61 CAGR 8.4% | added per event +142bp t+3.2 | by year: 2015:+492 2016:+109 2020:+859 2024:+56 2025:+324
+  QQQ 60m 2015-  thr -1.0%: days 210 | E v2 Sharpe 0.64 CAGR 10.7% -> with hold 0.87 CAGR 13.8% | added per event +18bp t+2.0 | by year: 2015:+1454 2016:+454 2017:-44 2018:+345 2019:-72 2020:+1206 2021:+71 2022:-702 2023:+48 2024:-141 2025:+702 2026:+386
+  QQQ 60m 2015-  thr -1.5%: days 103 | E v2 Sharpe 0.64 CAGR 10.7% -> with hold 0.90 CAGR 14.2% | added per event +40bp t+2.6 | by year: 2015:+1228 2016:+226 2018:+136 2019:+46 2020:+1305 2021:+185 2022:+278 2023:+146 2024:+121 2025:+321 2026:+151
+  QQQ 60m 2015-  thr -2.0%: days  47 | E v2 Sharpe 0.64 CAGR 10.7% -> with hold 0.92 CAGR 14.4% | added per event +93bp t+3.1 | by year: 2015:+1233 2016:+221 2018:+134 2019:+53 2020:+1495 2022:+520 2023:+158 2024:+160 2025:+269 2026:+119
+  QQQ 60m 2015-  thr -3.0%: days  19 | E v2 Sharpe 0.64 CAGR 10.7% -> with hold 0.89 CAGR 13.8% | added per event +195bp t+3.2 | by year: 2015:+1112 2016:+183 2018:+19 2020:+1233 2022:+315 2024:+160 2025:+599 2026:+86
+  IWM 60m 2015-  thr -1.0%: days 210 | E v2 Sharpe 0.50 CAGR 8.6% -> with hold 0.66 CAGR 11.3% | added per event +15bp t+2.0 | by year: 2015:+695 2016:+155 2017:+43 2018:+192 2019:-164 2020:+545 2021:+195 2022:-126 2023:-91 2024:+129 2025:+1337 2026:+287
+  IWM 60m 2015-  thr -1.5%: days  79 | E v2 Sharpe 0.50 CAGR 8.6% -> with hold 0.57 CAGR 9.7% | added per event +16bp t+1.1 | by year: 2015:+455 2016:+172 2017:-4 2018:+330 2019:-301 2020:+229 2021:+107 2022:-336 2023:-6 2024:+91 2025:+354 2026:+208
+  IWM 60m 2015-  thr -2.0%: days  46 | E v2 Sharpe 0.50 CAGR 8.6% -> with hold 0.52 CAGR 8.9% | added per event +8bp t+0.4 | by year: 2015:+421 2016:+146 2020:-203 2021:-70 2022:-139 2023:-6 2024:+91 2025:+187 2026:-74
+  IWM 60m 2015-  thr -3.0%: days  19 | E v2 Sharpe 0.50 CAGR 8.6% -> with hold 0.57 CAGR 9.6% | added per event +61bp t+1.6 | by year: 2015:+421 2016:+128 2020:+426 2024:+50 2025:+132

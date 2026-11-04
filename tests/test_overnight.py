@@ -89,3 +89,23 @@ def test_vol_scale_uses_entry_day_vix_and_caps_total():
     import pytest
     with pytest.raises(ValueError):
         ov.backtest_single(df, cfg)           # vix missing
+
+
+def test_gapdown_hold_swaps_exit_only_on_big_gap_down_mornings():
+    import numpy as np
+    import pandas as pd
+    from ten_cent_bot import overnight as ov
+
+    idx = pd.bdate_range("2024-01-01", periods=6)
+    close = pd.Series([100, 100, 100, 100, 100, 100.0], index=idx)
+    opn = pd.Series([100, 100, 97.0, 100, 100, 100.0], index=idx)   # day 3 opens -3%
+    fbc = pd.Series([100, 100, 98.5, 100, 100, 100.0], index=idx)   # first bar closes at 98.5 that day
+    df = pd.DataFrame({"open": opn, "close": close})
+    base = ov.backtest_single(df, ov.OvernightConfig(cost_bps_per_side=0))["gross_return"]
+    held = ov.backtest_single(df, ov.OvernightConfig(cost_bps_per_side=0, gapdown_hold_thr=-0.02), first_bar_close=fbc)["gross_return"]
+    assert abs(base.iloc[1] - (-0.03)) < 1e-12          # normal E: sold at the 97 open
+    assert abs(held.iloc[1] - (-0.015)) < 1e-12         # with the hold: sold at the 98.5 first-bar close
+    assert (held.drop(held.index[1]).fillna(0) == base.drop(base.index[1]).fillna(0)).all()  # every other night unchanged
+    import pytest
+    with pytest.raises(ValueError):
+        ov.backtest_single(df, ov.OvernightConfig(gapdown_hold_thr=-0.02))

@@ -1,0 +1,68 @@
+=== 0. Data and library check ===
+  SPY: 2977 days 2015-01-02 -> 2026-11-03, first-bar closes 2977
+  QQQ: 2977 days 2015-01-02 -> 2026-11-03, first-bar closes 2977
+  IWM: 2977 days 2015-01-02 -> 2026-11-03, first-bar closes 2977
+  library == manual (QQQ, 1x): max |diff| 1.11e-16
+
+=== 1. Baseline: E v2 vs E v2 + gap-down hold (thr -2%, exit at the first bar's close) ===
+  SPY hourly: E v2 Sharpe 0.47 CAGR 6.8% MaxDD -27.0%  ->  hold 0.59 CAGR 8.2% MaxDD -24.7%  | events 30 (2.5/yr), added +56bp per event t +2.0
+  QQQ hourly: E v2 Sharpe 0.64 CAGR 10.7% MaxDD -32.5%  ->  hold 0.92 CAGR 14.4% MaxDD -29.0%  | events 47 (4.0/yr), added +93bp per event t +3.1
+  IWM hourly: E v2 Sharpe 0.50 CAGR 8.6% MaxDD -29.9%  ->  hold 0.52 CAGR 8.9% MaxDD -30.1%  | events 46 (3.9/yr), added +8bp per event t +0.4
+  E basket (3 ETFs): E v2 Sharpe 0.57 CAGR 8.7%  ->  hold 0.71 CAGR 10.5%
+  SPY 30-min (exit 10:00, 2020-): E v2 0.54 -> hold 0.69; added per event +54bp
+
+=== 2. Walk-forward: threshold chosen on 2015-2020, judged on 2021-2026 (E basket) ===
+  chosen on train: thr -1.0% (train Sharpe 0.86); train E v2 0.59
+  TEST 2021-2026: E v2 0.54  chosen thr 0.61  default -2% 0.61
+
+=== 3. Grid: threshold (rows) x exit (10:00 on SPY 30m, 10:30 on hourly) ===
+  thr -1.0%: basket 0.74 | SPY 0.57 QQQ 0.87 IWM 0.66 SPY30 0.67
+  thr -1.5%: basket 0.72 | SPY 0.59 QQQ 0.90 IWM 0.57 SPY30 0.68
+  thr -2.0%: basket 0.71 | SPY 0.59 QQQ 0.92 IWM 0.52 SPY30 0.69
+  thr -2.5%: basket 0.70 | SPY 0.58 QQQ 0.89 IWM 0.54 SPY30 0.67
+  thr -3.0%: basket 0.73 | SPY 0.61 QQQ 0.89 IWM 0.57 SPY30 0.66
+  thr -4.0%: basket 0.66 | SPY 0.57 QQQ 0.79 IWM 0.55 SPY30 0.62
+
+=== 4. By year: basket Sharpe E v2 vs hold, and bp added by the hold ===
+  2015: E v2 -0.10  hold  0.41  added  +734bp over 4 events
+  2016: E v2 -0.27  hold -0.10  added  +204bp over 3 events
+  2017: E v2  2.14  hold  2.14  added    +0bp over 0 events
+  2018: E v2  0.99  hold  1.08  added   +87bp over 4 events
+  2019: E v2  1.16  hold  1.12  added   -25bp over 3 events
+  2020: E v2  0.94  hold  1.20  added  +641bp over 26 events
+  2021: E v2  1.64  hold  1.61  added   -23bp over 4 events
+  2022: E v2 -1.04  hold -0.95  added  +175bp over 7 events
+  2023: E v2  0.26  hold  0.31  added   +51bp over 3 events
+  2024: E v2  1.98  hold  2.15  added  +103bp over 4 events
+  2025: E v2  0.36  hold  0.46  added  +166bp over 6 events
+  2026: E v2  1.32  hold  1.33  added   +15bp over 5 events
+
+=== 5. Leave-one-ticker-out (basket Sharpe, E v2 -> hold) ===
+  without SPY: 0.60 -> 0.76
+  without QQQ: 0.50 -> 0.57
+  without IWM: 0.57 -> 0.79
+
+=== 6. Cost sensitivity (the hold removes no trades and adds none) ===
+  0.5bp/side: E v2 0.75 -> hold 0.90
+  1.0bp/side: E v2 0.57 -> hold 0.71
+  2.0bp/side: E v2 0.21 -> hold 0.34
+  3.0bp/side: E v2 -0.15 -> hold -0.04
+
+=== 7. Placebo: hold through the first bar on the same NUMBER of random mornings (300 draws, basket) ===
+  real 0.713 | placebo mean 0.568 sd 0.015 | p(placebo >= real) = 0.000
+
+=== 8. Tail: worst held mornings (basket), worst day with vs without ===
+  worst 5 holds (bp vs selling at the open): 2025-04-03 -243, 2022-06-10 -187, 2020-02-26 -102, 2025-04-09 -81, 2022-06-15 -80
+  best 5 holds: 2020-03-13 +142, 2020-03-17 +259, 2022-02-23 +311, 2025-04-04 +428, 2015-08-21 +675
+  worst single day: E v2 -12.07% -> hold -9.47% | hit rate of the hold 0.61 over 69 events
+
+=== 9. Interaction with the RSI 2x nights ===
+  QQQ big gap-down mornings: 47; on RSI 2x nights: 9; first-bar return after a big gap down: +77bp (on 2x nights +110, on 1x nights +69) vs all mornings +1bp
+
+=== 10. Why: first-bar return by gap bucket (QQQ hourly) ===
+  gap -100..-3%: n   19 first-bar  +152bp t +4.3
+  gap -3..-2%: n   28 first-bar   +26bp t +1.7
+  gap -2..-1%: n  163 first-bar    -4bp t -0.8
+  gap -1..+1%: n 2535 first-bar    +0bp t +0.1
+  gap +1..+2%: n  187 first-bar    +4bp t +0.8
+  gap +2..+100%: n   44 first-bar   -11bp t -0.9

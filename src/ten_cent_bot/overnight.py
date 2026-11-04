@@ -39,6 +39,11 @@ class OvernightConfig:
     vol_scale: str = "none"             # "none" | "vix"
     vol_scale_ref: float = 20.0
     vol_scale_cap: float = 2.0
+    # Gap-down hold (screened 2026-11-04, scripts/audit_overnight_gapdown_hold.py): on mornings
+    # where open / previous close - 1 <= gapdown_hold_thr, keep the overnight position until the
+    # close of the first intraday bar (10:00 on 30-min bars, 10:30 on hourly) instead of selling
+    # at the 09:30 open. None = off (default). Needs `first_bar_close` passed to backtest_single.
+    gapdown_hold_thr: float | None = None
 
 
 # Ticker baskets. E3 adds GLD (audited 2026-10-16, scripts/audit_overnight_gold.py):
@@ -109,9 +114,18 @@ def compute_intraday_returns(daily_ohlc: pd.DataFrame) -> pd.Series:
     return (daily_ohlc["close"] - daily_ohlc["open"]) / daily_ohlc["open"]
 
 
-def backtest_single(daily_ohlc: pd.DataFrame, config: OvernightConfig | None = None, vix: pd.Series | None = None) -> dict:
+def backtest_single(daily_ohlc: pd.DataFrame, config: OvernightConfig | None = None, vix: pd.Series | None = None,
+                    first_bar_close: pd.Series | None = None) -> dict:
     cfg = config or OvernightConfig()
     overnight_ret = compute_overnight_returns(daily_ohlc)
+    if cfg.gapdown_hold_thr is not None:
+        if first_bar_close is None:
+            raise ValueError("gapdown_hold_thr needs first_bar_close (close of the first intraday bar each day)")
+        nxt_open = daily_ohlc["open"].shift(-1)
+        nxt_fbc = first_bar_close.reindex(daily_ohlc.index).shift(-1)
+        gap = nxt_open / daily_ohlc["close"] - 1
+        hold = (gap <= cfg.gapdown_hold_thr) & nxt_fbc.notna()
+        overnight_ret = overnight_ret.where(~hold, nxt_fbc / daily_ohlc["close"] - 1)
 
     position = pd.Series(1.0, index=daily_ohlc.index)
 

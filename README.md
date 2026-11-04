@@ -822,6 +822,49 @@ were named; two are testable with free data today, two are not.
 | 2. Selling overpriced options before earnings | Needs options price history (IBKR account). Not testable here. | Open |
 | 4. The overnight premium in other countries (DAX, KOSPI, HSI, Nikkei) | Proven in October on index data; needs futures access and ~$100k to size. | Open; the most certain of the four, parked on capital |
 
+### Day-session forced flows on the most liquid names, and one that passed (2026-11-04 night)
+
+Temur: "you have TradingView, why stop? Look into day trading." Applied his
+forced-flow lens to the day session on the most liquid ETFs and stocks
+(`scripts/screen_intraday_flows.py`, `results/intraday_flows_2026-11-04.txt`;
+22 five-minute files plus SPY 30-min 2020- and hourly 2015-):
+
+| Who has to trade | Prediction | Result |
+|---|---|---|
+| Leveraged-ETF rebalancing into the close | last 30 min continues a big day | **No.** The last 30 minutes mildly *reverse* the day (SPY -2 to -4 bp, t 3-5 on small-move days), on every instrument, 2015-2026. The documented 2008-2011 effect is gone |
+| Institutional VWAP orders worked all day | afternoon continues the morning, more so on high-volume days | No. Negative on most names; the two positive cells (NVDA, PLTR on 1.5x volume) have n 12-26 |
+| Dealer hedging on OPEX Fridays | last hour pins / fades the day | No consistent pattern; 11-12 OPEX days per stock, SPY 79 days t -1.4 |
+| Pension rebalancing at month/quarter end | last 30 min of the month's last day | Nothing (SPY/QQQ/IWM, 143 month-ends) |
+| Overnight panic overshoot at the open | a big gap reverses in the first bar | **Yes, on the index ETFs.** After a gap of -2% or worse, QQQ's first hour is +77 bp (-3% or worse: +152 bp, t 4.3); SPY similar; gap-ups do not reverse. Small gaps: nothing |
+
+The last row is the same event as an improvement to the sleeve we already
+run: on those mornings E v2 is *selling* at 09:30, into the overshoot.
+**Gap-down hold:** when the open is 2% or more below the previous close, keep
+the overnight position until the first bar closes (10:00 on 30-minute bars,
+10:30 on hourly) instead of selling at the open. Implemented in the library
+(`OvernightConfig.gapdown_hold_thr`, off by default, 42 tests pass) and
+audited in `scripts/audit_overnight_gapdown_hold.py`
+(`results/audit_overnight_gapdown_hold_2026-11-04.txt`):
+
+| Section | Result |
+|---|---|
+| baseline, hourly 2015-2026 | E basket Sharpe 0.57 -> 0.71, CAGR 8.7% -> 10.5%; QQQ 0.64 -> 0.92 (+93 bp per event, t 3.1); SPY 0.47 -> 0.59; IWM 0.50 -> 0.52; SPY 30-min 2020- 0.54 -> 0.69 |
+| walk-forward | threshold chosen on 2015-20 (-1%), test 2021-26: 0.54 -> 0.61; default -2% also 0.61 |
+| grid | every threshold -1% to -3% gives basket 0.70-0.74 vs 0.57; -4% 0.66 |
+| by year | hold adds money in 10 of 12 years (2019 -25 bp, 2021 -23 bp); 2020 is 26 of 69 events but every other year is positive too |
+| leave-one-out | 0.60 -> 0.76, 0.50 -> 0.57, 0.57 -> 0.79 |
+| costs | no trades added or removed; gain survives at every cost level |
+| placebo | hold on the same number of random mornings: 0.568 (sd 0.015) vs real 0.713, p = 0.000 |
+| tail | worst single day -12.1% -> -9.5%; worst hold 2025-04-03 -243 bp; hit rate 61% over 69 events |
+| why | first-bar return by gap: -3% or worse +152 bp, -3..-2% +26 bp, -2..-1% -4 bp, everything else 0 |
+
+**Verdict: passes. Recommended for adoption**, pending Temur's go: it is
+one extra check at 09:30 (if the open is 2% or more below yesterday's
+close, hold until 10:30), about 4 mornings a year per ETF, no extra trades,
+and it cuts the worst day. Caveats: 3 of 4 events per year, so a slow
+accumulation; 2020 and 2025 supplied the biggest single mornings; IWM gains
+nothing. Not yet in the daily ticket or the Pine script.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on
