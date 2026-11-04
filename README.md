@@ -569,6 +569,7 @@ per-year P&L shown so one good year cannot hide
 | Supertrend(10,3) long/flat | Sharpe 0.89 QQQ 60m vs 0.83 buy-and-hold | a trend filter, not an edge; long/short ~0 everywhere |
 | Monday-range breakout / fade (Ali's script) | breakout Sharpe 0.49 QQQ, negative 2025-26 | nothing; the fade is negative everywhere |
 | Fair value gap, continuation and return-to-gap (Ali's FVG script) | Sharpe -2 to -3 on SPY/ES 30-min | strongly negative; the gap direction is *anti*-predictive at 30 min |
+| "3 hit" trendline (Temur's method: two swing points make a line, trade the third touch) | made precise in `scripts/screen_three_hit_trendline.py` (pivot strength 5, touch = within 0.25 ATR, exit after 1-16 bars or on a break); 15m/30m/1h/2h/3h/6h/daily, SPY/QQQ/IWM/ES/NQ | lines do get a third touch 65-85% of the time, but the return after the touch is no better than any random bar, and a line shifted by a random amount gives the same numbers: the line carries no information. Buying support touches lags buy-and-hold everywhere; shorting resistance touches loses everywhere. (`results/three_hit_trendline_2026-11-04.txt`) |
 
 The same day's survey of where bot and AI traders make money
 (`results/bot_landscape_survey_2026-11-03.md`) says the same thing from the
@@ -606,10 +607,21 @@ now; the ES session fade is the only one worth re-testing with new data.
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on
-a 5-minute chart of SPY, QQQ, IWM or GLD (E3 = the same script on all four,
-one chart each; Pine strategies are single-symbol). Entry = close of the
-15:55 bar (the 16:00 print), exit = close of the 09:30 bar (09:35), RSI(2)
-of the 15:55 closes decides 1x or 2x, commission 0.01%/order.
+a 5-minute chart of SPY, QQQ, IWM or GLD **with extended hours ON** (E3 = the
+same script on all four, one chart each; Pine strategies are single-symbol).
+Since 2026-11-04 the orders fill at the next bar's open: the buy goes in on
+the 15:55 bar and fills at the 16:00 post-market bar's open (the first
+after-hours print, within cents of the closing auction), the sell goes in on
+the 09:25 pre-market bar and fills at the 09:30 open (the opening print
+exactly). Before that the exit was the 09:30 bar's close, i.e. the 09:35
+print, which is not what a market-on-open order gets. Without extended hours
+the buy would fill at the next day's open, so the script refuses to run
+(runtime error) rather than report wrong trades; a delayed open is handled by
+selling on the first regular bar. RSI(2) of the 15:55 closes decides 1x or
+2x, commission 0.01%/order. Verified 2026-11-04 on QQQ: TV's exits equal the
+official 09:30 opens from the data API to the cent, entries are 2-12 cents
+off the close (after-hours first print), and the 2x nights match the daily
+RSI list (`results/tv_trades_qqq_2026-11-04_openfill.csv`).
 
 Why this is useful even though the bot has its own backtester: a strategy
 left running on a live chart keeps simulating forward on real bars, i.e. a
