@@ -142,7 +142,7 @@ def main() -> int:
     p.add_argument("--overlay", choices=("none", "v2"), default="v2")
     p.add_argument("--rail", choices=("futures", "etf"), default="futures")
     p.add_argument("--gross", type=float, default=1.0, help="gross exposure target as a multiple of equity (audited: 1.0)")
-    p.add_argument("--vol-scale", choices=("none", "vix"), default="none", help="size every leg by min(2, 20/VIX) using the latest VIX quote (screened 2026-11-04, off by default)")
+    p.add_argument("--vol-scale", choices=("none", "vix"), default="vix", help="size every leg by min(2, 20/VIX) using the latest VIX quote (audited 2026-11-04, ON by default since Temur's go; --vol-scale none to disable)")
     a = p.parse_args()
     closes, last, futs, last_time = fetch(BASKETS[a.basket])
     gross = a.gross

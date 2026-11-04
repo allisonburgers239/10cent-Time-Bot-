@@ -2,6 +2,8 @@
 // Sleeve E v2 - overnight hold with short-term-reversal sizing (10c Time Bot)
 // Buy at the 16:00 ET closing print, sell at the 09:30 ET opening print.
 // On nights where the 2-day RSI of the daily closes is below 10, size 2x.
+// Since 2026-11-04 the size is also scaled by min(2, 20/VIX) (calm = bigger,
+// panic = smaller), total capped at 2x equity. Input useVolScale turns it off.
 //
 // REQUIRES: a 5-minute chart (1/15-minute also work) of SPY / QQQ / IWM / GLD
 // with EXTENDED HOURS ON (chart settings -> Symbol -> Session -> Extended).
@@ -25,6 +27,9 @@ rsiThr     = input.float(10.0, "RSI(2) threshold")
 mult       = input.float(2.0,  "Signal multiplier")
 grossPct   = input.float(100,  "Base size, % of equity")
 warmup     = input.int(10,     "RSI warm-up days (no signal before)")
+useVolScale = input.bool(true, "VIX-scaled size: x min(cap, ref/VIX)")   // adopted 2026-11-04
+volRef      = input.float(20.0, "VIX reference (size 1x at this VIX)")
+volCap      = input.float(2.0,  "Cap on total size (x equity)")
 
 if not timeframe.isminutes or timeframe.multiplier > 15
     runtime.error("Use a 1, 5 or 15-minute chart.")
@@ -52,7 +57,12 @@ if isEntryBar
     nObs += 1
 
 signal = useOverlay and not na(rsi2) and nObs > warmup and rsi2 < rsiThr
-sizeMult = signal ? mult : 1.0
+// VIX close of the entry day (the daily VIX bar; on historical bars this is the 16:15 settle,
+// 20 minutes after our 16:00 entry - the live ticket uses the 15:50 quote instead; the
+// difference is noise). Size = min(cap, ref/VIX); the total after the RSI multiplier is capped.
+vixClose = request.security("CBOE:VIX", "1D", close, lookahead = barmerge.lookahead_off)
+volFactor = useVolScale and not na(vixClose) and vixClose > 0 ? math.min(volCap, volRef / vixClose) : 1.0
+sizeMult = math.min(volCap, (signal ? mult : 1.0) * volFactor)
 
 // Extended-hours guard: the bar right after the entry bar must be a post-market bar.
 var bool armed = false
@@ -63,7 +73,7 @@ armed := isEntryBar
 if isEntryBar and strategy.position_size == 0
     float qty = math.floor(strategy.equity * grossPct / 100.0 * sizeMult / close)
     if qty > 0
-        strategy.entry("ON", strategy.long, qty = qty, comment = signal ? "x" + str.tostring(mult) : "x1")
+        strategy.entry("ON", strategy.long, qty = qty, comment = (signal ? "sig " : "") + "x" + str.tostring(sizeMult, "#.##"))
 
 if strategy.position_size > 0
     if isPreOpen
@@ -73,3 +83,4 @@ if strategy.position_size > 0
 
 plotshape(isEntryBar and signal, title = "signal night", style = shape.triangleup, location = location.belowbar, color = color.orange, size = size.tiny)
 plot(rsi2, title = "RSI(2) of daily closes", display = display.data_window)
+plot(volFactor, title = "VIX size factor", display = display.data_window)

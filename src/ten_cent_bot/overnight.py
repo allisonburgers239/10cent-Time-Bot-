@@ -52,8 +52,9 @@ E3_TICKERS = ["SPY", "QQQ", "IWM", "GLD"]
 # MaxDD -29% -> -31.5% on SPY/QQQ/IWM 2000-2026. Off by default above.
 E_V2_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0)
 
-# E v2 + VIX-scaled size (off until adopted): SPY/QQQ/IWM Sharpe 0.63/0.66/0.67 -> 0.72/0.76/0.77,
-# MaxDD -44/-43/-32% -> -32/-35/-34%, both halves up, shuffled-VIX placebo lower. GLD: no help.
+# E v2 + VIX-scaled size - ADOPTED 2026-11-04 (Temur): the daily ticket defaults to it.
+# SPY/QQQ/IWM Sharpe 0.63/0.66/0.67 -> 0.72/0.76/0.77, E3 0.88 -> 1.00, MaxDD -31.5% -> -21.1%,
+# all 5-yr blocks better, shuffled-VIX placebo p=0.000 (scripts/audit_overnight_volscale.py). GLD: no help.
 E_V2_VOL_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0, vol_scale="vix")
 
 
