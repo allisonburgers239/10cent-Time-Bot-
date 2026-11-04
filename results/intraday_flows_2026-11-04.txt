@@ -1,17 +1,26 @@
-instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), COIN 5m (263 days), IWM 5m (260 days), META 5m (72 days), MSFT 5m (72 days), MSTR 5m (258 days), NVDA 5m (263 days), PLTR 5m (258 days), QQQ 5m (260 days), SPY 5m (260 days), TSLA 5m (258 days), XLB 5m (260 days), XLE 5m (260 days), XLF 5m (260 days), XLI 5m (260 days), XLK 5m (260 days), XLP 5m (260 days), XLU 5m (260 days), XLV 5m (260 days), XLY 5m (260 days), SPY 30m (1719 days), SPY 60m (2977 days), QQQ 60m (2977 days), IWM 60m (2977 days)
+instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), AVGO 5m (72 days), BAC 5m (110 days), COIN 5m (263 days), GOOGL 5m (72 days), HOOD 5m (77 days), INTC 5m (72 days), IWM 5m (260 days), JPM 5m (110 days), META 5m (72 days), MSFT 5m (72 days), MSTR 5m (258 days), MU 5m (72 days), NFLX 5m (77 days), NVDA 5m (263 days), PLTR 5m (258 days), QQQ 5m (260 days), SMCI 5m (77 days), SPY 5m (260 days), TSLA 5m (258 days), XLB 5m (260 days), XLE 5m (260 days), XLF 5m (260 days), XLI 5m (260 days), XLK 5m (260 days), XLP 5m (260 days), XLU 5m (260 days), XLV 5m (260 days), XLY 5m (260 days), XOM 5m (105 days), SPY 30m (1719 days), SPY 60m (2977 days), QQQ 60m (2977 days), IWM 60m (2977 days)
 
 === A. Leveraged-ETF rebalancing: last 30 min vs the day's move to 15:30 ===
   AAPL 5m    |move| <0.5%:  +2.4bp n  91 t+0.8 | |move| 0.5-1%:  -7.2bp n  72 t-2.0 | |move| 1-2%:  -3.3bp n  72 t-0.8 | |move| >2%:  +8.2bp n  25 t+1.3  || trade |move|>=1%: -0.4bp/day n97 t-0.1 halves -7/+6bp
   AMD 5m     |move| <0.5%:  -8.5bp n  41 t-0.8 | |move| 0.5-1%:  +7.2bp n  43 t+0.7 | |move| 1-2%:  +0.3bp n  52 t+0.0 | |move| >2%:  -4.2bp n 124 t-0.6  || trade |move|>=1%: -2.9bp/day n176 t-0.5 halves -3/-2bp
   AMZN 5m    |move| <0.5%:  -3.8bp n  70 t-1.1 | |move| 0.5-1%:  -5.5bp n  53 t-1.1 | |move| 1-2%:  +0.8bp n  92 t+0.2 | |move| >2%:  +1.2bp n  40 t+0.2  || trade |move|>=1%: +0.9bp/day n132 t+0.3 halves +9/-7bp
+  AVGO 5m    |move| <0.5%: +12.2bp n  17 t+0.7 | |move| 0.5-1%:  -1.3bp n  17 t-0.1 | |move| 1-2%:  +3.4bp n  26 t+0.5 | |move| >2%: -33.2bp n  12 t-2.3  || trade |move|>=1%: -8.2bp/day n38 t-1.1 halves -7/-10bp
+  BAC 5m     |move| <0.5%:  -2.6bp n  45 t-0.8 | |move| 0.5-1%:  +2.8bp n  32 t+0.8 | |move| 1-2%:  +1.9bp n  25 t+0.5 | |move| >2%: -24.1bp n   8 t-1.5  || trade |move|>=1%: -4.4bp/day n33 t-0.8 halves -1/-8bp
   COIN 5m    |move| <0.5%:  +1.3bp n  38 t+0.1 | |move| 0.5-1%: -11.5bp n  37 t-0.9 | |move| 1-2%:  -3.5bp n  47 t-0.3 | |move| >2%: -10.3bp n 138 t-1.5  || trade |move|>=1%: -8.6bp/day n185 t-1.4 halves -10/-7bp
+  GOOGL 5m   |move| <0.5%:  +2.2bp n  21 t+0.3 | |move| 0.5-1%:  -7.6bp n  16 t-1.4 | |move| 1-2%: -17.1bp n  22 t-1.9 | |move| >2%: -15.6bp n  13 t-1.7  || trade |move|>=1%: -16.6bp/day n35 t-2.5 halves -10/-23bp
+  HOOD 5m    |move| <0.5%: -46.7bp n  11 t-2.3 | |move| 0.5-1%: +20.9bp n  12 t+1.1 | |move| 1-2%: -10.8bp n  23 t-0.8 | |move| >2%:  -5.8bp n  31 t-0.4  || trade |move|>=1%: -7.9bp/day n54 t-0.7 halves +16/-32bp
+  INTC 5m    |move| 0.5-1%: -12.8bp n  15 t-0.8 | |move| 1-2%:  -1.9bp n  19 t-0.1 | |move| >2%: +11.8bp n  35 t+0.6  || trade |move|>=1%: +7.0bp/day n54 t+0.5 halves +18/-4bp
   IWM 5m     |move| <0.5%:  -3.5bp n 101 t-1.9 | |move| 0.5-1%:  -2.6bp n  81 t-1.1 | |move| 1-2%:  -5.1bp n  57 t-1.9 | |move| >2%:  -6.4bp n  18 t-0.9  || trade |move|>=1%: -5.4bp/day n75 t-2.0 halves -5/-6bp
+  JPM 5m     |move| <0.5%:  -4.3bp n  40 t-1.1 | |move| 0.5-1%:  -2.1bp n  34 t-0.6 | |move| 1-2%:  -5.6bp n  27 t-1.0 | |move| >2%: +12.9bp n   9 t+1.6  || trade |move|>=1%: -1.0bp/day n36 t-0.2 halves +5/-7bp
   META 5m    |move| <0.5%: +13.7bp n  10 t+1.1 | |move| 0.5-1%: -20.9bp n  17 t-1.7 | |move| 1-2%:  -6.8bp n  26 t-0.8 | |move| >2%: -11.6bp n  19 t-1.2  || trade |move|>=1%: -8.8bp/day n45 t-1.5 halves -8/-9bp
   MSFT 5m    |move| <0.5%: -13.0bp n  22 t-2.1 | |move| 0.5-1%: -10.2bp n  17 t-1.1 | |move| 1-2%:  -7.9bp n  19 t-1.0 | |move| >2%: -23.1bp n  14 t-1.6  || trade |move|>=1%: -14.3bp/day n33 t-1.9 halves -14/-14bp
   MSTR 5m    |move| <0.5%: -13.8bp n  32 t-0.9 | |move| 0.5-1%: +27.3bp n  31 t+1.4 | |move| 1-2%:  -6.7bp n  57 t-0.7 | |move| >2%:  -2.2bp n 135 t-0.3  || trade |move|>=1%: -3.5bp/day n192 t-0.6 halves +2/-9bp
+  MU 5m      |move| 0.5-1%:  -2.4bp n   9 t-0.1 | |move| 1-2%:  -7.3bp n  24 t-0.5 | |move| >2%: +15.5bp n  36 t+0.9  || trade |move|>=1%: +6.4bp/day n60 t+0.5 halves +6/+7bp
+  NFLX 5m    |move| <0.5%:  +7.3bp n  18 t+1.2 | |move| 0.5-1%:  +0.5bp n  17 t+0.1 | |move| 1-2%:  -3.6bp n  29 t-0.6 | |move| >2%:  -2.9bp n  13 t-0.2  || trade |move|>=1%: -3.4bp/day n42 t-0.6 halves +1/-8bp
   NVDA 5m    |move| <0.5%:  -1.2bp n  63 t-0.2 | |move| 0.5-1%:  +2.6bp n  59 t+0.4 | |move| 1-2%:  -3.4bp n  74 t-0.5 | |move| >2%:  -6.3bp n  64 t-1.1  || trade |move|>=1%: -4.8bp/day n138 t-1.1 halves +3/-13bp
   PLTR 5m    |move| <0.5%:  +0.3bp n  57 t+0.0 | |move| 0.5-1%: +11.1bp n  41 t+1.2 | |move| 1-2%:  -7.6bp n  49 t-1.0 | |move| >2%: -10.9bp n 108 t-1.9  || trade |move|>=1%: -9.9bp/day n157 t-2.2 halves -11/-9bp
   QQQ 5m     |move| <0.5%:  -4.3bp n 118 t-2.6 | |move| 0.5-1%:  -5.5bp n  81 t-2.9 | |move| 1-2%:  -5.0bp n  48 t-1.4 | |move| >2%:  +6.2bp n  10 t+0.5  || trade |move|>=1%: -3.1bp/day n58 t-0.8 halves -4/-2bp
+  SMCI 5m    |move| 0.5-1%:  -6.6bp n  11 t-0.2 | |move| 1-2%:  -5.2bp n  16 t-0.2 | |move| >2%:  -0.4bp n  45 t-0.0  || trade |move|>=1%: -1.6bp/day n61 t-0.1 halves +6/-9bp
   SPY 5m     |move| <0.5%:  -3.6bp n 152 t-3.0 | |move| 0.5-1%:  -6.7bp n  81 t-4.3 | |move| 1-2%:  -3.2bp n  22 t-0.7  || trade |move|>=1%: +1.1bp/day n24 t+0.2 halves +4/-1bp
   TSLA 5m    |move| <0.5%:  -6.7bp n  50 t-1.2 | |move| 0.5-1%:  -7.7bp n  54 t-1.2 | |move| 1-2%:  +5.8bp n  59 t+0.8 | |move| >2%: -13.6bp n  92 t-2.7  || trade |move|>=1%: -6.0bp/day n151 t-1.5 halves -3/-9bp
   XLB 5m     |move| <0.5%:  -2.5bp n 123 t-1.5 | |move| 0.5-1%:  -1.0bp n  72 t-0.5 | |move| 1-2%:  +0.5bp n  52 t+0.2 | |move| >2%:  -6.0bp n  10 t-0.9  || trade |move|>=1%: -0.5bp/day n62 t-0.2 halves -0/-1bp
@@ -23,6 +32,7 @@ instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), COIN 5m 
   XLU 5m     |move| <0.5%:  +0.6bp n 124 t+0.4 | |move| 0.5-1%:  -0.5bp n  82 t-0.2 | |move| 1-2%:  -6.1bp n  47 t-1.7  || trade |move|>=1%: -5.4bp/day n51 t-1.6 halves -8/-3bp
   XLV 5m     |move| <0.5%:  -3.4bp n 126 t-2.6 | |move| 0.5-1%:  -3.9bp n  82 t-1.8 | |move| 1-2%:  -1.6bp n  46 t-0.6  || trade |move|>=1%: -1.2bp/day n49 t-0.5 halves -3/+0bp
   XLY 5m     |move| <0.5%:  -2.5bp n 117 t-1.6 | |move| 0.5-1%:  -2.7bp n  66 t-1.0 | |move| 1-2%:  -6.1bp n  69 t-2.2  || trade |move|>=1%: -4.9bp/day n74 t-1.9 halves -5/-5bp
+  XOM 5m     |move| <0.5%:  +0.4bp n  39 t+0.1 | |move| 0.5-1%:  -4.8bp n  33 t-1.0 | |move| 1-2%:  -5.3bp n  24 t-1.1 | |move| >2%:  -1.5bp n   9 t-0.1  || trade |move|>=1%: -4.2bp/day n33 t-0.9 halves -3/-5bp
   SPY 30m    |move| <0.5%:  -2.6bp n 954 t-3.2 | |move| 0.5-1%:  -1.7bp n 461 t-1.4 | |move| 1-2%:  -1.6bp n 236 t-0.4 | |move| >2%: -13.1bp n  56 t-1.2  || trade |move|>=1%: -3.8bp/day n292 t-1.0 halves -5/-3bp
   SPY 60m    |move| <0.5%:  -2.3bp n1830 t-4.6 | |move| 0.5-1%:  -1.6bp n 715 t-1.7 | |move| 1-2%:  -0.9bp n 339 t-0.3 | |move| >2%:  -1.2bp n  73 t-0.1  || trade |move|>=1%: -1.0bp/day n412 t-0.3 halves -2/-0bp
   QQQ 60m    |move| <0.5%:  -1.7bp n1419 t-2.9 | |move| 0.5-1%:  -1.2bp n 791 t-1.2 | |move| 1-2%:  -3.4bp n 564 t-1.5 | |move| >2%:  +5.8bp n 182 t+1.4  || trade |move|>=1%: -1.1bp/day n746 t-0.6 halves -1/-1bp
@@ -32,14 +42,23 @@ instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), COIN 5m 
   AAPL 5m    all days:  -5.0bp t-1.1 n262 | volume >= 1.5x: -12.8bp t-0.4 n21 | normal:  -4.6bp t-1.1 | |morning|>=1%: -14.7bp t-1.6 n91
   AMD 5m     all days:  +6.9bp t+0.7 n262 | volume >= 1.5x: +40.2bp t+1.0 n21 | normal:  +8.8bp t+0.9 | |morning|>=1%:  +3.3bp t+0.3 n171
   AMZN 5m    all days:  -9.6bp t-1.9 n257 | volume >= 1.5x: -16.1bp t-0.7 n26 | normal: -10.1bp t-1.9 | |morning|>=1%: -15.3bp t-1.9 n112
+  AVGO 5m    all days: -12.3bp t-1.2 n72 | volume >= 1.5x: -11.0bp t-0.2 n4 | normal: -14.3bp t-1.0 | |morning|>=1%:  -5.5bp t-0.4 n30
+  BAC 5m     all days:  -8.7bp t-1.3 n110 | volume >= 1.5x: +14.3bp t+0.2 n9 | normal:  -6.0bp t-1.1 | |morning|>=1%:  -8.6bp t-0.6 n26
   COIN 5m    all days:  +1.1bp t+0.1 n262 | volume >= 1.5x: +23.2bp t+0.5 n26 | normal:  -4.1bp t-0.4 | |morning|>=1%:  +3.1bp t+0.2 n175
+  GOOGL 5m   all days:  +0.1bp t+0.0 n72 | volume >= 1.5x: +24.8bp t+0.8 n9 | normal: -12.3bp t-1.1 | |morning|>=1%:  +0.2bp t+0.0 n27
+  HOOD 5m    all days:  -6.8bp t-0.4 n77 | volume >= 1.5x: +38.3bp t+0.5 n7 | normal:  -7.0bp t-0.4 | |morning|>=1%: -16.9bp t-0.8 n46
+  INTC 5m    all days:  +8.4bp t+0.5 n72 | volume >= 1.5x:  +5.6bp t+0.1 n7 | normal: +17.6bp t+0.9 | |morning|>=1%: +19.8bp t+0.9 n49
   IWM 5m     all days:  -4.0bp t-1.1 n260 | |morning|>=1%:  +6.9bp t+0.7 n55
+  JPM 5m     all days:  -8.5bp t-1.4 n110 | volume >= 1.5x: -28.1bp t-0.7 n9 | normal:  -8.0bp t-1.5 | |morning|>=1%:  -6.4bp t-0.4 n36
   META 5m    all days:  +5.4bp t+0.5 n72 | volume >= 1.5x: +32.1bp t+0.7 n10 | normal: -10.9bp t-0.8 | |morning|>=1%:  +1.9bp t+0.1 n38
   MSFT 5m    all days: -13.1bp t-1.6 n72 | volume >= 1.5x: +41.3bp t+0.6 n5 | normal: -15.4bp t-1.9 | |morning|>=1%:  -7.6bp t-0.7 n32
   MSTR 5m    all days:  -5.8bp t-0.4 n257 | volume >= 1.5x:  +0.2bp t+0.0 n29 | normal: -12.3bp t-0.9 | |morning|>=1%:  -6.9bp t-0.4 n194
+  MU 5m      all days: +17.3bp t+0.9 n72 | volume >= 1.5x: -155.6bp t+0.0 n2 | normal: +39.2bp t+2.0 | |morning|>=1%: +15.2bp t+0.7 n53
+  NFLX 5m    all days:  +1.3bp t+0.1 n77 | volume >= 1.5x: +15.2bp t+0.4 n4 | normal:  +1.1bp t+0.1 | |morning|>=1%: -19.2bp t-1.5 n37
   NVDA 5m    all days:  +3.6bp t+0.5 n262 | volume >= 1.5x: +72.9bp t+2.5 n12 | normal:  +3.2bp t+0.5 | |morning|>=1%:  -4.0bp t-0.4 n117
   PLTR 5m    all days:  +4.3bp t+0.5 n257 | volume >= 1.5x: +73.0bp t+3.1 n26 | normal:  -1.0bp t-0.1 | |morning|>=1%:  +6.5bp t+0.6 n154
   QQQ 5m     all days:  -0.2bp t-0.1 n260 | |morning|>=1%:  -4.8bp t-0.3 n34
+  SMCI 5m    all days: -31.0bp t-1.4 n77 | volume >= 1.5x: +103.7bp t+1.3 n3 | normal: -34.6bp t-1.4 | |morning|>=1%: -15.2bp t-0.6 n60
   SPY 5m     all days:  -0.1bp t-0.0 n260 | |morning|>=1%:  -0.2bp t-0.0 n12
   TSLA 5m    all days: -12.4bp t-1.7 n257 | volume >= 1.5x:  -0.0bp t-0.0 n10 | normal: -11.6bp t-1.6 | |morning|>=1%: -12.3bp t-1.3 n152
   XLB 5m     all days:  -2.3bp t-0.7 n260 | |morning|>=1%:  +2.4bp t+0.2 n44
@@ -51,14 +70,17 @@ instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), COIN 5m 
   XLU 5m     all days:  -1.5bp t-0.5 n260 | |morning|>=1%:  -5.6bp t-0.5 n36
   XLV 5m     all days:  -0.9bp t-0.3 n260 | |morning|>=1%:  -3.7bp t-0.4 n37
   XLY 5m     all days:  -1.5bp t-0.4 n260 | |morning|>=1%:  -2.5bp t-0.3 n49
+  XOM 5m     all days: -15.1bp t-2.2 n105 | volume >= 1.5x: -65.5bp t-6.4 n3 | normal: -15.6bp t-2.1 | |morning|>=1%: -16.3bp t-1.4 n36
   SPY 30m    all days:  -0.8bp t-0.5 n1719 | volume >= 1.5x:  +8.0bp t+0.7 n166 | normal:  -1.8bp t-1.2 | |morning|>=1%:  +0.1bp t+0.0 n145
 
 === C. Options-expiration Fridays: last-hour behaviour vs other Fridays ===
   AAPL 5m    OPEX n 11: |last hour|   31bp, fade-the-day +16.9bp t+1.4 | other Fridays n 39: |last hour|   31bp, fade  -9.2bp t-1.2
   AMD 5m     OPEX n 11: |last hour|   86bp, fade-the-day +17.9bp t+0.5 | other Fridays n 39: |last hour|   72bp, fade -23.9bp t-1.6
   AMZN 5m    OPEX n 11: |last hour|   30bp, fade-the-day  +4.1bp t+0.4 | other Fridays n 38: |last hour|   35bp, fade -23.7bp t-2.8
+  BAC 5m     OPEX n  4: |last hour|   30bp, fade-the-day -11.8bp t-0.6 | other Fridays n 16: |last hour|   17bp, fade  -3.3bp t-0.7
   COIN 5m    OPEX n 11: |last hour|   54bp, fade-the-day +16.7bp t+0.8 | other Fridays n 39: |last hour|   88bp, fade  -0.0bp t-0.0
   IWM 5m     OPEX n 12: |last hour|   19bp, fade-the-day  -3.4bp t-0.5 | other Fridays n 38: |last hour|   20bp, fade  -3.9bp t-0.9
+  JPM 5m     OPEX n  4: |last hour|   22bp, fade-the-day  +1.7bp t+0.1 | other Fridays n 16: |last hour|   17bp, fade  -1.5bp t-0.3
   MSTR 5m    OPEX n 11: |last hour|   80bp, fade-the-day -11.4bp t-0.4 | other Fridays n 38: |last hour|   85bp, fade  +8.7bp t+0.5
   NVDA 5m    OPEX n 11: |last hour|   64bp, fade-the-day -59.4bp t-3.3 | other Fridays n 39: |last hour|   45bp, fade  -4.0bp t-0.4
   PLTR 5m    OPEX n 11: |last hour|   52bp, fade-the-day -17.6bp t-0.9 | other Fridays n 38: |last hour|   49bp, fade -18.6bp t-1.6
@@ -74,6 +96,7 @@ instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), COIN 5m 
   XLU 5m     OPEX n 12: |last hour|   24bp, fade-the-day -23.8bp t-2.8 | other Fridays n 38: |last hour|   24bp, fade  -1.5bp t-0.3
   XLV 5m     OPEX n 12: |last hour|   17bp, fade-the-day  +1.1bp t+0.2 | other Fridays n 38: |last hour|   19bp, fade  -8.8bp t-2.1
   XLY 5m     OPEX n 12: |last hour|   16bp, fade-the-day  -2.5bp t-0.4 | other Fridays n 38: |last hour|   21bp, fade  -4.6bp t-0.9
+  XOM 5m     OPEX n  4: |last hour|   34bp, fade-the-day -14.1bp t-0.8 | other Fridays n 15: |last hour|   26bp, fade  -9.4bp t-1.1
   SPY 30m    OPEX n 79: |last hour|   23bp, fade-the-day  -5.6bp t-1.4 | other Fridays n258: |last hour|   26bp, fade  -1.0bp t-0.3
 
 === D. Month-end / quarter-end last 30 minutes (index ETFs) ===
@@ -89,14 +112,23 @@ instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), COIN 5m 
   AAPL 5m    |gap| 0.5-1%: ->10:00 -12.6bp t-1.2 / ->close -12.3bp t-0.9 n71 | |gap| 1-2%: ->10:00 +10.3bp t+0.6 / ->close  -0.4bp t-0.0 n27 | |gap| >2%: ->10:00  +1.2bp t+0.0 / ->close -63.6bp t-1.0 n8
   AMD 5m     |gap| 0.5-1%: ->10:00 +13.6bp t+0.6 / ->close +28.4bp t+0.7 n48 | |gap| 1-2%: ->10:00 -13.7bp t-0.5 / ->close  -5.3bp t-0.1 n59 | |gap| >2%: ->10:00  -6.7bp t-0.3 / ->close  +9.9bp t+0.3 n107
   AMZN 5m    |gap| 0.5-1%: ->10:00  +2.9bp t+0.2 / ->close +28.2bp t+1.5 n65 | |gap| 1-2%: ->10:00  -6.8bp t-0.5 / ->close  +2.5bp t+0.1 n52 | |gap| >2%: ->10:00  -4.3bp t-0.1 / ->close -27.7bp t-0.7 n26
+  AVGO 5m    |gap| 0.5-1%: ->10:00  -5.9bp t-0.4 / ->close -11.1bp t-0.4 n18 | |gap| 1-2%: ->10:00 +13.7bp t+0.5 / ->close +49.1bp t+1.3 n22 | |gap| >2%: ->10:00 +48.3bp t+1.8 / ->close +23.9bp t+0.6 n18
+  BAC 5m     |gap| 0.5-1%: ->10:00 -26.8bp t-2.0 / ->close  +3.9bp t+0.2 n37 | |gap| 1-2%: ->10:00  -5.8bp t-0.3 / ->close -42.1bp t-1.2 n10
   COIN 5m    |gap| 0.5-1%: ->10:00  -6.7bp t-0.3 / ->close +68.3bp t+1.1 n34 | |gap| 1-2%: ->10:00 -10.1bp t-0.4 / ->close +11.5bp t+0.3 n65 | |gap| >2%: ->10:00  +5.6bp t+0.3 / ->close +21.5bp t+0.6 n112
+  GOOGL 5m   |gap| 0.5-1%: ->10:00 +18.1bp t+1.5 / ->close  -7.3bp t-0.4 n29 | |gap| 1-2%: ->10:00  -4.4bp t-0.1 / ->close -78.3bp t-0.9 n9
+  HOOD 5m    |gap| 0.5-1%: ->10:00 +43.6bp t+0.9 / ->close -20.5bp t-0.3 n9 | |gap| 1-2%: ->10:00 -48.0bp t-1.1 / ->close +27.6bp t+0.4 n19 | |gap| >2%: ->10:00 -29.1bp t-0.7 / ->close -32.9bp t-0.5 n33
+  INTC 5m    |gap| 0.5-1%: ->10:00 -36.1bp t-0.6 / ->close -79.3bp t-0.8 n14 | |gap| 1-2%: ->10:00 -59.8bp t-1.5 / ->close -48.3bp t-0.8 n19 | |gap| >2%: ->10:00 +70.5bp t+2.0 / ->close +45.3bp t+0.9 n32
   IWM 5m     |gap| 0.5-1%: ->10:00 -12.6bp t-2.1 / ->close  +3.9bp t+0.3 n70 | |gap| 1-2%: ->10:00  -5.8bp t-0.5 / ->close -33.1bp t-1.6 n37
+  JPM 5m     |gap| 0.5-1%: ->10:00 -18.7bp t-1.5 / ->close -11.0bp t-0.7 n26 | |gap| 1-2%: ->10:00 -42.8bp t-2.7 / ->close -56.2bp t-1.6 n19
   META 5m    |gap| 0.5-1%: ->10:00 -52.4bp t-1.1 / ->close -37.4bp t-0.7 n12 | |gap| 1-2%: ->10:00 +35.4bp t+1.0 / ->close +43.8bp t+1.3 n21 | |gap| >2%: ->10:00 -17.1bp t-0.2 / ->close +16.3bp t+0.1 n8
   MSFT 5m    |gap| 0.5-1%: ->10:00 +17.6bp t+0.7 / ->close +12.3bp t+0.5 n16 | |gap| 1-2%: ->10:00 -55.8bp t-1.9 / ->close -48.9bp t-1.4 n13
   MSTR 5m    |gap| 0.5-1%: ->10:00 -33.2bp t-1.0 / ->close +38.5bp t+0.8 n35 | |gap| 1-2%: ->10:00 -17.4bp t-0.7 / ->close +29.0bp t+0.6 n57 | |gap| >2%: ->10:00 +40.1bp t+2.1 / ->close +50.2bp t+1.3 n122
+  MU 5m      |gap| 0.5-1%: ->10:00 -21.8bp t-0.3 / ->close -17.0bp t-0.2 n9 | |gap| 1-2%: ->10:00 -83.1bp t-2.1 / ->close -116.7bp t-1.4 n19 | |gap| >2%: ->10:00 -31.4bp t-0.7 / ->close -60.1bp t-0.9 n34
+  NFLX 5m    |gap| 0.5-1%: ->10:00 -16.8bp t-0.8 / ->close  +3.3bp t+0.1 n18 | |gap| 1-2%: ->10:00  +2.5bp t+0.1 / ->close  -4.7bp t-0.1 n16 | |gap| >2%: ->10:00 -42.6bp t-0.6 / ->close -17.6bp t-0.3 n8
   NVDA 5m    |gap| 0.5-1%: ->10:00  +0.1bp t+0.0 / ->close -25.3bp t-1.1 n69 | |gap| 1-2%: ->10:00 +14.4bp t+1.3 / ->close  -0.5bp t-0.0 n79 | |gap| >2%: ->10:00  -5.0bp t-0.3 / ->close -16.5bp t-0.5 n42
   PLTR 5m    |gap| 0.5-1%: ->10:00 +14.8bp t+0.7 / ->close +22.0bp t+0.7 n57 | |gap| 1-2%: ->10:00 +46.0bp t+2.0 / ->close +59.3bp t+1.7 n72 | |gap| >2%: ->10:00  -1.3bp t-0.0 / ->close -38.0bp t-0.7 n52
   QQQ 5m     |gap| 0.5-1%: ->10:00  -1.7bp t-0.3 / ->close  +2.3bp t+0.2 n69 | |gap| 1-2%: ->10:00  -6.3bp t-0.8 / ->close -16.4bp t-0.7 n33
+  SMCI 5m    |gap| 1-2%: ->10:00 +27.5bp t+0.7 / ->close +72.4bp t+1.0 n28 | |gap| >2%: ->10:00 +107.5bp t+2.2 / ->close +114.1bp t+1.9 n31
   SPY 5m     |gap| 0.5-1%: ->10:00  -2.3bp t-0.5 / ->close  -5.2bp t-0.5 n50 | |gap| 1-2%: ->10:00  -3.7bp t-0.3 / ->close -30.9bp t-1.0 n14
   TSLA 5m    |gap| 0.5-1%: ->10:00 +10.0bp t+0.7 / ->close +11.6bp t+0.4 n73 | |gap| 1-2%: ->10:00  -5.8bp t-0.4 / ->close +15.1bp t+0.6 n81 | |gap| >2%: ->10:00 +42.2bp t+1.4 / ->close +48.7bp t+1.1 n32
   XLB 5m     |gap| 0.5-1%: ->10:00  -1.0bp t-0.2 / ->close  +2.4bp t+0.2 n69 | |gap| 1-2%: ->10:00 +15.4bp t+1.1 / ->close  +7.2bp t+0.4 n20
@@ -108,6 +140,7 @@ instruments: AAPL 5m (263 days), AMD 5m (263 days), AMZN 5m (258 days), COIN 5m 
   XLU 5m     |gap| 0.5-1%: ->10:00  -1.1bp t-0.1 / ->close -17.2bp t-1.3 n42
   XLV 5m     |gap| 0.5-1%: ->10:00  +6.9bp t+0.8 / ->close +17.4bp t+1.4 n42 | |gap| 1-2%: ->10:00  +9.1bp t+0.6 / ->close +17.8bp t+0.7 n10
   XLY 5m     |gap| 0.5-1%: ->10:00  +3.6bp t+0.5 / ->close +24.4bp t+2.0 n63 | |gap| 1-2%: ->10:00  -5.9bp t-0.5 / ->close -24.1bp t-1.3 n27
+  XOM 5m     |gap| 0.5-1%: ->10:00 -17.9bp t-1.3 / ->close -13.7bp t-0.7 n29 | |gap| 1-2%: ->10:00  +3.1bp t+0.2 / ->close +16.1bp t+0.6 n37
   SPY 30m    |gap| 0.5-1%: ->10:00  -2.6bp t-1.5 / ->close  -5.3bp t-1.0 n372 | |gap| 1-2%: ->10:00  +4.8bp t+1.4 / ->close  +8.5bp t+1.0 n155 | |gap| >2%: ->10:00 -42.4bp t-3.6 / ->close  -1.0bp t-0.0 n47
   SPY 60m    |gap| 0.5-1%: ->10:00  -1.3bp t-0.8 / ->close  +0.7bp t+0.2 n590 | |gap| 1-2%: ->10:00  +7.7bp t+2.0 / ->close  +3.7bp t+0.5 n213 | |gap| >2%: ->10:00 -41.8bp t-3.2 / ->close  -7.5bp t-0.3 n54
   QQQ 60m    |gap| 0.5-1%: ->10:00  -3.4bp t-1.5 / ->close  -0.6bp t-0.2 n720 | |gap| 1-2%: ->10:00  +2.0bp t+0.6 / ->close  +1.3bp t+0.2 n350 | |gap| >2%: ->10:00 -46.8bp t-4.0 / ->close  -8.9bp t-0.4 n91
