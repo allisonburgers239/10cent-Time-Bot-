@@ -105,6 +105,8 @@ rule on Sleeve E's history before wiring anything:
 | **Drawdown gate: alert at -15%, hard stop at -25% from the equity-history peak** (`orchestrator.drawdown_gate`) | Never triggered historically on E v2 (MaxDD -31% at 1x would have: that is the point - a human looks) | **Wired** in both tickets; needs `data/equity_history.csv`, which both tickets now append |
 | Stale / implausible quote at order time | n/a | **Wired**: no trade if the last 1-min bar is >10 min old or the quote moved >8% vs prior close (`risk.price_is_fresh`, `price_is_plausible`) |
 | NYSE holiday + early-close calendar (`calendar_nyse.py`) | n/a | **Wired**: no ticket on non-trading days; early-close days warn to run at 12:50 |
+| Dry-run must not fake fills | n/a | **Fixed 2026-11-04**: `monthly_rebalance.py` writes `data/pending_rebalance.json`; positions change only on `--confirm-fills` |
+| Equity too small for the Sleeve B basket | at $25k only 3 of 10 markets get a contract (silver, bonds, FX, copper round to 0) | **Warned 2026-11-04** in the ticket (`RebalancePlan.unfunded`, `min_equity_full_basket`); B needs ~$100k+ to be the audited basket |
 | Futures contract rolls (`rolls.py`) | n/a | **Wired** in `monthly_rebalance.py`: tracks the contract month per position in `data/state.json`, prints ROLL orders when the held month is past its roll date (equity index 8 days before 3rd Friday, energy/rates ~17th of the month before, metals/grains ~3 days before prior month-end) |
 | 1% risk per trade | not applicable to B/E as sized (vol-targeted / 1x notional) | Unchanged; `risk.position_size` exists for stop-based sleeves only |
 | Macro-event blackout (FOMC/CPI/NFP +/-30 min) | E enters at 16:00 and exits 09:30, outside every window | Not needed for E; relevant only to a future intraday sleeve |
@@ -603,6 +605,44 @@ tradeable ETFs inline there.
 Net: nothing deployable. The two calendar effects with real history (pre-holiday,
 new moon) are the kind of thing that was large before index funds and is small
 now; the ES session fade is the only one worth re-testing with new data.
+
+### Scalp / day-trade battery (2026-11-04)
+
+Temur's point: a 30% win rate is fine if the winners are big. So every
+strategy below reports win rate, average winner, average loser and payoff,
+with costs, per instrument (`scripts/screen_scalp_strategies.py`,
+`results/scalp_battery_2026-11-04.txt`). Data: 5-minute bars for QQQ/SPY/IWM
+(1 year), TSLA/NVDA/PLTR/AMD/AAPL/COIN (1 year, exported from TradingView),
+MNQ/MES/M2K/MGC (3.5 months), BTC/ETH perps (2.5 months). Costs per side:
+ETF 1 bp, stocks 2 bp, micro futures 0.2-0.9 bp (1 tick + $0.62), crypto 5 bp.
+Fills at the next bar's open; stops and targets checked on highs/lows with
+the stop assumed first; a random-entry placebo on every instrument.
+
+18 strategies x 17 instruments: opening-range breakouts with targets of 2, 5
+and 10 times the risk (the "lose 70%, win big" shape), prior-day high/low
+breaks, stop-run reversals, 5-minute RSI(2), EMA 9/21 crosses, 20-bar
+breakouts with trailing stops, climax-bar fades, first-30-minute
+continuation, last-30-minute long, three-bar momentum and its fade.
+
+Result: **nothing**. The asymmetric breakouts do exactly what Temur
+described - 25-35% winners that are 2-5x the losers - and the two sides
+cancel to within a few basis points of zero before costs, on every
+instrument. The best cell in the whole table (TSLA, 5-min opening range
+with a 5x target) is +11 bp per trade with t = 1.1, i.e. noise, and the
+same rule loses on PLTR and AMD. Every high-frequency rule (RSI(2), three-bar
+momentum/fade, stop-runs) loses roughly its cost per trade, exactly like the
+random placebo. Crypto perps at 5 bp per side lose on everything. One
+curiosity: the first 30 minutes of the day drifted up strongly in the
+2025-26 ETF files (+10 bp/day), but on 2015-2026 hourly data it is +1 bp/day
+with t ~1 and flips sign by year, so holding E to 10:00 instead of 09:30 is
+not adopted (`results/first_bar_drift_and_e_exit_extension_2026-11-04.txt`).
+
+Why the percentages game does not rescue it: the market prices the stop
+distance. A tight stop with a far target buys a low win rate and a high
+payoff, a wide stop the reverse, and expectancy lands at the same place -
+the drift - minus costs. An edge has to come from a condition where the
+distribution itself is shifted (the overnight premium is one); a payoff
+shape alone cannot create one.
 
 ## TradingView Strategy Tester (forward test without a broker)
 
