@@ -4,6 +4,8 @@
 // On nights where the 2-day RSI of the daily closes is below 10, size 2x.
 // Since 2026-11-04 the size is also scaled by min(2, 20/VIX) (calm = bigger,
 // panic = smaller), total capped at 2x equity. Input useVolScale turns it off.
+// Since 2026-11-05: gap-down hold - when the open is 2% or more below the previous
+// close, the position is sold at 10:30 instead of 09:30 (input useGapHold).
 //
 // REQUIRES: a 5-minute chart (1/15-minute also work) of SPY / QQQ / IWM / GLD
 // with EXTENDED HOURS ON (chart settings -> Symbol -> Session -> Extended).
@@ -30,6 +32,8 @@ warmup     = input.int(10,     "RSI warm-up days (no signal before)")
 useVolScale = input.bool(true, "VIX-scaled size: x min(cap, ref/VIX)")   // adopted 2026-11-04
 volRef      = input.float(20.0, "VIX reference (size 1x at this VIX)")
 volCap      = input.float(2.0,  "Cap on total size (x equity)")
+useGapHold  = input.bool(true,  "Gap-down hold: if the open is <= -2% vs prev close, sell at 10:30 not 09:30")   // adopted 2026-11-05
+gapThr      = input.float(-2.0, "Gap-down threshold, %")
 
 if not timeframe.isminutes or timeframe.multiplier > 15
     runtime.error("Use a 1, 5 or 15-minute chart.")
@@ -37,6 +41,7 @@ if not timeframe.isminutes or timeframe.multiplier > 15
 minOfDay   = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
 isEntryBar = session.islastbar_regular                                        // 15:55 bar (12:55 on half days); its close = closing print
 isPreOpen  = session.ispremarket and minOfDay + timeframe.multiplier == 570   // 09:25 bar: next bar opens at 09:30
+isPre1030  = session.ismarket and minOfDay + timeframe.multiplier == 630      // 10:25 bar: next bar opens at 10:30
 
 // Daily close series built from the entry bar's close (what is known at 16:00),
 // Wilder RSI(2) = EWM with alpha 1/2, seeded on the first diff (matches pandas ewm adjust=false).
@@ -75,11 +80,26 @@ if isEntryBar and strategy.position_size == 0
     if qty > 0
         strategy.entry("ON", strategy.long, qty = qty, comment = (signal ? "sig " : "") + "x" + str.tostring(sizeMult, "#.##"))
 
+// Gap-down hold. The 09:30 open is not known on the 09:25 bar, so the gap is estimated from the
+// last pre-market print (the 09:25 bar close) vs the previous regular close; it differs from the
+// official open by noise. If the estimated gap is at or below gapThr, the 09:25 sell is skipped and
+// the position is sold on the 10:25 bar (fills at the 10:30 open). The audit used the exact open
+// and the 10:30 first-bar close; this is the closest live equivalent.
+var bool holding = false
+gapEst = not na(prevClose) ? close / prevClose - 1 : na
 if strategy.position_size > 0
     if isPreOpen
-        strategy.close("ON", comment = "open")                          // fills at the 09:30 bar open
-    else if session.isfirstbar_regular
+        if useGapHold and not na(gapEst) and gapEst * 100 <= gapThr
+            holding := true                                            // skip the open; sell at 10:30
+        else
+            strategy.close("ON", comment = "open")                      // fills at the 09:30 bar open
+    else if holding and isPre1030
+        strategy.close("ON", comment = "gap hold 10:30")                // fills at the 10:30 bar open
+        holding := false
+    else if session.isfirstbar_regular and not holding
         strategy.close("ON", comment = "late open", immediately = true) // delayed open: get out on the first regular bar
+if strategy.position_size == 0
+    holding := false
 
 plotshape(isEntryBar and signal, title = "signal night", style = shape.triangleup, location = location.belowbar, color = color.orange, size = size.tiny)
 plot(rsi2, title = "RSI(2) of daily closes", display = display.data_window)

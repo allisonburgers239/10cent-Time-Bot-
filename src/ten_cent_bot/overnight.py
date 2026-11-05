@@ -62,6 +62,19 @@ E_V2_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0)
 # all 5-yr blocks better, shuffled-VIX placebo p=0.000 (scripts/audit_overnight_volscale.py). GLD: no help.
 E_V2_VOL_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0, vol_scale="vix")
 
+# E v3 - ADOPTED 2026-11-05 (Temur's go): E v2 + VIX scaling + gap-down hold. On mornings where the
+# open is 2% or more below the previous close, the position is held to the close of the first
+# intraday bar (10:30 on hourly) instead of sold at 09:30. Audit: scripts/audit_overnight_gapdown_hold.py
+# (basket 0.57 -> 0.71 on hourly 2015-2026, placebo p = 0.000). Needs first_bar_close= in backtests.
+E_V3_CONFIG = OvernightConfig(reversal_signal="rsi2", reversal_multiplier=2.0, vol_scale="vix", gapdown_hold_thr=-0.02)
+
+
+def morning_decision(open_price: float, prev_close: float, thr: float = -0.02) -> tuple[str, float]:
+    """The 09:30 check for the gap-down hold. Returns ("HOLD", gap) when the open is at or below
+    prev_close * (1 + thr), else ("SELL", gap). Pure function so the ticket and tests share it."""
+    gap = open_price / prev_close - 1
+    return ("HOLD" if gap <= thr else "SELL"), gap
+
 
 def vol_scale_factor(vix_close: pd.Series, cfg: "OvernightConfig") -> pd.Series:
     """Size multiplier from the entry day's VIX close: min(cap, ref / VIX). No look-ahead:

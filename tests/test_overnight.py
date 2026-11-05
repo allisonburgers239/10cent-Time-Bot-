@@ -109,3 +109,11 @@ def test_gapdown_hold_swaps_exit_only_on_big_gap_down_mornings():
     import pytest
     with pytest.raises(ValueError):
         ov.backtest_single(df, ov.OvernightConfig(gapdown_hold_thr=-0.02))
+
+
+def test_morning_decision_threshold():
+    from ten_cent_bot.overnight import morning_decision
+    assert morning_decision(98.0, 100.0)[0] == "HOLD"      # exactly -2%
+    assert morning_decision(98.5, 100.0)[0] == "SELL"
+    assert morning_decision(90.0, 100.0)[0] == "HOLD"
+    act, gap = morning_decision(101.0, 100.0); assert act == "SELL" and abs(gap - 0.01) < 1e-12

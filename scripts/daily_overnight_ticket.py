@@ -100,7 +100,8 @@ def ticket(legs: list[Leg], equity: float, basket: str, overlay: str, rail: str)
         lines.append(f"{L.etf:>4} {L.rsi2:>6.1f} {L.multiplier:>5.2f}  {L.instrument:<10} {L.price:>10,.2f} {L.unit_notional:>10,.0f} {L.target_notional:>10,.0f} {L.qty:>4}  {note}")
         gross_t += L.qty * L.unit_notional; gross_min += L.min_viable_qty * L.unit_notional
     lines += ["-" * 86,
-              f"BUY at 16:00 ET (MOC / last 5-min print), SELL at 09:30 ET open.",
+              f"BUY at 16:00 ET (MOC / last 5-min print), SELL at 09:30 ET open - EXCEPT on a gap-down morning: "
+              f"if the open is 2% or more below yesterday's close, hold and sell at 10:30 (run --morning at 09:31 for HOLD/SELL per leg).",
               f"Gross exposure of this ticket: ${gross_t:,.0f} = {gross_t/equity:.2f}x equity"]
     if any(L.qty == 0 for L in legs) and rail == "futures":
         lines += [f"!! At ${equity:,.0f} the target sizes round to zero on micro contracts.",
@@ -142,9 +143,26 @@ def main() -> int:
     p.add_argument("--overlay", choices=("none", "v2"), default="v2")
     p.add_argument("--rail", choices=("futures", "etf"), default="futures")
     p.add_argument("--gross", type=float, default=1.0, help="gross exposure target as a multiple of equity (audited: 1.0)")
+    p.add_argument("--morning", action="store_true", help="09:30 check: for each leg, HOLD (open <= prev close minus 2 pct: sell at 10:30 instead) or SELL now; uses live quotes from TradingView's public scanner")
     p.add_argument("--vol-scale", choices=("none", "vix"), default="vix", help="size every leg by min(2, 20/VIX) using the latest VIX quote (audited 2026-11-04, ON by default since Temur's go; --vol-scale none to disable)")
     a = p.parse_args()
     closes, last, futs, last_time = fetch(BASKETS[a.basket])
+    if a.morning:
+        import requests
+        tv = {"SPY": "AMEX:SPY", "QQQ": "NASDAQ:QQQ", "IWM": "AMEX:IWM", "GLD": "AMEX:GLD"}
+        syms = [tv[t] for t in BASKETS[a.basket]]
+        r = requests.post("https://scanner.tradingview.com/america/scan", json={"symbols": {"tickers": syms}, "columns": ["name", "open", "close", "gap", "update_mode"]}, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+        r.raise_for_status()
+        print(f"Morning check {pd.Timestamp.now(tz='America/New_York'):%Y-%m-%d %H:%M} ET - gap-down hold rule: open <= prev close -2% -> HOLD to 10:30")
+        for row in r.json()["data"]:
+            name, opn, last, gap_pct, mode = row["d"]
+            if opn is None or gap_pct is None:
+                print(f"  {name:4s}  no open yet ({mode}) - run again after 09:30"); continue
+            prev_close = opn / (1 + gap_pct / 100.0)
+            act, gap = ov.morning_decision(float(opn), float(prev_close), -0.02)
+            print(f"  {name:4s}  open {opn:9.2f}  prev close {prev_close:9.2f}  gap {gap * 100:+5.2f}%  -> {act}{'  (sell at 10:30, market order)' if act == 'HOLD' else '  (sell now, market-on-open)'}")
+        return 0
+
     gross = a.gross
     if a.vol_scale == "vix":
         import yfinance as yf

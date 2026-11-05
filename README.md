@@ -858,12 +858,15 @@ audited in `scripts/audit_overnight_gapdown_hold.py`
 | tail | worst single day -12.1% -> -9.5%; worst hold 2025-04-03 -243 bp; hit rate 61% over 69 events |
 | why | first-bar return by gap: -3% or worse +152 bp, -3..-2% +26 bp, -2..-1% -4 bp, everything else 0 |
 
-**Verdict: passes. Recommended for adoption**, pending Temur's go: it is
-one extra check at 09:30 (if the open is 2% or more below yesterday's
-close, hold until 10:30), about 4 mornings a year per ETF, no extra trades,
-and it cuts the worst day. Caveats: 3 of 4 events per year, so a slow
+**Verdict: passes. Adopted 2026-11-05 (Temur's go).** Live rule: one extra
+check at 09:30 - if the open is 2% or more below yesterday's close, hold
+until 10:30 (`daily_overnight_ticket.py --morning` prints HOLD/SELL per leg
+from live quotes; `overnight.E_V3_CONFIG` is the audited config; both Pine
+scripts have `useGapHold`, estimating the gap from the 09:25 pre-market
+print because the open is not known before it prints). About 4 mornings a
+year per ETF, no extra trades, cuts the worst day. Caveats: a slow
 accumulation; 2020 and 2025 supplied the biggest single mornings; IWM gains
-nothing. Not yet in the daily ticket or the Pine script.
+nothing.
 
 ### Selloff days: which side pays? (2026-11-05, written on a -5.5% QQQ day)
 

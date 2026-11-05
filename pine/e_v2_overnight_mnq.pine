@@ -20,6 +20,8 @@ rsiThr        = input.float(10.0, "RSI(2) threshold")
 baseContracts = input.int(1,      "Contracts on a normal night")
 signalMult    = input.int(2,      "Multiplier on a signal night")
 warmup        = input.int(10,     "RSI warm-up days (no signal before)")
+useGapHold    = input.bool(true,  "Gap-down hold: if 09:25 is <= -2% vs yesterday's 16:00, sell at 10:30 not 09:30")   // adopted 2026-11-05
+gapThr        = input.float(-2.0, "Gap-down threshold, %")
 
 if not timeframe.isminutes or timeframe.multiplier > 15
     runtime.error("Use a 1, 5 or 15-minute chart.")
@@ -27,6 +29,7 @@ if not timeframe.isminutes or timeframe.multiplier > 15
 minOfDay   = hour(time, "America/New_York") * 60 + minute(time, "America/New_York")
 isEntryBar = minOfDay + timeframe.multiplier == 960   // 15:55 bar: next bar opens at 16:00
 isPreOpen  = minOfDay + timeframe.multiplier == 570   // 09:25 bar: next bar opens at 09:30
+isPre1030  = minOfDay + timeframe.multiplier == 630   // 10:25 bar: next bar opens at 10:30
 
 var float prevClose = na
 var float avgUp = na
@@ -50,8 +53,19 @@ int qty = signal ? baseContracts * signalMult : baseContracts
 if isEntryBar and strategy.position_size == 0
     strategy.entry("ON", strategy.long, qty = qty, comment = signal ? "x" + str.tostring(signalMult) : "x1")
 
-if isPreOpen and strategy.position_size > 0
-    strategy.close("ON", comment = "open")   // fills at the 09:30 bar open
+var bool holding = false
+gapEst = not na(prevClose) ? close / prevClose - 1 : na   // 09:25 price vs yesterday's 16:00 print
+if strategy.position_size > 0
+    if isPreOpen
+        if useGapHold and not na(gapEst) and gapEst * 100 <= gapThr
+            holding := true
+        else
+            strategy.close("ON", comment = "open")           // fills at the 09:30 bar open
+    else if holding and isPre1030
+        strategy.close("ON", comment = "gap hold 10:30")     // fills at the 10:30 bar open
+        holding := false
+if strategy.position_size == 0
+    holding := false
 
 plotshape(isEntryBar and signal, title = "signal night", style = shape.triangleup, location = location.belowbar, color = color.orange, size = size.tiny)
 plot(rsi2, title = "RSI(2) of daily closes", display = display.data_window)
