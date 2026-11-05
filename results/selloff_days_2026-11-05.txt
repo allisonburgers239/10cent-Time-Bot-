@@ -1,0 +1,47 @@
+=== 1. After a big down close: where is the bounce? (daily, SPY 1993-, QQQ 1999-, IWM 2000-) ===
+  SPY day <= -2% (n 338): next overnight +8bp t+1.1 | next day-session +25bp t+2.3 | next 1d +33 | 5d +83bp t+3.4 | 10d +100bp | halves(5d) +77/+89bp | unconditional 5d +23bp
+  SPY day <= -3% (n 103): next overnight -3bp t-0.2 | next day-session +53bp t+2.2 | next 1d +50 | 5d +93bp t+1.6 | 10d +57bp | halves(5d) +124/+63bp | unconditional 5d +23bp
+  SPY day <= -4% (n 48): next overnight +4bp t+0.1 | next day-session +80bp t+1.8 | next 1d +84 | 5d +134bp t+1.4 | 10d +82bp | halves(5d) +166/+102bp | unconditional 5d +23bp
+  QQQ day <= -2% (n 603): next overnight +6bp t+1.0 | next day-session +17bp t+1.7 | next 1d +23 | 5d +63bp t+2.9 | 10d +67bp | halves(5d) +49/+78bp | unconditional 5d +26bp
+  QQQ day <= -3% (n 280): next overnight -1bp t-0.1 | next day-session +33bp t+1.8 | next 1d +32 | 5d +61bp t+1.7 | 10d +66bp | halves(5d) +55/+67bp | unconditional 5d +26bp
+  QQQ day <= -4% (n 129): next overnight -7bp t-0.5 | next day-session +47bp t+1.4 | next 1d +39 | 5d +70bp t+1.2 | 10d +101bp | halves(5d) +105/+35bp | unconditional 5d +26bp
+  IWM day <= -2% (n 449): next overnight +4bp t+0.6 | next day-session +17bp t+1.7 | next 1d +21 | 5d +48bp t+2.0 | 10d +96bp | halves(5d) +46/+50bp | unconditional 5d +21bp
+  IWM day <= -3% (n 154): next overnight -5bp t-0.4 | next day-session +61bp t+2.9 | next 1d +55 | 5d +73bp t+1.4 | 10d +103bp | halves(5d) +150/-4bp | unconditional 5d +21bp
+  IWM day <= -4% (n 55): next overnight +8bp t+0.3 | next day-session +116bp t+2.4 | next 1d +124 | 5d +83bp t+0.7 | 10d +73bp | halves(5d) +96/+71bp | unconditional 5d +21bp
+
+=== 2. Intraday continuation on selloff days: short the rest of the day after a bad first hour? ===
+  SPY 30m 2020-  morning (to 12:00) <= -2% (n 10): short the afternoon -149bp t-1.9 hit 0.20 halves -246/-53bp
+  SPY 30m 2020-  DAY AFTER a <= -3% day (n 27): short 10:30->close -48bp t-1.0 | gap-up fade open->close (n 7) -117bp t-1.5
+  SPY 60m 2015-  first bar <= -1.0% (n 31): short to close +2bp t+0.1 hit 0.48 halves -32/+33bp | short to 15:30 -6bp t-0.2
+  SPY 60m 2015-  DAY AFTER a <= -3% day (n 37): short 10:30->close -46bp t-1.4 | gap-up fade open->close (n 12) -84bp t-1.2
+  QQQ 60m 2015-  first bar <= -1.0% (n 105): short to close +6bp t+0.5 hit 0.55 halves +17/-5bp | short to 15:30 -1bp t-0.1
+  QQQ 60m 2015-  first bar <= -1.5% (n 26): short to close -10bp t-0.4 hit 0.42 halves -9/-11bp | short to 15:30 -15bp t-0.6
+  QQQ 60m 2015-  DAY AFTER a <= -3% day (n 74): short 10:30->close -34bp t-1.8 | gap-up fade open->close (n 29) -41bp t-1.1
+  IWM 60m 2015-  first bar <= -1.0% (n 162): short to close -18bp t-1.8 hit 0.47 halves -25/-10bp | short to 15:30 -13bp t-1.3
+  IWM 60m 2015-  first bar <= -1.5% (n 35): short to close -14bp t-0.6 hit 0.49 halves -15/-12bp | short to 15:30 -26bp t-1.1
+  IWM 60m 2015-  first bar <= -2.0% (n 10): short to close -91bp t-1.8 hit 0.30 halves -74/-109bp | short to 15:30 -144bp t-2.8
+  IWM 60m 2015-  DAY AFTER a <= -3% day (n 58): short 10:30->close -40bp t-2.2 | gap-up fade open->close (n 16) +17bp t+0.3
+
+=== 4. Short volatility after a spike: constant-maturity VX position, CBOE 2004-2026, 0.3%/side ===
+  short VX after VIX up >= 30% in 2 days                  hold  5d: n  61 mean -0.02% hit 0.61 t -0.0 worst -58.1% best +26.5% | first/second half +0.07/-0.11
+  short VX after VIX up >= 30% in 2 days                  hold 10d: n  55 mean -0.85% hit 0.65 t -0.3 worst -108.9% best +27.1% | first/second half -6.04/+4.16
+  short VX after VIX up >= 50% in 2 days                  hold  5d: n  13 mean +1.15% hit 0.54 t +0.2 worst -45.5% best +38.1% | first/second half +4.04/-1.33
+  short VX after VIX up >= 50% in 2 days                  hold 10d: n  13 mean -5.97% hit 0.46 t -0.6 worst -108.9% best +50.3% | first/second half -9.99/-2.52
+  short VX after VIX >= 25                                hold  5d: n 184 mean +0.82% hit 0.65 t +0.8 worst -85.1% best +38.1% | first/second half -1.03/+2.66
+  short VX after VIX >= 25                                hold 10d: n 113 mean +2.49% hit 0.64 t +1.4 worst -108.9% best +50.3% | first/second half +0.22/+4.72
+  short VX after VIX >= 30                                hold  5d: n  99 mean +1.85% hit 0.61 t +1.3 worst -47.7% best +38.1% | first/second half -0.75/+4.41
+  short VX after VIX >= 30                                hold 10d: n  63 mean +1.92% hit 0.70 t +0.7 worst -107.1% best +50.3% | first/second half -2.94/+6.64
+  short VX after VIX >= 25 and curve inverted (VX1 > VX2) hold  5d: n 114 mean -0.07% hit 0.59 t -0.0 worst -85.1% best +38.1% | first/second half -3.15/+3.00
+  short VX after VIX >= 25 and curve inverted (VX1 > VX2) hold 10d: n  78 mean +1.52% hit 0.63 t +0.6 worst -108.9% best +50.3% | first/second half -1.62/+4.65
+  (unconditional short VX, daily: +16bp/day, Sharpe 0.57, worst day -96%)
+
+=== 5. Sector cross-section after a <= -3% SPY day: worst-3 sectors vs best-3 over the next 5 days (hourly 2015-) ===
+  n 37: worst-3 next 5d -24bp t-0.2 | best-3 -3bp t-0.0 | worst minus best -21bp t-0.3 | SPY next 5d -2bp
+
+=== 6. What E v2 + VIX scaling already earns on the night after a big down day (library) ===
+  SPY after a <= -2% day: nights 338, avg position 1.01x, avg net +6bp, share of the sleeve's total P&L 9% from 4.0% of nights
+  SPY after a <= -3% day: nights 103, avg position 0.86x, avg net -8bp, share of the sleeve's total P&L -4% from 1.2% of nights
+  QQQ after a <= -2% day: nights 603, avg position 1.06x, avg net +4bp, share of the sleeve's total P&L 7% from 8.7% of nights
+  QQQ after a <= -3% day: nights 280, avg position 1.00x, avg net -6bp, share of the sleeve's total P&L -6% from 4.0% of nights
+  IWM after a <= -2% day: nights 449, avg position 1.06x, avg net +3bp, share of the sleeve's total P&L 5% from 6.8% of nights
+  IWM after a <= -3% day: nights 154, avg position 0.90x, avg net -6bp, share of the sleeve's total P&L -4% from 2.3% of nights
