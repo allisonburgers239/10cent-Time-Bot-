@@ -865,6 +865,39 @@ and it cuts the worst day. Caveats: 3 of 4 events per year, so a slow
 accumulation; 2020 and 2025 supplied the biggest single mornings; IWM gains
 nothing. Not yet in the daily ticket or the Pine script.
 
+### Selloff days: which side pays? (2026-11-05, written on a -5.5% QQQ day)
+
+Temur: "sell-offs like this from news are common - how do we capitalize,
+shorting or?" (`scripts/screen_selloff_days.py`, `results/selloff_days_2026-11-05.txt`,
+`results/e_crashday_holdthrough_2026-11-05.txt`.)
+
+| Question | Answer from the data |
+|---|---|
+| Short the continuation once the first hour is bad? | **No.** Shorting from 10:30 to the close after a first hour of -1% or worse: flat to negative on SPY/QQQ/IWM 2015-2026; after a -2% morning, shorting the afternoon lost 149 bp on average (n 10). Intraday selloffs mean-revert inside the day |
+| Short the day after a crash, or fade a gap-up the next morning? | No. Both lose 30-120 bp per trade |
+| Short volatility after a VIX spike? | **No.** Mean positive (+1-2% per 5-10 days, 60-70% hit) but t <= 1.4 and the worst trades are -58%, -85%, -109% of the position. The classic blow-up |
+| Rotate into the worst-hit sectors? | Nothing (worst-3 vs best-3 next 5 days: t 0.3, n 37) |
+| Where is the bounce after a <= -3% day? | **Not overnight.** The next overnight is flat (-3 bp SPY, -1 bp QQQ). The bounce is the **next day session** (+53 bp SPY, +61 IWM, +80 SPY after -4%) and the next 5 days (+83-134 bp vs +23 unconditional) |
+| What does E v2 already get on those nights? | Nothing: the night after a <= -3% day averages -6 to -8 bp. The sleeve's crash money comes from the 2-down-day RSI signal (which fires the night after), not from the first crash night |
+
+That suggested an E extension: after a <= -3% close, do not sell at the
+next open; hold through the next day session (one round trip saved). Tested
+on daily data 1993-2026 with the VIX-scaled E v2: SPY 0.72 -> 0.82, QQQ 0.75
+-> 0.83, IWM 0.77 -> 0.91, GLD worse (0.41 -> 0.34; equities only), E3
+basket 1.00 -> 1.14, placebo p 0.005-0.05. **But the gain is old:** by
+year, the holds added money 1996-2011 and roughly nothing or a loss since
+2012 (SPY 2015 -278 bp, 2020 -194, 2022 -180; QQQ 2022 -321, 2024 -293,
+2026 -526); second-half Sharpe 0.71 -> 0.72. The day-after bounce has
+faded in the last decade. **Not adopted.** The gap-down hold (previous
+section) is the version that still works, because it targets the first 30-60
+minutes of the morning, not the whole day.
+
+So for days like today the honest playbook is the one we already have:
+be long the overnight after the forced sellers finish (E v2's 2x signal
+fires after two down days), scale size down by the VIX, and, once switched
+on, hold through the first hour when the open gaps 2% or more. Nothing on
+the short side pays after costs.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

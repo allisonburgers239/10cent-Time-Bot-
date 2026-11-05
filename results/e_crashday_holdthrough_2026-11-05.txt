@@ -1,0 +1,24 @@
+E3 v2 + VIX scaling: hold through the NEXT DAY SESSION after a <= thr close-to-close day (no extra trades; one round trip saved)
+  SPY:
+     thr -2%: n 338 Sharpe 0.72->0.82 CAGR 7.2->9.2% MaxDD -32->-33% worst day -7.5->-8.4% | added/event +20bp t+2.1 | placebo Sharpe 0.70±0.05 p=0.015
+     thr -3%: n 103 Sharpe 0.72->0.82 CAGR 7.2->8.6% MaxDD -32->-30% worst day -7.5->-7.8% | added/event +47bp t+2.2 | placebo Sharpe 0.71±0.03 p=0.005
+     thr -4%: n 48 Sharpe 0.72->0.79 CAGR 7.2->8.0% MaxDD -32->-33% worst day -7.5->-7.8% | added/event +62bp t+1.7 | placebo Sharpe 0.72±0.02 p=0.000
+     thr -3% added by year (bp): 1996:+150 1997:+1583 1998:+598 2000:+917 2001:+369 2002:+97 2003:+59 2007:+77 2008:+866 2009:+186 2010:-51 2011:+321 2015:-278 2016:-76 2018:+400 2019:+108 2020:-194 2022:-180 2025:-89
+  QQQ:
+     thr -2%: n 603 Sharpe 0.75->0.81 CAGR 10.9->15.1% MaxDD -35->-34% worst day -11.4->-11.8% | added/event +19bp t+1.8 | placebo Sharpe 0.68±0.08 p=0.050
+     thr -3%: n 280 Sharpe 0.75->0.83 CAGR 10.9->14.6% MaxDD -35->-32% worst day -11.4->-11.8% | added/event +36bp t+1.9 | placebo Sharpe 0.71±0.06 p=0.035
+     thr -4%: n 129 Sharpe 0.75->0.81 CAGR 10.9->13.7% MaxDD -35->-35% worst day -11.4->-11.8% | added/event +61bp t+1.7 | placebo Sharpe 0.74±0.05 p=0.050
+     thr -3% added by year (bp): 1999:+1488 2000:+1745 2001:+3686 2002:+3366 2003:-498 2007:-466 2008:-232 2009:+348 2010:-206 2011:+262 2014:-34 2015:+257 2016:-239 2018:+712 2019:+467 2020:+653 2021:-38 2022:-321 2024:-293 2025:-17 2026:-526
+  IWM:
+     thr -2%: n 449 Sharpe 0.77->0.76 CAGR 10.3->11.2% MaxDD -34->-41% worst day -9.1->-8.4% | added/event +5bp t+0.6 | placebo Sharpe 0.70±0.07 p=0.195
+     thr -3%: n 154 Sharpe 0.77->0.91 CAGR 10.3->12.5% MaxDD -34->-36% worst day -9.1->-8.4% | added/event +38bp t+2.3 | placebo Sharpe 0.75±0.05 p=0.000
+     thr -4%: n 55 Sharpe 0.77->0.85 CAGR 10.3->11.6% MaxDD -34->-34% worst day -9.1->-9.1% | added/event +64bp t+2.0 | placebo Sharpe 0.77±0.03 p=0.000
+     thr -3% added by year (bp): 2000:+347 2001:+354 2002:+460 2003:+11 2004:+16 2007:+347 2008:+2137 2009:+431 2010:+87 2011:+1395 2012:-89 2013:+191 2014:+24 2015:-387 2016:+462 2018:+674 2019:+350 2020:-225 2021:-704 2022:-528 2024:+309 2025:+292 2026:-46
+  GLD:
+     thr -2%: n 211 Sharpe 0.41->0.33 CAGR 6.7->5.7% MaxDD -66->-67% worst day -11.1->-17.6% | added/event -10bp t-0.9 | placebo Sharpe 0.40±0.04 p=0.975
+     thr -3%: n 74 Sharpe 0.41->0.34 CAGR 6.7->5.7% MaxDD -66->-71% worst day -11.1->-17.6% | added/event -29bp t-1.2 | placebo Sharpe 0.41±0.02 p=0.995
+     thr -4%: n 26 Sharpe 0.41->0.35 CAGR 6.7->5.8% MaxDD -66->-71% worst day -11.1->-17.6% | added/event -71bp t-1.4 | placebo Sharpe 0.41±0.01 p=1.000
+     thr -3% added by year (bp): 2006:-398 2007:-120 2008:-521 2009:+134 2010:+236 2011:-220 2012:+62 2013:-1420 2016:-90 2020:-306 2021:-54 2024:+142 2025:-32 2026:+465
+
+E3 basket (thr -3%): Sharpe 1.00 -> 1.14, CAGR 10.2% -> 12.7%, MaxDD -21% -> -22%, worst day -6.4% -> -6.7%
+  halves: base 1.30/0.71  ext 1.51/0.72
