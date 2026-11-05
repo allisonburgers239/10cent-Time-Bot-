@@ -7,7 +7,7 @@
   <array>
     <string>/bin/bash</string>
     <string>-lc</string>
-    <string>cd "$HOME/projects/10cent-time-bot" &amp;&amp; .venv/bin/python scripts/daily_scan.py &gt;&gt; results/scan_log_runs.txt 2&gt;&amp;1</string>
+    <string>cd "$HOME/projects/10cent-time-bot" &amp;&amp; .venv/bin/python scripts/daily_scan.py &gt;&gt; results/scan_log_runs.txt 2&gt;&amp;1; .venv/bin/python scripts/scan_trend_exhaustion.py --log &gt;&gt; results/scan_log_runs.txt 2&gt;&amp;1; .venv/bin/python scripts/squeeze_scan.py --log &gt;&gt; results/scan_log_runs.txt 2&gt;&amp;1</string>
   </array>
   <!-- 09:00 local (Central) = 10:00 ET, Monday-Friday. Edit Hour if the Mac is not on Central time. -->
   <key>StartCalendarInterval</key>

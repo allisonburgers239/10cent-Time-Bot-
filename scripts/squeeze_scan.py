@@ -96,6 +96,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--symbols", default=None, help="comma-separated yfinance symbols (default: built-in watchlist)")
     ap.add_argument("--json", default=None)
+    ap.add_argument("--log", action="store_true", help="append every row to results/squeeze_log.csv (scheduled runs)")
     a = ap.parse_args()
     import yfinance as yf
 
@@ -117,6 +118,11 @@ def main() -> int:
     print(out[cols].to_string(index=False))
     if a.json:
         Path(a.json).write_text(json.dumps(rows, indent=1, default=str))
+    if a.log:
+        log = ROOT / "results" / "squeeze_log.csv"
+        out.insert(0, "scan_time_et", pd.Timestamp.now(tz="America/New_York").strftime("%Y-%m-%d %H:%M"))
+        out.to_csv(log, mode="a", header=not log.exists(), index=False)
+        print(f"appended to {log}")
     return 0
 
 

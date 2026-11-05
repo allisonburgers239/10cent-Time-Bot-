@@ -118,6 +118,7 @@ def analyse(ticker: str) -> dict | None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--symbols", default=None); ap.add_argument("--all", action="store_true")
+    ap.add_argument("--log", action="store_true", help="append every scanned name to results/exhaustion_log.csv (scheduled runs)")
     a = ap.parse_args()
     import yfinance as yf
     vix = float(yf.Ticker("^VIX").history(period="5d").Close.dropna().iloc[-1])
@@ -151,6 +152,11 @@ def main() -> int:
     show = t if a.all else t[t.match]
     show = show.sort_values("z_below_sma20", ascending=False)
     print(show[cols].to_string(index=False) if len(show) else "no symbol matches all three conditions today")
+    if a.log:
+        log = ROOT / "results" / "exhaustion_log.csv"
+        t2 = t.copy(); t2.insert(0, "scan_time_et", pd.Timestamp.now(tz=TZ).strftime("%Y-%m-%d %H:%M")); t2.insert(1, "vix", vix)
+        t2.to_csv(log, mode="a", header=not log.exists(), index=False)
+        print(f"appended {len(t2)} rows to {log}")
     near = t[t.above_ema200 & (t.rsi14_4h < 35) & ~t.match].sort_values("z_below_sma20", ascending=False)
     if len(near) and not a.all:
         print("\nnear-misses (above EMA200, 4h RSI < 35, but not all conditions):")
