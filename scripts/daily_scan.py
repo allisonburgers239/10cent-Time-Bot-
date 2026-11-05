@@ -54,8 +54,14 @@ def screener(top: int) -> pd.DataFrame:
             "sort": {"sortBy": "relative_volume_10d_calc", "sortOrder": "desc"},
             "range": [0, 50],
         }
-        r = requests.post(url, json=payload, headers=UA, timeout=30)
-        r.raise_for_status()
+        r = None
+        for attempt in range(5):  # the 10:00 run once failed on a DNS blip; retry with backoff
+            try:
+                r = requests.post(url, json=payload, headers=UA, timeout=30); r.raise_for_status(); break
+            except Exception as e:  # noqa: BLE001
+                import time; print(f"screener attempt {attempt + 1} failed: {e}"); time.sleep(20 * (attempt + 1))
+        if r is None:
+            continue
         for row in r.json().get("data", []):
             rows.append(dict(zip(cols, row["d"]), symbol=row["s"]))
     df = pd.DataFrame(rows)
