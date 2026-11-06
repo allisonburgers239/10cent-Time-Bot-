@@ -901,6 +901,27 @@ fires after two down days), scale size down by the VIX, and, once switched
 on, hold through the first hour when the open gaps 2% or more. Nothing on
 the short side pays after costs.
 
+### 90-minute session cycles (Ali's idea, 2026-11-06)
+
+Ali uses a 90-minute cycle view on MNQ. His saved TradingView scripts do not
+contain the cycle logic (checked: AlliKairos, 10Cent AI v2, Golden Zone
+Forecaster, Volatility Target Zones), so the three standard readings of
+"90-minute cycles" were tested instead, on 34 intraday files (ETFs, 20
+stocks, MNQ/MES, SPY 30-min 2020-), blocks anchored at 09:30
+(`scripts/screen_90min_cycles.py`, `results/ninety_min_cycles_2026-11-06.txt`):
+
+| Reading | Result |
+|---|---|
+| Block momentum: block k's direction carries into block k+1 | The opposite, and tiny: -1 to -6 bp per block on almost every instrument (SPY -0.9, QQQ -0.1, MNQ 0.0). The same mild reversal shows on blocks shifted by 45 minutes, so it is generic intraday mean reversion, not a 90-minute clock |
+| Sweep of the previous block's high/low that closes back inside, faded over the next block | Negative on most names (AMD -13 bp, JPM -9, XOM -7); flat on the index ETFs; nothing on MNQ/MES |
+| Breakout of each block's first-30-minute range, exit at the block's close | Negative on 33 of 34 instruments, hit rate 38-48%, equal to the random-direction placebo |
+
+Verdict: no 90-minute structure in the data beyond the general tendency of
+intraday moves to reverse a little, which is below costs. If Ali's rule is
+something specific (a particular block, a manipulation-then-expansion
+pattern, a time-of-day filter), send the exact rule or the script name and
+it gets replicated exactly.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on
