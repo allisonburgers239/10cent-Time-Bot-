@@ -1,0 +1,118 @@
+=== A. Block momentum: does block k's direction carry into block k+1? (09:30-anchored 90-min blocks) ===
+  AAPL       follow block sign:  -3.5bp t-2.5 n1046 | blk1->2:  -4.5bp t-1.3 n263 | blk2->3:  -1.4bp t-0.5 n263 | blk3->4:  -5.0bp t-1.9 n260 | blk4->5:  -3.1bp t-1.3 n260
+  AMD        follow block sign:  -5.1bp t-1.6 n1046 | blk1->2:  -5.9bp t-0.7 n263 | blk2->3:  -6.7bp t-1.1 n263 | blk3->4:  -6.7bp t-1.4 n260 | blk4->5:  -1.0bp t-0.2 n260
+  AMZN       follow block sign:  -5.8bp t-3.4 n1026 | blk1->2:  -6.1bp t-1.4 n258 | blk2->3:  -3.7bp t-1.1 n258 | blk3->4:  -6.4bp t-2.1 n255 | blk4->5:  -7.0bp t-2.6 n255
+  AVGO       follow block sign:  -9.4bp t-2.7 n288 | blk1->2: -10.4bp t-1.2 n72 | blk2->3: -12.2bp t-1.7 n72 | blk3->4: -10.2bp t-1.6 n72 | blk4->5:  -4.8bp t-0.8 n72
+  BAC        follow block sign:  -6.1bp t-3.2 n440 | blk1->2: -14.2bp t-2.7 n110 | blk2->3:  -3.2bp t-1.0 n110 | blk3->4:  -1.6bp t-0.4 n110 | blk4->5:  -5.3bp t-2.1 n110
+  COIN       follow block sign:  -4.2bp t-1.1 n1046 | blk1->2: -12.6bp t-1.2 n263 | blk2->3:  +7.2bp t+1.0 n263 | blk3->4: -10.5bp t-1.7 n260 | blk4->5:  -0.9bp t-0.2 n260
+  GOOGL      follow block sign:  +0.5bp t+0.2 n288 | blk1->2: +11.2bp t+1.3 n72 | blk2->3:  +3.7bp t+0.7 n72 | blk3->4:  -6.7bp t-1.7 n72 | blk4->5:  -6.3bp t-1.4 n72
+  HOOD       follow block sign:  -8.1bp t-1.6 n308 | blk1->2: -12.2bp t-1.0 n77 | blk2->3:  -9.1bp t-1.0 n77 | blk3->4:  -2.0bp t-0.2 n77 | blk4->5:  -9.0bp t-1.0 n77
+  INTC       follow block sign: -12.2bp t-2.2 n288 | blk1->2: -15.1bp t-1.1 n72 | blk2->3: -23.7bp t-2.2 n72 | blk3->4:  -6.6bp t-0.8 n72 | blk4->5:  -3.2bp t-0.3 n72
+  IWM        follow block sign:  -0.7bp t-0.6 n1034 | blk1->2:  +0.2bp t+0.1 n260 | blk2->3:  -0.5bp t-0.2 n260 | blk3->4:  -1.3bp t-0.5 n257 | blk4->5:  -1.3bp t-0.8 n257
+  JPM        follow block sign:  -5.0bp t-2.7 n440 | blk1->2:  -4.1bp t-0.9 n110 | blk2->3:  -1.8bp t-0.6 n110 | blk3->4: -10.8bp t-2.6 n110 | blk4->5:  -3.2bp t-1.4 n110
+  META       follow block sign:  -1.6bp t-0.5 n288 | blk1->2:  -1.5bp t-0.2 n72 | blk2->3:  -3.0bp t-0.4 n72 | blk3->4:  +1.2bp t+0.2 n72 | blk4->5:  -3.2bp t-0.6 n72
+  MSFT       follow block sign:  -2.7bp t-1.0 n288 | blk1->2:  +7.9bp t+1.3 n72 | blk2->3:  -4.8bp t-0.9 n72 | blk3->4:  -9.8bp t-2.1 n72 | blk4->5:  -4.2bp t-0.8 n72
+  MSTR       follow block sign:  +3.2bp t+0.7 n1026 | blk1->2:  +2.9bp t+0.3 n258 | blk2->3: +12.6bp t+1.5 n258 | blk3->4:  -9.7bp t-1.3 n255 | blk4->5:  +6.8bp t+1.0 n255
+  MU         follow block sign:  +0.8bp t+0.2 n288 | blk1->2:  -4.5bp t-0.4 n72 | blk2->3:  -4.4bp t-0.4 n72 | blk3->4: -10.3bp t-1.3 n72 | blk4->5: +22.4bp t+2.3 n72
+  NFLX       follow block sign:  -4.0bp t-1.4 n308 | blk1->2:  -8.4bp t-1.1 n77 | blk2->3:  -8.7bp t-1.7 n77 | blk3->4:  -0.4bp t-0.1 n77 | blk4->5:  +1.5bp t+0.4 n77
+  NVDA       follow block sign:  -1.8bp t-0.9 n1046 | blk1->2:  +3.0bp t+0.6 n263 | blk2->3:  +0.0bp t+0.0 n263 | blk3->4:  -1.4bp t-0.4 n260 | blk4->5:  -9.1bp t-2.3 n260
+  PLTR       follow block sign:  -3.3bp t-1.1 n1026 | blk1->2:  -2.0bp t-0.3 n258 | blk2->3:  +1.6bp t+0.3 n258 | blk3->4:  -6.4bp t-1.3 n255 | blk4->5:  -6.4bp t-1.6 n255
+  QQQ        follow block sign:  -0.1bp t-0.0 n1034 | blk1->2:  +2.0bp t+0.7 n260 | blk2->3:  +1.4bp t+0.7 n260 | blk3->4:  -1.1bp t-0.6 n257 | blk4->5:  -2.5bp t-1.6 n257
+  SMCI       follow block sign:  -4.9bp t-0.7 n308 | blk1->2: -26.7bp t-1.3 n77 | blk2->3:  +1.6bp t+0.1 n77 | blk3->4:  +1.4bp t+0.1 n77 | blk4->5:  +4.2bp t+0.4 n77
+  SPY        follow block sign:  -0.9bp t-1.1 n1034 | blk1->2:  -0.7bp t-0.4 n260 | blk2->3:  +0.0bp t+0.0 n260 | blk3->4:  -1.4bp t-0.9 n257 | blk4->5:  -1.4bp t-1.1 n257
+  TSLA       follow block sign:  -3.1bp t-1.3 n1026 | blk1->2:  -1.7bp t-0.3 n258 | blk2->3:  +0.2bp t+0.0 n258 | blk3->4:  -5.1bp t-1.3 n255 | blk4->5:  -5.8bp t-1.6 n255
+  XLB        follow block sign:  -1.5bp t-1.5 n1034 | blk1->2:  -1.1bp t-0.4 n260 | blk2->3:  -0.1bp t-0.1 n260 | blk3->4:  -2.5bp t-1.2 n257 | blk4->5:  -2.4bp t-1.7 n257
+  XLE        follow block sign:  -0.9bp t-0.7 n1034 | blk1->2:  -1.9bp t-0.6 n260 | blk2->3:  +3.9bp t+1.4 n260 | blk3->4:  -2.2bp t-1.1 n257 | blk4->5:  -3.4bp t-1.8 n257
+  XLF        follow block sign:  -1.0bp t-1.2 n1034 | blk1->2:  -1.0bp t-0.5 n260 | blk2->3:  +1.0bp t+0.6 n260 | blk3->4:  -2.0bp t-1.1 n257 | blk4->5:  -2.2bp t-1.7 n257
+  XLI        follow block sign:  -1.9bp t-2.0 n1034 | blk1->2:  -4.8bp t-1.9 n260 | blk2->3:  +0.2bp t+0.1 n260 | blk3->4:  -2.2bp t-1.2 n257 | blk4->5:  -1.0bp t-0.7 n257
+  XLK        follow block sign:  -0.2bp t-0.1 n1034 | blk1->2:  +1.4bp t+0.4 n260 | blk2->3:  +1.1bp t+0.4 n260 | blk3->4:  -2.7bp t-1.2 n257 | blk4->5:  -0.6bp t-0.3 n257
+  XLP        follow block sign:  -2.2bp t-2.9 n1034 | blk1->2:  +0.2bp t+0.1 n260 | blk2->3:  -2.7bp t-2.0 n260 | blk3->4:  -2.5bp t-1.7 n257 | blk4->5:  -3.9bp t-3.3 n257
+  XLU        follow block sign:  -1.9bp t-1.9 n1034 | blk1->2:  -4.6bp t-1.8 n260 | blk2->3:  -1.1bp t-0.6 n260 | blk3->4:  -0.1bp t-0.0 n257 | blk4->5:  -1.7bp t-1.1 n257
+  XLV        follow block sign:  -1.6bp t-1.8 n1034 | blk1->2:  -0.4bp t-0.2 n260 | blk2->3:  -1.8bp t-1.1 n260 | blk3->4:  -1.5bp t-0.9 n257 | blk4->5:  -2.6bp t-2.0 n257
+  XLY        follow block sign:  -1.5bp t-1.4 n1034 | blk1->2:  -1.2bp t-0.5 n260 | blk2->3:  +0.2bp t+0.1 n260 | blk3->4:  -0.8bp t-0.4 n257 | blk4->5:  -4.2bp t-2.7 n257
+  XOM        follow block sign:  -4.2bp t-2.1 n420 | blk1->2: -10.3bp t-2.1 n105 | blk2->3:  -1.0bp t-0.2 n105 | blk3->4:  -4.0bp t-1.1 n105 | blk4->5:  -1.4bp t-0.5 n105
+  MNQ        follow block sign:  +0.0bp t+0.0 n288 | blk1->2:  -2.0bp t-0.5 n73 | blk2->3:  -0.4bp t-0.1 n73 | blk3->4:  +0.9bp t+0.3 n71 | blk4->5:  +1.7bp t+0.6 n71
+  MES        follow block sign:  -2.1bp t-1.8 n288 | blk1->2:  -3.4bp t-1.2 n73 | blk2->3:  -1.1bp t-0.5 n73 | blk3->4:  -2.0bp t-0.9 n71 | blk4->5:  -1.8bp t-0.9 n71
+  SPY30 2020- follow block sign:  -1.3bp t-2.8 n6854 | blk1->2:  -0.6bp t-0.6 n1719 | blk2->3:  -2.2bp t-2.3 n1719 | blk3->4:  -0.8bp t-0.9 n1709 | blk4->5:  -1.8bp t-1.9 n1707
+
+  -- control: same test on blocks shifted by 45 minutes (10:15-11:45, ...) --
+  SPY shifted follow block sign:  -2.2bp t-2.5 n1034 | blk1->2:  -4.3bp t-1.9 n260 | blk2->3:  -0.8bp t-0.5 n260 | blk3->4:  -1.8bp t-1.2 n257 | blk4->5:  -1.8bp t-1.2 n257
+  QQQ shifted follow block sign:  -2.8bp t-2.5 n1034 | blk1->2:  -6.1bp t-2.0 n260 | blk2->3:  +0.5bp t+0.2 n260 | blk3->4:  -1.4bp t-0.7 n257 | blk4->5:  -4.3bp t-2.3 n257
+  MNQ shifted follow block sign:  -1.6bp t-0.8 n287 | blk1->2:  -2.9bp t-0.6 n73 | blk2->3:  -4.1bp t-1.1 n72 | blk3->4:  +5.6bp t+2.1 n71 | blk4->5:  -4.8bp t-1.1 n71
+  NVDA shifted follow block sign:  -4.0bp t-1.9 n1045 | blk1->2:  -5.0bp t-0.9 n263 | blk2->3:  -3.6bp t-0.9 n262 | blk3->4:  -1.3bp t-0.3 n260 | blk4->5:  -6.2bp t-1.6 n260
+  TSLA shifted follow block sign:  -3.1bp t-1.2 n1025 | blk1->2:  +1.2bp t+0.2 n258 | blk2->3:  -4.6bp t-1.0 n257 | blk3->4:  -4.6bp t-1.2 n255 | blk4->5:  -4.3bp t-1.1 n255
+  SPY30 shifted follow block sign:  -1.8bp t-3.5 n6854 | blk1->2:  -1.8bp t-1.5 n1719 | blk2->3:  -3.1bp t-3.7 n1719 | blk3->4:  -1.2bp t-1.2 n1709 | blk4->5:  -1.2bp t-1.0 n1707
+
+=== B. Sweep of the previous block's high/low that closes back inside -> fade it over the next block ===
+  AAPL       fade a swept high:  -2.6bp t-0.9 n229 | fade a swept low:  +0.2bp t+0.1 n202 | both  -1.3bp t-0.6
+  AMD        fade a swept high: -12.8bp t-2.1 n222 | fade a swept low: -12.6bp t-1.7 n209 | both -12.7bp t-2.7
+  AMZN       fade a swept high:  +4.5bp t+1.2 n207 | fade a swept low: -12.0bp t-3.4 n222 | both  -4.2bp t-1.6
+  AVGO       fade a swept high:  -8.7bp t-1.0 n49 | fade a swept low:  -1.6bp t-0.2 n59 | both  -4.8bp t-0.8
+  BAC        fade a swept high:  +1.4bp t+0.4 n83 | fade a swept low: -11.0bp t-1.3 n85 | both  -4.8bp t-1.0
+  COIN       fade a swept high:  +7.9bp t+1.0 n214 | fade a swept low: -16.2bp t-2.1 n212 | both  -4.5bp t-0.8
+  GOOGL      fade a swept high:  -1.9bp t-0.3 n65 | fade a swept low: -12.1bp t-2.4 n58 | both  -7.3bp t-1.7
+  HOOD       fade a swept high: +26.3bp t+2.5 n50 | fade a swept low: -16.5bp t-1.5 n59 | both  +3.6bp t+0.5
+  INTC       fade a swept high:  +5.7bp t+0.4 n56 | fade a swept low:  -6.8bp t-0.6 n72 | both  -1.5bp t-0.2
+  IWM        fade a swept high:  -1.1bp t-0.3 n218 | fade a swept low:  +1.3bp t+0.5 n207 | both  +0.1bp t+0.0
+  JPM        fade a swept high:  -5.8bp t-2.0 n89 | fade a swept low: -11.7bp t-2.1 n91 | both  -8.5bp t-2.8
+  META       fade a swept high:  -2.3bp t-0.3 n58 | fade a swept low: -17.6bp t-2.9 n65 | both -10.5bp t-2.3
+  MSFT       fade a swept high:  +1.9bp t+0.3 n65 | fade a swept low:  -0.8bp t-0.2 n56 | both  +0.7bp t+0.2
+  MSTR       fade a swept high: +15.4bp t+1.6 n207 | fade a swept low: -12.9bp t-1.6 n207 | both  +0.2bp t+0.0
+  MU         fade a swept high:  -0.0bp t-0.0 n54 | fade a swept low: +19.2bp t+1.7 n50 | both  +9.0bp t+1.1
+  NFLX       fade a swept high:  +3.0bp t+0.5 n54 | fade a swept low:  -1.3bp t-0.2 n53 | both  +0.9bp t+0.2
+  NVDA       fade a swept high:  +0.0bp t+0.0 n184 | fade a swept low:  -3.9bp t-0.8 n236 | both  -2.1bp t-0.6
+  PLTR       fade a swept high:  -5.6bp t-0.9 n192 | fade a swept low:  -8.8bp t-1.5 n204 | both  -7.2bp t-1.7
+  QQQ        fade a swept high:  -2.5bp t-0.9 n221 | fade a swept low:  +0.9bp t+0.4 n211 | both  -0.8bp t-0.4
+  SMCI       fade a swept high: +10.1bp t+0.5 n55 | fade a swept low: -23.9bp t-1.7 n63 | both  -9.3bp t-0.8
+  SPY        fade a swept high:  -2.4bp t-1.2 n246 | fade a swept low:  -1.5bp t-0.7 n221 | both  -2.0bp t-1.4
+  TSLA       fade a swept high:  +5.4bp t+1.0 n224 | fade a swept low:  +3.0bp t+0.6 n210 | both  +4.2bp t+1.2
+  XLB        fade a swept high:  -3.7bp t-1.4 n204 | fade a swept low:  -0.0bp t-0.0 n196 | both  -1.9bp t-1.0
+  XLE        fade a swept high:  +2.3bp t+0.7 n216 | fade a swept low:  -1.7bp t-0.5 n181 | both  +0.4bp t+0.2
+  XLF        fade a swept high:  -1.1bp t-0.5 n210 | fade a swept low:  -3.9bp t-1.9 n217 | both  -2.6bp t-1.8
+  XLI        fade a swept high:  -2.6bp t-1.0 n207 | fade a swept low:  -1.7bp t-0.8 n202 | both  -2.1bp t-1.3
+  XLK        fade a swept high:  -2.6bp t-0.8 n199 | fade a swept low:  +2.0bp t+0.7 n214 | both  -0.2bp t-0.1
+  XLP        fade a swept high:  -2.7bp t-1.4 n189 | fade a swept low:  +1.5bp t+0.8 n203 | both  -0.5bp t-0.4
+  XLU        fade a swept high:  -5.8bp t-2.1 n196 | fade a swept low:  -0.5bp t-0.2 n187 | both  -3.1bp t-1.7
+  XLV        fade a swept high:  -1.2bp t-0.5 n203 | fade a swept low:  -4.8bp t-2.6 n210 | both  -3.1bp t-2.1
+  XLY        fade a swept high:  +0.0bp t+0.0 n199 | fade a swept low:  -2.8bp t-1.1 n197 | both  -1.5bp t-0.7
+  XOM        fade a swept high: -10.1bp t-2.8 n95 | fade a swept low:  -3.2bp t-0.7 n87 | both  -7.2bp t-2.5
+  MNQ        fade a swept high:  -2.7bp t-0.8 n71 | fade a swept low:  -1.8bp t-0.4 n68 | both  -2.2bp t-0.9
+  MES        fade a swept high:  +2.3bp t+0.8 n63 | fade a swept low:  -6.0bp t-1.6 n54 | both  -1.9bp t-0.8
+  SPY30 2020- fade a swept high:  -0.8bp t-0.7 n1558 | fade a swept low:  -0.2bp t-0.2 n1459 | both  -0.5bp t-0.6
+
+=== C. Breakout of each block's first-30-minute range, exit at the block's close ===
+  AAPL       block-range breakout, exit at block close:  -3.8bp/trade t-3.3 n804 hit 0.42
+  AMD        block-range breakout, exit at block close:  -3.4bp/trade t-1.2 n804 hit 0.45
+  AMZN       block-range breakout, exit at block close:  -2.8bp/trade t-2.0 n789 hit 0.43
+  AVGO       block-range breakout, exit at block close:  -7.7bp/trade t-2.7 n232 hit 0.41
+  BAC        block-range breakout, exit at block close:  -1.3bp/trade t-0.6 n335 hit 0.45
+  COIN       block-range breakout, exit at block close:  -0.4bp/trade t-0.1 n836 hit 0.48
+  GOOGL      block-range breakout, exit at block close:  -4.7bp/trade t-1.6 n220 hit 0.41
+  HOOD       block-range breakout, exit at block close:  -7.3bp/trade t-1.5 n237 hit 0.44
+  INTC       block-range breakout, exit at block close: -12.0bp/trade t-2.3 n222 hit 0.41
+  IWM        block-range breakout, exit at block close:  -0.2bp/trade t-0.2 n854 hit 0.46
+  JPM        block-range breakout, exit at block close:  -5.0bp/trade t-2.9 n350 hit 0.40
+  META       block-range breakout, exit at block close:  -5.1bp/trade t-1.5 n219 hit 0.43
+  MSFT       block-range breakout, exit at block close:  -6.4bp/trade t-2.9 n217 hit 0.38
+  MSTR       block-range breakout, exit at block close:  -5.9bp/trade t-1.5 n840 hit 0.47
+  MU         block-range breakout, exit at block close:  -5.8bp/trade t-1.1 n214 hit 0.42
+  NFLX       block-range breakout, exit at block close:  +0.9bp/trade t+0.4 n233 hit 0.46
+  NVDA       block-range breakout, exit at block close:  -4.7bp/trade t-2.7 n821 hit 0.43
+  PLTR       block-range breakout, exit at block close:  -3.5bp/trade t-1.4 n789 hit 0.44
+  QQQ        block-range breakout, exit at block close:  -1.9bp/trade t-2.0 n845 hit 0.42
+  SMCI       block-range breakout, exit at block close:  -2.0bp/trade t-0.3 n238 hit 0.46
+  SPY        block-range breakout, exit at block close:  -1.7bp/trade t-2.6 n860 hit 0.41
+  TSLA       block-range breakout, exit at block close:  -1.9bp/trade t-0.9 n803 hit 0.45
+  XLB        block-range breakout, exit at block close:  -1.2bp/trade t-1.4 n838 hit 0.45
+  XLE        block-range breakout, exit at block close:  -1.8bp/trade t-1.7 n806 hit 0.44
+  XLF        block-range breakout, exit at block close:  -1.1bp/trade t-1.4 n791 hit 0.44
+  XLI        block-range breakout, exit at block close:  -0.9bp/trade t-1.0 n827 hit 0.47
+  XLK        block-range breakout, exit at block close:  -1.9bp/trade t-1.6 n843 hit 0.46
+  XLP        block-range breakout, exit at block close:  -2.8bp/trade t-4.3 n816 hit 0.43
+  XLU        block-range breakout, exit at block close:  -2.5bp/trade t-3.0 n816 hit 0.46
+  XLV        block-range breakout, exit at block close:  -1.9bp/trade t-2.5 n793 hit 0.45
+  XLY        block-range breakout, exit at block close:  -0.8bp/trade t-0.9 n855 hit 0.45
+  XOM        block-range breakout, exit at block close:  -4.5bp/trade t-2.3 n320 hit 0.46
+  MNQ        block-range breakout, exit at block close:  -3.6bp/trade t-2.2 n226 hit 0.44
+  MES        block-range breakout, exit at block close:  -1.9bp/trade t-1.8 n234 hit 0.41
+  (placebo for C: with random long/short the expectation is minus costs, i.e. about -2 to -4 bp)
