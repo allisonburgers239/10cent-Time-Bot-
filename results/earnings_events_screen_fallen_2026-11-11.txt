@@ -1,0 +1,96 @@
+=== 0. Data check ===
+  events 11,227 on 153 tickers, 2002-01-03 -> 2026-11-11; AMC 5,084 BMO 6,143; placebo events 8,994
+  AMC: median |gap| INTO the post open vs into the open before: 2000s 114/31bp, 2005s 270/49bp, 2010s 209/51bp, 2015s 283/44bp, 2020s 309/77bp, 2025s 431/71bp
+  BMO: median |gap| INTO the post open vs into the open before: 2000s 95/32bp, 2005s 221/44bp, 2010s 230/43bp, 2015s 290/37bp, 2020s 299/70bp, 2025s 411/64bp
+  (if the classification is right the first number is several times the second in every bucket)
+  mean |reaction| pre-close->post-close 575bp vs a normal day 184bp
+
+=== P. Announcement premium (market-adjusted, 2 bp/side) ===
+  buy pre close -> sell post OPEN (one night), real          n   8993  mean     -2bp  hit 0.51  t  -0.3  halves -3/-1
+     same, placebo nights (same stocks, random dates)        n   8993  mean     -2bp  hit 0.46  t  -1.6  halves -2/-2
+     AMC only                                                n   4279  mean    -13bp  hit 0.50  t  -1.3  halves -25/-1
+     BMO only                                                n   4714  mean     +8bp  hit 0.52  t  +1.0  halves +15/+1
+  buy pre close -> sell post CLOSE, real                     n   8993  mean     +2bp  hit 0.50  t  +0.3  halves +11/-6
+     placebo                                                 n   8993  mean     -4bp  hit 0.47  t  -1.6  halves -6/-3
+  buy 5 days before -> sell post open (run-up + night), real n   8992  mean    +28bp  hit 0.51  t  +3.2  halves +36/+21
+     placebo                                                 n   8988  mean    +14bp  hit 0.49  t  +2.1  halves +18/+9
+  run-up alone: close -5 -> pre close, real                  n   8992  mean    +28bp  hit 0.51  t  +4.5  halves +35/+20
+     placebo                                                 n   8988  mean    +12bp  hit 0.48  t  +1.9  halves +16/+8
+  post open -> post close (the day session after the news)   n   8993  mean     -1bp  hit 0.49  t  -0.2  halves +8/-10
+     placebo                                                 n   8994  mean     -6bp  hit 0.47  t  -2.5  halves -8/-4
+     one night, 2002-2004 (before the 8-K rule the literature blames) n    743  mean    +23bp  hit 0.57  t  +1.9  halves +27/+19
+     one night, 2005-2015                                    n   3555  mean    +24bp  hit 0.53  t  +3.0  halves +30/+18
+     one night, 2016-2026                                    n   4695  mean    -25bp  hit 0.49  t  -2.3  halves -32/-19
+  by year, real minus placebo, one night:
+   2002:-2 2003:+18 2004:+44 2005:+44 2006:+27 2007:+44 2008:+39 2009:+36 2010:+28 2011:+25 2012:+37 2013:+12 2014:+10 2015:-10 2016:-12 2017:-23 2018:+62 2019:-57 2020:+23 2021:-7 2022:+17 2023:-41 2024:-92 2025:-42 2026:-65
+  raw (not market-adjusted) one night real +5bp vs placebo +5bp; stock-level dispersion: sd of the night 6.2% (a 2 bp edge inside a 6% coin flip)
+
+=== D. Post-earnings drift: rank the reaction within each calendar quarter, hold from the post close ===
+  -- ranked by reaction (pre close -> post close, mkt-adj) --
+    drift5   top20%   +20bp t +1.3 | bottom20%   -20bp t -1.2 | middle    -2 | long-short /leg   +20bp t +1.8 halves +23/+18 | after 4 legs cost +12bp
+    drift10  top20%   +25bp t +1.2 | bottom20%   -27bp t -1.3 | middle    -2 | long-short /leg   +26bp t +1.8 halves +29/+24 | after 4 legs cost +18bp
+    drift20  top20%   +52bp t +1.8 | bottom20%    -1bp t -0.0 | middle    -8 | long-short /leg   +27bp t +1.3 halves +57/-3 | after 4 legs cost +19bp
+    drift40  top20%   +76bp t +2.0 | bottom20%    +4bp t +0.1 | middle    -9 | long-short /leg   +37bp t +1.3 halves +80/-6 | after 4 legs cost +29bp
+    drift60  top20%   +92bp t +1.9 | bottom20%  +159bp t +1.4 | middle   -18 | long-short /leg   -30bp t -0.5 halves +100/-160 | after 4 legs cost -38bp
+  -- ranked by EPS surprise % (Yahoo) --
+    drift5   top20%   +26bp t +1.6 | bottom20%    +3bp t +0.2 | middle   -13 | long-short /leg   +12bp t +1.0 halves +31/-7 | after 4 legs cost +4bp
+    drift10  top20%   +35bp t +1.7 | bottom20%    -7bp t -0.3 | middle    -6 | long-short /leg   +21bp t +1.4 halves +38/+5 | after 4 legs cost +13bp
+    drift20  top20%   +63bp t +2.3 | bottom20%    +4bp t +0.1 | middle   +18 | long-short /leg   +30bp t +1.4 halves +65/-5 | after 4 legs cost +22bp
+    drift40  top20%   +78bp t +2.1 | bottom20%    -5bp t -0.1 | middle   +12 | long-short /leg   +42bp t +1.4 halves +82/+3 | after 4 legs cost +34bp
+    drift60  top20%  +139bp t +2.9 | bottom20%   +26bp t +0.5 | middle   +97 | long-short /leg   +58bp t +1.6 halves +149/-33 | after 4 legs cost +50bp
+  -- placebo: rank a random day's mkt-adj return the same way (should show reversal/nothing, not drift) --
+    drift20  top20%   +66bp t +1.7 | bottom20%    +6bp t +0.2 | long-short /leg   +31bp
+    drift40  top20%   +98bp t +2.1 | bottom20%   +73bp t +1.7 | long-short /leg   +14bp
+  -- by year: long-short per leg, drift20, ranked by reaction --
+   2002:-81(86) 2003:+95(108) 2004:+60(108) 2005:+77(116) 2006:+25(116) 2007:+50(124) 2008:+12(126) 2009:+100(126) 2010:+113(126) 2011:-59(130) 2012:+104(136) 2013:-52(138) 2014:+91(146) 2015:+54(146) 2016:-38(150) 2017:+220(154) 2018:+89(162) 2019:+37(164) 2020:+41(166) 2021:+25(176) 2022:+22(180) 2023:+16(182) 2024:-11(182) 2025:-8(186) 2026:-302(143)
+  -- large reactions only: |reaction| >= 5% and >= 10% --
+    |react|>=5% drift5   after a jump UP n 1867   +24bp t+1.5 halves +16/+32 | after a jump DOWN n 1809   -14bp t-0.8 halves -9/-19
+    |react|>=5% drift20  after a jump UP n 1867   +38bp t+1.3 halves +77/-2 | after a jump DOWN n 1809    +3bp t+0.1 halves +60/-54
+    |react|>=5% drift40  after a jump UP n 1867   +58bp t+1.5 halves +77/+38 | after a jump DOWN n 1809    +2bp t+0.0 halves +98/-94
+    |react|>=10% drift5   after a jump UP n  716   +28bp t+0.9 halves -3/+60 | after a jump DOWN n  721   -62bp t-1.9 halves -50/-74
+    |react|>=10% drift20  after a jump UP n  716   +83bp t+1.4 halves +81/+85 | after a jump DOWN n  721   -89bp t-1.8 halves -55/-122
+    |react|>=10% drift40  after a jump UP n  716   +98bp t+1.4 halves +51/+144 | after a jump DOWN n  721   -58bp t-0.7 halves +98/-213
+  -- same, recent decade only (2016-) --
+    |react|>=5% drift5   UP n 1060    +0bp t+0.0 | DOWN n 1187   -17bp t-0.8
+    |react|>=5% drift20  UP n 1060    -6bp t-0.1 | DOWN n 1187    +2bp t+0.0
+    |react|>=5% drift40  UP n 1060   -40bp t-0.7 | DOWN n 1187   -32bp t-0.5
+
+=== X. Checks that could kill P (the night) ===
+  median night +9bp (mean -2); worst -39.2% best +79.0%; p5 -9.9% p95 +9.0%; share of nights worse than -10%: 3.9%
+     night, LAGGARD half of today's survivors (worst total return since 2010) n   3930  mean    -19bp  hit 0.50  t  -2.0  halves -22/-17
+     night, WINNER half                                      n   3786  mean    +17bp  hit 0.53  t  +1.9  halves +6/+27
+     night, trailing 1y return BELOW median (ex-ante laggards) n   4402  mean    -18bp  hit 0.51  t  -1.7  halves -29/-8
+     night, trailing 1y return ABOVE median                  n   4402  mean     +9bp  hit 0.52  t  +1.2  halves +15/+3
+     night, trailing 3y return BELOW median (ex-ante laggards) n   4212  mean    -25bp  hit 0.50  t  -2.3  halves -30/-20
+     night, trailing 3y return ABOVE median                  n   4212  mean     +9bp  hit 0.52  t  +1.1  halves +14/+3
+     night, smallest third by market cap                     n      0  mean   +nanbp  hit nan  t  +0.0  halves +nan/+nan
+     night, middle third by market cap                       n   8993  mean     -2bp  hit 0.51  t  -0.3  halves -3/-1
+     night, largest third by market cap                      n      0  mean   +nanbp  hit nan  t  +0.0  halves +nan/+nan
+     night, VIX 0-15 at the pre close                        n   2866  mean    -20bp  hit 0.50  t  -1.9  halves -26/-14
+     night, VIX 15-20 at the pre close                       n   3239  mean    -12bp  hit 0.51  t  -1.1  halves -13/-11
+     night, VIX 20-30 at the pre close                       n   2121  mean    +31bp  hit 0.52  t  +2.2  halves +27/+36
+     night, VIX 30-99 at the pre close                       n    767  mean    +17bp  hit 0.55  t  +0.8  halves +44/-10
+     night, 2016-, AMC only                                  n   2432  mean    -38bp  hit 0.48  t  -2.4  halves -59/-16
+     night, 2016-, AMC only, RAW (not market-adjusted)       n   2432  mean    -34bp  hit 0.49  t  -2.2  halves -57/-11
+     night, 2016-, BMO only                                  n   2263  mean    -12bp  hit 0.50  t  -0.8  halves -9/-14
+     night when 5-day run-up <= -3%                          n   1785  mean    +20bp  hit 0.52  t  +1.2  halves +11/+30
+     night when 5-day run-up -3..+3%                         n   5278  mean     -3bp  hit 0.52  t  -0.5  halves +2/-9
+     night when 5-day run-up >= +3%                          n   1929  mean    -18bp  hit 0.50  t  -1.1  halves -30/-6
+  -- book: AMC nights only, up to K names per night (largest cap first), 1/K of the account each, RAW returns, 2 bp/side --
+    K=3: nights 1560, avg per night -12bp of the account, per year -11.1% of the account, worst night -21.4%, sd/night 3.07%, Sharpe-ish -0.38
+    K=5: nights 1560, avg per night -9bp of the account, per year -8.3% of the account, worst night -13.0%, sd/night 2.02%, Sharpe-ish -0.43
+    K=8: nights 1560, avg per night -7bp of the account, per year -6.0% of the account, worst night -8.1%, sd/night 1.33%, Sharpe-ish -0.47
+
+=== Y. Control for the big-jump continuation: random >= 10% up days that are NOT earnings ===
+    non-earnings >= 10% up day, n 1874: drift5   +93bp t+1.4 halves +178/+7
+    non-earnings >= 10% up day, n 1874: drift20  +579bp t+1.8 halves +477/+682
+    non-earnings >= 10% up day, n 1874: drift40 +1520bp t+3.8 halves +1397/+1642
+    vs earnings >= 10% up: drift5 +28bp | drift20 +83bp | drift40 +98bp
+  -- earnings >= 10% up, by year (drift20) --
+   2002:+499(11) 2003:+1298(6) 2004:+628(8) 2005:+149(11) 2006:-115(8) 2007:+364(17) 2008:+235(28) 2009:+233(37) 2010:-411(9) 2011:-38(10) 2012:+337(26) 2013:-20(14) 2014:+488(22) 2015:+79(24) 2016:+31(31) 2017:+597(41) 2018:+389(42) 2019:-197(49) 2020:+653(41) 2021:-293(38) 2022:+190(48) 2023:-508(34) 2024:-411(50) 2025:+77(51) 2026:-490(45)
+  -- earnings >= 10% up, entry at the post close vs entry at the NEXT open (we can't trade the post close with a scan at 10:00) --
+    buy next open -> +20 sessions close: +66bp t+1.1 (vs from post close +83)
+
+=== S. Size of the opportunity for a $25k account ===
+  events per week 2016-: median 6, 90th pct 32, max 59; events per year 523
+  per-event table written to results/earnings_events_2026-11-11.csv

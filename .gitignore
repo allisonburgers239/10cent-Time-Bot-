@@ -41,3 +41,4 @@ data/*.log
 .env
 .env.local
 *.key
+data/earnings/*.pkl

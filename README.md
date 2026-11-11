@@ -922,6 +922,34 @@ something specific (a particular block, a manipulation-then-expansion
 pattern, a time-of-day filter), send the exact rule or the script name and
 it gets replicated exactly.
 
+### Earnings nights on large caps: a published edge that is survivorship in our data (2026-11-11)
+
+Idea: everyone must react to an earnings report at a fixed moment, so buy the close before the
+report and sell the open after (the "earnings-announcement premium"), and ride the weeks after a
+big surprise ("post-earnings drift"). Data: Yahoo earnings calendars (date + before-open/after-close
+flag + EPS surprise) for the 450 largest US stocks today, ~35k reports 2002-2026, daily adjusted
+open/close, market-adjusted against SPY, 2 bp/side. Scripts: `fetch_earnings.py`,
+`fetch_earnings_prices.py`, `fetch_earnings_fallen.py`, `screen_earnings_events.py`; outputs in
+`results/earnings_events_screen{,_fallen}_2026-11-11.txt`.
+
+| test | today's top 450 | 162 stocks removed from the S&P 500 since 2000, still listed |
+|---|---|---|
+| one night, pre close -> post open | +23 bp, t +9.1, both halves | **-2 bp**, t -0.3 |
+| after-close reporters only | +35 bp | -13 bp (2016-: **-38 bp**) |
+| placebo (same stocks, random nights) | -3 bp | -2 bp |
+| ex-post winners / laggards since 2010 | +37 / **-2 bp** | +17 / -19 bp |
+| ex-ante laggards (trailing 1y below median) | +16 bp | -18 bp |
+
+The premium only exists in the stocks that went on to become today's winners; the companies that
+fell out of the index show nothing or worse, and 193 of the 355 removed names are gone from Yahoo
+entirely (acquired/delisted), so the true ex-ante number is below even the blend. A published
+full-universe study (Heitz, Narayanamoorthy, Zekhnini, "The Disappearing Earnings Announcement
+Premium") finds the US premium gone in recent years. Post-earnings drift: top-vs-bottom quintile
++27 bp per leg over 20 days before 4 legs of cost, second half negative. "Buy after a 10%+ earnings
+jump, hold 20 days" (+172 bp) is beaten by the control of any non-earnings 10% up day (+403 bp),
+i.e. it is momentum in survivors, not an earnings effect. **Shelved.** The lesson for every stock
+screen in this repo: a universe picked today is a list of winners; test on the fallen too.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

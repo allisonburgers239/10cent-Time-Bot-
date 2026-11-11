@@ -19,3 +19,24 @@ scan_time_et,symbol,rel_volume,screener_gap_pct,news_12h,headline,prev_close,ope
 2026-11-05 10:58,NASDAQ:DTIL,6.81,4.56,True,Precision BioSciences announces $125M public offering; shares up,8.125,8.49,4.4923,8.793,7.73,9.9637,9.31,-6.5604,0.1667,18.0,LEAN_DOWN
 2026-11-05 10:58,OTC:STOHF,6.48,-11.54,False,Fire shuts Equinor’s Visund platform in North Sea,,,,,,,,,,,NO_DATA
 2026-11-05 10:58,NASDAQ:VCYT,4.56,-43.66,True,Veracyte downgraded at Leerink after guidance cut,52.45,29.27,-44.1945,39.0,29.34,24.216,24.1899,-0.1077,0.0,18.0,SELL_IMBALANCE
+2026-11-05 11:15,NASDAQ:AEHL,62.09,100.96,False,Antelope Enterprise Holdings Stock Is Trending: AEHL Soars 150% After Hours,6.2,12.302,98.4194,13.48,8.88,11.9962,12.86,7.2009,0.45,20.0,TWO_SIDED
+2026-11-05 11:15,NASDAQ:DTIL,7.2,4.56,True,Precision BioSciences announces $125M public offering; shares up,8.125,8.49,4.4923,8.793,7.73,9.9209,9.45,-4.7467,0.1364,22.0,LEAN_DOWN
+2026-11-05 11:15,OTC:STOHF,6.48,-11.54,False,Fire shuts Equinor’s Visund platform in North Sea,,,,,,,,,,,NO_DATA
+2026-11-05 11:15,NASDAQ:VCYT,5.29,-43.66,True,Veracyte downgraded at Leerink after guidance cut,52.45,29.27,-44.1945,39.0,29.34,24.1908,24.055,-0.5613,0.0,22.0,SELL_IMBALANCE
+2026-11-05 11:15,NYSE:TBI,3.21,36.99,False,TBI: Revenue rose 21% as all segments grew; Q4 growth guidance is 20%–24%,9.79,13.48,37.6915,13.2774,12.2,12.416,11.89,-4.2366,0.0,21.0,SELL_IMBALANCE
+2026-11-05 11:15,NYSE:GIL,2.58,-26.05,True,"GIL: Weaker demand cut FY26 expectations, while integration synergies and cash generation remain supports",43.26,32.0,-26.0287,40.0,32.4,32.567,33.22,2.0052,0.8182,22.0,LEAN_UP
+2026-11-09 10:15,AMEX:CKX,3221.8,68.76,True,CKX Lands  Q3 2026 Earnings Call Is Live,10.37,17.5,68.756,18.79,12.17,17.4888,17.9044,2.3763,0.5,10.0,TWO_SIDED
+2026-11-09 10:15,OTC:SNEJF,9.98,-4.76,False,What Sony (SONY) Said on Its Q2 Earnings Call,,,,,,,,,,,NO_DATA
+2026-11-09 10:15,NYSE:GFR,3.78,38.04,True,Mergers and acquisitions,5.615,7.73,37.667,7.86,6.72,7.7526,7.74,-0.1624,0.2,10.0,LEAN_DOWN
+2026-11-09 10:15,OTC:STOHF,3.73,-3.69,True,Weekly Recap: Visund fire halts production and Bacalhau output rises,,,,,,,,,,,NO_DATA
+2026-11-10 10:00,AMEX:CKX,8624.14,68.76,True,"CKX Lands Secures $1 Billion Investment From Jacobs, Who Will Take Control",16.93,16.7,-1.3585,20.28,15.92,16.9763,17.1421,0.9768,0.5556,9.0,TWO_SIDED
+2026-11-10 10:00,NASDAQ:PXLW,673.61,28.48,True,Pixelworks Partners with Meta to Bring TrueCut Motion Cinematic Content to Newly Launched Meta VR Glasses,5.15,6.681,29.7282,7.61,5.5095,6.6222,6.2104,-6.2188,0.1818,11.0,LEAN_DOWN
+2026-11-10 10:00,NASDAQ:PEPG,59.33,132.01,True,PepGen Inc. reports results for the quarter ended September 30 - Earnings Summary,2.39,5.545,132.0084,5.92,3.73,5.8189,6.035,3.713,0.8,10.0,BUY_IMBALANCE
+2026-11-10 10:00,NYSE:SNUS/PH,47.82,23.19,False,Santander Holdings USA (SNUS/PH) to Redeem 6.0M Series H Depositary Shares,,,,,,,,,,,NO_DATA
+2026-11-10 10:00,NASDAQ:SMX,15.22,92.41,True,SMX (Security Matters) Public Limited (SMX) Plans AI Platform Launch in 2027,9.04,17.99,99.0044,21.6997,9.8,17.0629,14.4842,-15.1128,0.125,8.0,LEAN_DOWN
+2026-11-10 10:00,NYSE:GFR,10.66,38.04,True,Greenfire Resources Ltd. Cut to Sell From Buy by TD,7.745,7.73,-0.1937,7.75,7.61,7.7179,7.715,-0.038,0.4,10.0,TWO_SIDED
+2026-11-10 10:00,NYSE:GMRS,4.34,-8.76,True,"GMRS: Q3 growth and deleveraging held firm as weather, fuel, and inflation pressured the outlook",11.275,12.0101,6.5197,,,11.2277,10.93,-2.6518,0.1,10.0,SELL_IMBALANCE
+2026-11-10 10:00,NYSE:JHX,3.88,4.49,False,Weekly Recap: Q2 sales and EBITDA growth and Siding & Trim volume gains,29.88,29.51,-1.2383,29.86,29.49,29.5295,29.6,0.2387,0.6,10.0,TWO_SIDED
+2026-11-11 10:11,NYSE:HGTY,6.34,-6.73,True,"Hagerty Shares Sink After Pricing, Increasing Size of Secondary Offering",16.915,15.8,-6.5918,16.4,15.14,15.9703,16.135,1.0314,1.0,9.0,LEAN_UP
+2026-11-11 10:11,OTC:STOHF,5.71,-4.39,False,"Equinor ASA (EQNR) Bought 709,000 Shares at NOK 412.6135 Average",,,,,,,,,,,NO_DATA
+2026-11-11 10:11,NASDAQ:FOSL,3.42,23.51,False,Fossil Group Q3 Earnings Call Highlights,7.88,9.72,23.3503,10.35,9.45,9.9335,10.0,0.6692,0.5556,9.0,TWO_SIDED
