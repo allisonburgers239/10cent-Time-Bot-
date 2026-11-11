@@ -950,6 +950,37 @@ jump, hold 20 days" (+172 bp) is beaten by the control of any non-earnings 10% u
 i.e. it is momentum in survivors, not an earnings effect. **Shelved.** The lesson for every stock
 screen in this repo: a universe picked today is a list of winners; test on the fallen too.
 
+### Overnight timing audit and single-stock overnight, survivorship-aware (2026-11-11, second round)
+
+**Entry/exit times of E** (`audit_overnight_timing.py`, `results/audit_overnight_timing_2026-11-11.txt`).
+Entering at 15:00/15:30/15:45/15:55 instead of the close: the extra leg is 0 within noise everywhere
+(SPY 30-min 2020-, hourly 2015-, 5-min 2025-; bootstrap CIs all straddle 0), and on the RSI(2)
+signal days the last hour is -13 to -24 bp (the selling that creates the signal is still running), so
+buying before the close hurts exactly when E sizes up. Exiting at 10:00-12:00 instead of 09:30:
++0.8 to +1.4 bp on SPY/QQQ (t 1.2-1.4), -1 bp on IWM, CIs straddle 0 - nothing beyond the gap-down
+hold already adopted. Night windows on ES/NQ (hourly ETH 2023-, 30-min 2025-): the premium is
+front-loaded - 16:00-18:00 carries 30% (ES) / 49% (NQ) of the night in two hours at the lowest
+variance, Asia 18:00-02:00 another ~40%, Europe and the US pre-open ~0 - but 2-4 years of data
+give CIs that include 0 per window, so no early-exit rule on the MES rail. **Keep 16:00 -> 09:30.**
+
+**Single-stock overnight** (`screen_stock_overnight_fallen.py`, `results/screen_stock_overnight_fallen_2026-11-11.txt`,
+2002-2026, equal weight, Yahoo adjusted open/close). The famous names are real: AAPL 0.77, NVDA 1.02,
+AVGO 1.26, AMD 1.12, TSLA 1.11, F 1.53 overnight Sharpe over 24 years - and they are the winners again.
+The equal-weight basket tells the honest story and it is survivorship-clean, because both sets agree:
+
+| | 428 survivors | 119 fallen ex-S&P names |
+|---|---|---|
+| gross overnight | +4.2 bp/night, Sharpe 0.95 | +4.3 bp/night, Sharpe 0.81 |
+| corr / beta to SPY overnight | 0.97 / 0.98 | 0.92 / 1.12 |
+| net Sharpe at 0.5 / 1 / 2 bp per side | 0.72 / 0.50 / 0.05 | 0.62 / 0.44 / 0.06 |
+| + E v2 overlay (RSI2<10 -> 2x), net at 1 bp | 0.55 | 0.54 |
+
+So the stock overnight premium is about +1 bp/night above the index's own, at the same risk, in
+winners and losers alike (Lou-Polk-Skouras, confirmed here without survivorship). But it is the same
+factor (corr 0.97) and it has to be bought across dozens of names at single-stock costs; at 1 bp/side
+it lands at 0.50 (0.55 with the overlay), below E v3 on the ETFs (~1.0). **Not adopted**; recorded so
+the next "overnight on NVDA/TSLA" idea has its answer.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

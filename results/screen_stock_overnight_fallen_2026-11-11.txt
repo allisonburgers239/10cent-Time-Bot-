@@ -1,0 +1,37 @@
+=== TOP-450 (today's survivors): 428 stocks ===
+  equal-weight basket, overnight close->open (2 bp/side)         Sharpe  0.05  mean  +0.2bp/night  CAGR  +0.5%  MaxDD -50%  halves -0.07/0.15
+  equal-weight basket, day session open->close (2 bp/side)       Sharpe -0.11  mean  -0.7bp/night  CAGR  -1.7%  MaxDD -58%  halves -0.04/-0.20
+  GROSS overnight +4.2bp/night, basket sd 71bp/night, corr with SPY overnight 0.97, beta 0.98
+  cost sensitivity (bp per side -> net Sharpe, CAGR): 0bp: 0.95, +10.6% | 0.25bp: 0.83, +9.3% | 0.5bp: 0.72, +8.1% | 1.0bp: 0.50, +5.6% | 2.0bp: 0.05, +0.5%
+  per stock: overnight Sharpe median -0.02 (positive in 48%); day Sharpe median -0.04; overnight > day in 50% of stocks
+  same basket with E v2 overlay (RSI2<10 -> 2x that night)       Sharpe  0.14  mean  +0.8bp/night  CAGR  +1.9%  MaxDD -42%  halves 0.09/0.19
+  E v2 overlay cost sensitivity (bp per side -> net Sharpe): 0bp: 0.97 | 0.25bp: 0.86 | 0.5bp: 0.76 | 1.0bp: 0.55 | 2.0bp: 0.14
+  signal nights 2,677,568: mean +8.7bp vs other nights +3.7bp
+  overnight basket Sharpe by block: 2002-2006:0.21 2007-2011:-0.25 2012-2016:-0.36 2017-2021:0.64 2022-2026:-0.09
+  top-50 by today's cap only, overnight                          Sharpe  0.13  mean  +0.6bp/night  CAGR  +1.6%  MaxDD -35%  halves 0.01/0.25
+=== FALLEN (ex-S&P 500, still listed): 119 stocks ===
+  equal-weight basket, overnight close->open (2 bp/side)         Sharpe  0.06  mean  +0.3bp/night  CAGR  +0.8%  MaxDD -53%  halves 0.04/0.08
+  equal-weight basket, day session open->close (2 bp/side)       Sharpe -0.31  mean  -2.5bp/night  CAGR  -6.3%  MaxDD -90%  halves -0.06/-0.61
+  GROSS overnight +4.3bp/night, basket sd 85bp/night, corr with SPY overnight 0.92, beta 1.12
+  cost sensitivity (bp per side -> net Sharpe, CAGR): 0bp: 0.81, +10.9% | 0.25bp: 0.72, +9.6% | 0.5bp: 0.62, +8.4% | 1.0bp: 0.44, +5.9% | 2.0bp: 0.06, +0.8%
+  per stock: overnight Sharpe median -0.01 (positive in 48%); day Sharpe median -0.19; overnight > day in 64% of stocks
+  same basket with E v2 overlay (RSI2<10 -> 2x that night)       Sharpe  0.19  mean  +1.2bp/night  CAGR  +3.1%  MaxDD -47%  halves 0.25/0.14
+  E v2 overlay cost sensitivity (bp per side -> net Sharpe): 0bp: 0.88 | 0.25bp: 0.79 | 0.5bp: 0.71 | 1.0bp: 0.54 | 2.0bp: 0.19
+  signal nights 744,464: mean +10.9bp vs other nights +3.5bp
+  overnight basket Sharpe by block: 2002-2006:0.09 2007-2011:-0.07 2012-2016:-0.36 2017-2021:0.76 2022-2026:-0.39
+  SPY overnight (1 bp/side), same source                         Sharpe  0.25  mean  +1.1bp/night  CAGR  +2.7%  MaxDD -30%  halves 0.12/0.37
+     share of days where Yahoo open == previous close exactly, by year: 
+  AAPL overnight (1 bp/side), same source                        Sharpe  0.77  mean  +6.2bp/night  CAGR +15.7%  MaxDD -65%  halves 1.40/0.04
+     share of days where Yahoo open == previous close exactly, by year: 
+  NVDA overnight (1 bp/side), same source                        Sharpe  1.02  mean +12.5bp/night  CAGR +31.5%  MaxDD -64%  halves 0.79/1.28
+     share of days where Yahoo open == previous close exactly, by year: 
+  AVGO overnight (1 bp/side), same source                        Sharpe  1.26  mean +11.6bp/night  CAGR +29.2%  MaxDD -34%  halves 1.40/1.20
+     share of days where Yahoo open == previous close exactly, by year: 
+  AMD overnight (1 bp/side), same source                         Sharpe  1.12  mean +15.5bp/night  CAGR +39.2%  MaxDD -49%  halves 1.25/0.99
+     share of days where Yahoo open == previous close exactly, by year: 2002:13% 2003:17% 2004:14% 2005:9% 2006:3% 2008:6% 2009:7% 2010:4% 2011:5% 2012:8% 2013:10% 2014:14% 2015:23% 2016:9% 2017:3% 2018:3% 2019:2%
+  TSLA overnight (1 bp/side), same source                        Sharpe  1.11  mean +15.1bp/night  CAGR +38.1%  MaxDD -52%  halves 1.50/0.84
+     share of days where Yahoo open == previous close exactly, by year: 2010:2% 2011:6% 2012:7% 2016:2%
+  F overnight (1 bp/side), same source                           Sharpe  1.53  mean +16.6bp/night  CAGR +41.7%  MaxDD -60%  halves 2.17/0.65
+     share of days where Yahoo open == previous close exactly, by year: 
+  INTC overnight (1 bp/side), same source                        Sharpe  0.05  mean  +0.5bp/night  CAGR  +1.2%  MaxDD -83%  halves 0.13/-0.01
+     share of days where Yahoo open == previous close exactly, by year: 2025:2%

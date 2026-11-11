@@ -1,0 +1,76 @@
+=== A. ENTRY earlier than the close (exit 09:30 open) ===
+  SPY 30-min 2020-: close->09:30 open  Sharpe 0.24  mean +1.3bp  n 1718
+     enter 15:00 instead: Sharpe 0.10  mean +0.5bp | the extra 15:00->close leg: -0.8bp t -0.8 halves -0.9/-0.8 CI [-2.7, +1.2] | on E v2 signal days -23.5bp (n 168) | by year: 2020:-1 2021:-4 2022:+2 2023:-1 2024:-0 2025:-0 2026:-0
+     enter 15:30 instead: Sharpe 0.19  mean +1.0bp | the extra 15:30->close leg: -0.3bp t -0.4 halves -0.6/-0.1 CI [-2.0, +1.4] | on E v2 signal days -13.3bp (n 168) | by year: 2020:+1 2021:-4 2022:-1 2023:+0 2024:-0 2025:+1 2026:+0
+  SPY hourly 2015-: close->09:30 open  Sharpe 0.24  mean +1.1bp  n 2976
+  QQQ hourly 2015-: close->09:30 open  Sharpe 0.49  mean +2.6bp  n 2976
+  IWM hourly 2015-: close->09:30 open  Sharpe 0.49  mean +2.7bp  n 2976
+  SPY 5-min ~1y: close->09:30 open  Sharpe 1.76  mean +5.7bp  n 259
+     enter 15:00 instead: Sharpe 1.82  mean +6.3bp | the extra 15:00->close leg: +0.1bp t +0.1 halves -0.7/+1.0 CI [-2.7, +3.0] | on E v2 signal days -17.9bp (n 27) | by year: 2025:-1 2026:+1
+     enter 15:30 instead: Sharpe 2.00  mean +6.6bp | the extra 15:30->close leg: +0.4bp t +0.5 halves -0.8/+1.7 CI [-1.4, +2.3] | on E v2 signal days -7.4bp (n 27) | by year: 2025:-1 2026:+2
+     enter 15:45 instead: Sharpe 1.92  mean +6.4bp | the extra 15:45->close leg: +0.3bp t +0.4 halves -0.6/+1.2 CI [-1.3, +1.9] | on E v2 signal days -6.8bp (n 27) | by year: 2025:-1 2026:+2
+     enter 15:55 instead: Sharpe 1.78  mean +5.8bp | the extra 15:55->close leg: -0.3bp t -0.6 halves -0.6/-0.0 CI [-1.3, +0.7] | on E v2 signal days -3.0bp (n 27) | by year: 2025:-1 2026:+0
+  QQQ 5-min ~1y: close->09:30 open  Sharpe 2.02  mean +9.5bp  n 259
+     enter 15:00 instead: Sharpe 2.36  mean +11.6bp | the extra 15:00->close leg: +1.5bp t +0.8 halves -0.6/+3.6 CI [-2.2, +5.2] | on E v2 signal days -18.1bp (n 25) | by year: 2025:-1 2026:+4
+     enter 15:30 instead: Sharpe 2.49  mean +11.7bp | the extra 15:30->close leg: +1.6bp t +1.2 halves -1.0/+4.1 CI [-0.8, +4.0] | on E v2 signal days -8.5bp (n 25) | by year: 2025:-1 2026:+5
+     enter 15:45 instead: Sharpe 2.30  mean +10.9bp | the extra 15:45->close leg: +0.8bp t +0.8 halves -0.6/+2.3 CI [-1.1, +2.8] | on E v2 signal days -5.3bp (n 25) | by year: 2025:-1 2026:+3
+     enter 15:55 instead: Sharpe 2.13  mean +10.0bp | the extra 15:55->close leg: -0.0bp t -0.1 halves -0.6/+0.5 CI [-1.2, +1.2] | on E v2 signal days -1.6bp (n 25) | by year: 2025:-1 2026:+1
+  IWM 5-min ~1y: close->09:30 open  Sharpe 1.16  mean +5.5bp  n 259
+     enter 15:00 instead: Sharpe 1.60  mean +7.8bp | the extra 15:00->close leg: +1.5bp t +0.8 halves -1.6/+4.6 CI [-2.3, +5.4] | on E v2 signal days -13.3bp (n 22) | by year: 2025:-2 2026:+5
+     enter 15:30 instead: Sharpe 1.74  mean +8.3bp | the extra 15:30->close leg: +1.9bp t +1.5 halves -1.5/+5.3 CI [-0.5, +4.4] | on E v2 signal days -2.1bp (n 22) | by year: 2025:-2 2026:+6
+     enter 15:45 instead: Sharpe 1.59  mean +7.7bp | the extra 15:45->close leg: +1.4bp t +1.4 halves -0.9/+3.7 CI [-0.6, +3.5] | on E v2 signal days -0.8bp (n 22) | by year: 2025:-1 2026:+4
+     enter 15:55 instead: Sharpe 1.49  mean +7.1bp | the extra 15:55->close leg: +0.8bp t +1.3 halves -0.8/+2.3 CI [-0.4, +2.0] | on E v2 signal days +3.6bp (n 22) | by year: 2025:-1 2026:+2
+
+=== B. EXIT later than the 09:30 open (unconditional) ===
+  SPY 30-min 2020-: exit 09:30 open  Sharpe 0.24  mean +1.3bp
+     exit 10:00 instead: Sharpe 0.45  mean +2.4bp | the extra 09:30->10:00 leg: +1.1bp t +1.4 halves +1.3/+0.9 CI [-0.5, +2.6] | on E v2 signal days +1.1bp | by year: 2020:-0 2021:+2 2022:+1 2023:+4 2024:-1 2025:+0 2026:+1
+     exit 10:30 instead: Sharpe 0.46  mean +2.6bp | the extra 09:30->10:30 leg: +1.4bp t +1.3 halves +1.9/+0.8 CI [-0.7, +3.4] | on E v2 signal days +2.5bp | by year: 2020:+4 2021:+2 2022:-1 2023:+3 2024:-1 2025:+1 2026:+1
+     exit 11:00 instead: Sharpe 0.35  mean +2.0bp | the extra 09:30->11:00 leg: +0.8bp t +0.6 halves +0.7/+0.8 CI [-1.7, +3.1] | on E v2 signal days +3.3bp | by year: 2020:-0 2021:+3 2022:-1 2023:+2 2024:-2 2025:+0 2026:+4
+     exit 12:00 instead: Sharpe 0.53  mean +3.3bp | the extra 09:30->12:00 leg: +2.0bp t +1.3 halves +2.7/+1.3 CI [-1.0, +4.8] | on E v2 signal days +11.9bp | by year: 2020:+3 2021:+5 2022:-1 2023:+5 2024:-1 2025:-1 2026:+4
+  SPY hourly 2015-: exit 09:30 open  Sharpe 0.24  mean +1.1bp
+     exit 10:30 instead: Sharpe 0.38  mean +1.9bp | the extra 09:30->10:30 leg: +0.8bp t +1.2 halves +0.8/+0.9 CI [-0.6, +2.3] | on E v2 signal days +3.2bp | by year: 2015:-2 2016:+0 2017:-0 2018:+0 2019:+2 2020:+4 2021:+2 2022:-1 2023:+3 2024:-1 2025:+1 2026:+1
+     exit 11:30 instead: Sharpe 0.37  mean +1.9bp | the extra 09:30->11:30 leg: +0.9bp t +0.9 halves +0.6/+1.1 CI [-1.0, +2.7] | on E v2 signal days +3.6bp | by year: 2015:-2 2016:+1 2017:+1 2018:-0 2019:+2 2020:+2 2021:+4 2022:-1 2023:+4 2024:-1 2025:-1 2026:+3
+     exit 12:30 instead: Sharpe 0.45  mean +2.5bp | the extra 09:30->12:30 leg: +1.4bp t +1.3 halves +1.3/+1.6 CI [-0.6, +3.5] | on E v2 signal days +7.5bp | by year: 2015:-2 2016:+2 2017:+2 2018:-1 2019:+2 2020:+3 2021:+6 2022:-5 2023:+6 2024:-1 2025:+0 2026:+4
+  QQQ hourly 2015-: exit 09:30 open  Sharpe 0.49  mean +2.6bp
+     exit 10:30 instead: Sharpe 0.63  mean +3.9bp | the extra 09:30->10:30 leg: +1.2bp t +1.2 halves +2.0/+0.4 CI [-0.7, +3.2] | on E v2 signal days +4.6bp | by year: 2015:-2 2016:+1 2017:-1 2018:+1 2019:+4 2020:+9 2021:+1 2022:-3 2023:+4 2024:-2 2025:+1 2026:+1
+     exit 11:30 instead: Sharpe 0.61  mean +4.0bp | the extra 09:30->11:30 leg: +1.4bp t +1.0 halves +2.3/+0.4 CI [-1.2, +3.9] | on E v2 signal days +6.6bp | by year: 2015:-1 2016:+2 2017:+0 2018:+2 2019:+4 2020:+7 2021:+2 2022:-4 2023:+6 2024:-2 2025:-3 2026:+4
+     exit 12:30 instead: Sharpe 0.63  mean +4.4bp | the extra 09:30->12:30 leg: +1.8bp t +1.2 halves +2.5/+1.1 CI [-1.1, +4.5] | on E v2 signal days +9.1bp | by year: 2015:-1 2016:+2 2017:+2 2018:+0 2019:+3 2020:+7 2021:+4 2022:-10 2023:+10 2024:-1 2025:-1 2026:+5
+  IWM hourly 2015-: exit 09:30 open  Sharpe 0.49  mean +2.7bp
+     exit 10:30 instead: Sharpe 0.25  mean +1.7bp | the extra 09:30->10:30 leg: -1.0bp t -0.9 halves -1.0/-1.1 CI [-3.3, +1.3] | on E v2 signal days +4.0bp | by year: 2015:-4 2016:+3 2017:-2 2018:-1 2019:-0 2020:-1 2021:-5 2022:-2 2023:+4 2024:-3 2025:-0 2026:-0
+     exit 11:30 instead: Sharpe 0.21  mean +1.5bp | the extra 09:30->11:30 leg: -1.2bp t -0.8 halves -1.3/-1.0 CI [-3.9, +1.6] | on E v2 signal days +4.2bp | by year: 2015:-3 2016:+4 2017:-2 2018:-2 2019:-1 2020:-3 2021:-4 2022:-2 2023:+4 2024:-3 2025:-2 2026:+0
+     exit 12:30 instead: Sharpe 0.27  mean +2.0bp | the extra 09:30->12:30 leg: -0.7bp t -0.4 halves -0.4/-1.0 CI [-3.8, +2.5] | on E v2 signal days +8.6bp | by year: 2015:-4 2016:+5 2017:-1 2018:-3 2019:+1 2020:+0 2021:-1 2022:-7 2023:+5 2024:-3 2025:+1 2026:-1
+  SPY 5-min ~1y: exit 09:30 open  Sharpe 1.76  mean +5.7bp
+     exit 09:35 instead: Sharpe 1.82  mean +6.1bp | the extra 09:30->09:35 leg: +0.4bp t +0.5 halves -0.5/+1.3 CI [-1.1, +1.9] | on E v2 signal days -0.9bp | by year: 2025:-0 2026:+1
+     exit 09:45 instead: Sharpe 1.49  mean +5.2bp | the extra 09:30->09:45 leg: -0.5bp t -0.4 halves -1.5/+0.5 CI [-2.9, +1.7] | on E v2 signal days +0.2bp | by year: 2025:-1 2026:+0
+     exit 10:00 instead: Sharpe 1.81  mean +6.5bp | the extra 09:30->10:00 leg: +0.8bp t +0.5 halves +0.8/+0.9 CI [-2.4, +4.3] | on E v2 signal days +2.9bp | by year: 2025:+1 2026:+0
+     exit 10:30 instead: Sharpe 1.98  mean +7.4bp | the extra 09:30->10:30 leg: +1.8bp t +0.8 halves +1.5/+2.1 CI [-2.3, +6.0] | on E v2 signal days +10.5bp | by year: 2025:+1 2026:+2
+  QQQ 5-min ~1y: exit 09:30 open  Sharpe 2.02  mean +9.5bp
+     exit 09:35 instead: Sharpe 1.90  mean +8.9bp | the extra 09:30->09:35 leg: -0.5bp t -0.4 halves -2.5/+1.5 CI [-3.2, +2.1] | on E v2 signal days -3.9bp | by year: 2025:-2 2026:+1
+     exit 09:45 instead: Sharpe 1.59  mean +7.8bp | the extra 09:30->09:45 leg: -1.7bp t -0.9 halves -4.6/+1.2 CI [-5.6, +2.0] | on E v2 signal days +4.6bp | by year: 2025:-4 2026:+1
+     exit 10:00 instead: Sharpe 1.67  mean +8.6bp | the extra 09:30->10:00 leg: -0.9bp t -0.3 halves -0.9/-0.9 CI [-6.4, +4.4] | on E v2 signal days +4.2bp | by year: 2025:-0 2026:-2
+     exit 10:30 instead: Sharpe 1.88  mean +10.2bp | the extra 09:30->10:30 leg: +0.7bp t +0.2 halves +0.4/+0.9 CI [-5.7, +6.9] | on E v2 signal days +3.3bp | by year: 2025:+0 2026:+1
+  IWM 5-min ~1y: exit 09:30 open  Sharpe 1.16  mean +5.5bp
+     exit 09:35 instead: Sharpe 1.38  mean +6.7bp | the extra 09:30->09:35 leg: +1.3bp t +0.8 halves +1.6/+0.9 CI [-1.8, +4.4] | on E v2 signal days +8.7bp | by year: 2025:+2 2026:+1
+     exit 09:45 instead: Sharpe 0.95  mean +4.9bp | the extra 09:30->09:45 leg: -0.5bp t -0.2 halves +0.5/-1.5 CI [-5.0, +4.3] | on E v2 signal days +11.5bp | by year: 2025:+0 2026:-1
+     exit 10:00 instead: Sharpe 1.73  mean +9.5bp | the extra 09:30->10:00 leg: +4.1bp t +1.3 halves +7.7/+0.5 CI [-2.1, +10.1] | on E v2 signal days +21.8bp | by year: 2025:+7 2026:+0
+     exit 10:30 instead: Sharpe 1.68  mean +10.1bp | the extra 09:30->10:30 leg: +4.6bp t +1.2 halves +6.2/+3.1 CI [-3.2, +12.2] | on E v2 signal days +29.2bp | by year: 2025:+5 2026:+4
+
+=== C. Night windows on the futures (extended hours) ===
+  ES hourly 2023-: 758 nights 2023-01-03 -> 2026-11-03; whole night +2.4bp/night Sharpe 0.68
+     16:00->18:00  mean  +0.7bp  sd   18bp  Sharpe +0.65  share +30%  halves +0.5/+0.9  CI [-0.6, +1.9]  | signal nights +3.1bp (n 170) other +0.0bp
+     18:00->02:00  mean  +1.0bp  sd   28bp  Sharpe +0.58  share +42%  halves +1.9/+0.2  CI [-1.0, +3.1]  | signal nights -0.0bp (n 170) other +1.3bp
+     02:00->08:00  mean  +0.2bp  sd   28bp  Sharpe +0.14  share +10%  halves +0.2/+0.3  CI [-1.8, +2.2]  | signal nights +1.3bp (n 170) other -0.0bp
+     08:00->09:00  mean  +0.5bp  sd   22bp  Sharpe +0.37  share +21%  halves +1.1/-0.1  CI [-1.1, +2.1]  | signal nights +2.3bp (n 170) other -0.0bp
+     09:00->10:00  mean  -0.1bp  sd   25bp  Sharpe -0.06  share -4%  halves +0.1/-0.3  CI [-2.0, +1.7]  | signal nights +0.0bp (n 170) other -0.1bp
+  NQ hourly 2023-: 758 nights 2023-01-03 -> 2026-11-03; whole night +3.1bp/night Sharpe 0.62
+     16:00->18:00  mean  +1.5bp  sd   27bp  Sharpe +0.91  share +49%  halves +1.5/+1.5  CI [-0.3, +3.4]  | signal nights +5.1bp (n 156) other +0.6bp
+     18:00->02:00  mean  +1.2bp  sd   39bp  Sharpe +0.48  share +38%  halves +2.1/+0.2  CI [-1.6, +3.9]  | signal nights +2.3bp (n 156) other +0.9bp
+     02:00->08:00  mean  +0.7bp  sd   36bp  Sharpe +0.30  share +21%  halves +1.3/+0.0  CI [-1.8, +3.2]  | signal nights +4.8bp (n 156) other -0.4bp
+     08:00->09:00  mean  +0.5bp  sd   28bp  Sharpe +0.26  share +15%  halves +1.2/-0.3  CI [-1.5, +2.4]  | signal nights +4.9bp (n 156) other -0.7bp
+     09:00->10:00  mean  -0.7bp  sd   41bp  Sharpe -0.28  share -24%  halves -0.5/-1.0  CI [-3.5, +2.1]  | signal nights -2.5bp (n 156) other -0.3bp
+  ES 30-min 2025-: 363 nights 2025-01-02 -> 2026-11-02; whole night +1.0bp/night Sharpe 0.28
+     16:00->18:00  mean  +0.8bp  sd   22bp  Sharpe +0.60  share +81%  halves +0.8/+0.8  CI [-1.5, +2.8]  | signal nights +3.8bp (n 82) other -0.1bp
+     18:00->02:00  mean  +0.5bp  sd   35bp  Sharpe +0.21  share +45%  halves +1.6/-0.7  CI [-3.0, +4.2]  | signal nights +2.3bp (n 82) other -0.1bp
+     02:00->08:30  mean  -0.4bp  sd   34bp  Sharpe -0.19  share -41%  halves -3.2/+2.3  CI [-3.9, +3.2]  | signal nights -0.2bp (n 82) other -0.5bp
+     08:30->09:30  mean  +0.1bp  sd   20bp  Sharpe +0.11  share +14%  halves +1.6/-1.3  CI [-1.9, +2.3]  | signal nights +2.9bp (n 82) other -0.7bp
+  (hourly files have no 09:30 bar: 09:00->10:00 mixes the last pre-open half hour with the first RTH half hour)
