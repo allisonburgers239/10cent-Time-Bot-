@@ -1100,6 +1100,26 @@ issue #3. The tutorial's method (real data with fees, unseen-year test,
 coin-flip placebo, document, combine, paper trade, size small) is this
 repo's harness.
 
+### Broker research for live trading (2026-11-11)
+
+What the book needs: closing- and opening-auction orders (MOC/MOO) for E, 2x overnight margin,
+short SPY/TLT for the month-end pair, micro futures (Sleeve B and the futures rail), cheap ETF
+commissions, and an API so the tickets can become orders. Verified against current docs/reviews:
+
+| broker | MOC/MOO | shorts + 2x overnight | micro futures | API | cost | verdict |
+|---|---|---|---|---|---|---|
+| **IBKR Pro** | yes | yes | yes, same account | yes (TWS / Web API) | $0.0035/sh, $1 min (~1 bp on our sizes); $0.85/contract + exchange fees | **one account does everything** |
+| IBKR Lite | yes | yes | futures priced as Pro | **no API** | $0 stocks | fine for manual tickets only |
+| Alpaca | yes (`opg` / `cls`, cutoffs 09:28 / 15:50 ET) | yes, 2x overnight | **no** | best-in-class, paper mode | $0 | ETF sleeves only; pair with Tradovate for futures |
+| Tradovate | n/a (futures) | n/a | yes | yes (already coded, `tradovate.py`) | per-contract | futures rail only |
+| tastytrade | **no MOC** on the platform | yes | yes | yes | $0 stocks, $0.75 micro | out: E needs the auction |
+| Schwab / thinkorswim | yes on platform | yes | yes on platform | API excludes futures | $0 | manual-only for futures |
+
+Recommendation: **IBKR Pro** as the single account (E on the ETF rail with MOC/MOO, the pair's short
+leg, B's micros, one API). Runner-up: **Alpaca + Tradovate** if zero ETF commission and the simplest
+API matter more than one account. Our orders are auction orders, so "fast" means automation, not
+latency. PDT does not apply (E holds overnight, the pair holds 5 sessions).
+
 ## Quick start
 
 ```bash
