@@ -996,6 +996,38 @@ Next step for the month-end pair if wanted: a full audit through a library imple
 the TLT leg, duration-matched sizing, IEF instead of TLT, the micro-futures rail: MES vs ZN has no
 micro, so the ETF rail), then a forward log like the scans. Not adopted yet.
 
+### Sleeve M candidate: month-end stock/bond rebalancing pair - full audit (2026-11-11)
+
+Temur: "go with the month-end pension trade." Library `src/ten_cent_bot/monthend_pair.py` (5 tests),
+audit `scripts/audit_monthend_pair.py` -> `results/audit_monthend_pair_2026-11-11.txt`, ticket
+`scripts/monthend_pair_ticket.py` (+ `--log` forward record in `results/monthend_pair_log.csv`,
+launchd job `ops/com.10c.monthend-pair.plist`, Mon-Fri 15:45 ET; install with
+`ops/install_monthend_pair.sh`).
+
+**Rule.** At the close of the session with 5 sessions left in the month: MTD(SPY) - MTD(TLT) > +3%
+-> short SPY / long TLT; < -3% -> long SPY / short TLT; equal dollar legs; close both at the
+month's last close. ~7 events a year, in the market 14% of the time.
+
+| check | result |
+|---|---|
+| library == hand computation | max diff 0 over 292 months |
+| baseline 2002-07 -> 2026 | 168 events, **+104 bp net/event**, hit 65%, t 4.3, halves +114/+94; both sides pay (+64 / +178 bp) |
+| walk-forward (cell chosen on 2002-13) | test 2014-26: +94 bp, t 3.4, n 84 (the chosen cell IS the default 3%/5) |
+| sub-periods | 2002-09 +118, 2010-17 +123, 2018-26 +83 bp; 20 of 25 years positive |
+| grid 4 thresholds x 4 windows | all 16 cells positive, t 1.9-4.3; L=5 best in every row |
+| proxies | SPY/IEF +88, SPY/AGG +90, QQQ/TLT +89, IWM/TLT +91 bp - not a TLT quirk |
+| costs | +88 bp at 5 bp/side |
+| placebo | random mid-month 5-session windows: -6 bp, p = 0.000; the week BEFORE (sessions -10..-5): -55 bp - the flow is month-end specific |
+| tail | worst event -6.3% (2020-04), p5 -4.1%, max 3 losers in a row, worst daily pair move -10.8% |
+| legs | stock leg +68 bp (t 3.5), bond leg +36 bp (t 3.0): the pair, not one leg |
+| overlap with E v3 | corr 0.00. E v3 0.77 -> E v3 + pair at 0.5x notional **1.01**, MaxDD -21% -> -16%; 2014-: 0.83 -> 1.05 |
+| $25k sizing | $12.5k per leg: +$130/event, ~+$870/yr, worst event -$790; the short leg needs a margin account |
+
+October 2026 dry run: signal on Oct 26 (spread -5.1%) = long SPY / short TLT, exit Oct 30 -> about
+-1.5% on the pair. That is what a losing event looks like; the audit says 35% of them lose.
+**Status: audited, ticket + forward log ready, not yet traded** - installing the launchd job and
+putting it on the book (ETF rail, margin account for the short leg) are Temur's calls.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

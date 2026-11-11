@@ -1,0 +1,63 @@
+=== 0. Library == screen (same rule hand-computed) ===
+  292 months, max |library - manual| = 0.00e+00
+
+=== 1. Baseline (SPY/TLT, 3%, last 5 sessions, 1 bp/side) ===
+  all events                                       n 168  mean  +104bp  hit 0.65  t +4.3  halves +114/+94  per year +7.0%
+     short-stock side (stocks beat bonds)          n 109  mean   +64bp  hit 0.63  t +2.9  halves +60/+67  per year +2.8%
+     long-stock side (stocks lagged)               n  59  mean  +178bp  hit 0.68  t +3.2  halves +236/+122  per year +4.2%
+  daily series: Sharpe 0.71 (in-market days only 1.93), MaxDD -15.0%, time in market 14%, CAGR +7.2% of pair notional
+
+=== 2. Walk-forward: rule chosen on 2002-2013 by t-stat, judged on 2014-2026 ===
+  chosen on train: thr 3%, L=5 (train t +2.9)
+    TEST 2014-2026, chosen cell                    n  84  mean   +94bp  hit 0.70  t +3.4  halves +101/+86  per year +6.1%
+    TEST 2014-2026, default 3%/5                   n  84  mean   +94bp  hit 0.70  t +3.4  halves +101/+86  per year +6.1%
+    sub-period 2002-2009                           n  47  mean  +118bp  hit 0.60  t +1.9  halves +53/+181  per year +7.0%
+    sub-period 2010-2017                           n  56  mean  +123bp  hit 0.66  t +3.6  halves +158/+87  per year +8.6%
+    sub-period 2018-2026                           n  63  mean   +83bp  hit 0.68  t +2.6  halves +50/+114  per year +5.8%
+
+=== 3. Grid: threshold (rows) x last sessions (cols), mean bp net / t / n ===
+  thr 2%: L=2:  +32 t+2.0 n197 | L=3:  +51 t+3.0 n206 | L=5:  +85 t+3.7 n206 | L=7:  +71 t+3.0 n205
+  thr 3%: L=2:  +37 t+2.0 n164 | L=3:  +46 t+2.3 n163 | L=5: +104 t+4.3 n168 | L=7:  +79 t+2.8 n167
+  thr 4%: L=2:  +56 t+2.5 n127 | L=3:  +52 t+2.1 n125 | L=5: +110 t+3.6 n127 | L=7:  +96 t+2.7 n118
+  thr 5%: L=2:  +54 t+2.1 n109 | L=3:  +54 t+1.9 n96 | L=5: +123 t+3.5 n105 | L=7: +108 t+2.6 n94
+
+=== 4. By year (net, bp summed over the year's events) ===
+  2002:-534(4) 2003:+853(6) 2004:+1079(5) 2005:-130(5) 2006:+262(4) 2007:+584(6) 2008:+3096(7) 2009:+358(10) 2010:+973(11) 2011:+2384(8) 2012:+867(10) 2013:-67(7) 2014:+417(4) 2015:+1177(8) 2016:+502(6) 2017:+422(3) 2018:+1470(9) 2019:-321(12) 2020:+283(8) 2021:+128(5) 2022:+1659(7) 2023:+411(7) 2024:+1224(6) 2025:+825(5) 2026:-445(5)
+  positive years 20 of 25
+
+=== 5. Proxies: bond leg TLT / IEF / AGG; stock leg SPY / QQQ / IWM ===
+    SPY vs TLT                                     n 168  mean  +104bp  hit 0.65  t +4.3  halves +114/+94  per year +7.0%
+    SPY vs IEF                                     n 140  mean   +88bp  hit 0.61  t +3.4  halves +99/+77  per year +4.9%
+    SPY vs AGG                                     n 121  mean   +90bp  hit 0.59  t +3.5  halves +101/+79  per year +4.5%
+    QQQ vs TLT                                     n 175  mean   +89bp  hit 0.60  t +3.3  halves +86/+93  per year +6.3%
+    IWM vs TLT                                     n 176  mean   +91bp  hit 0.65  t +3.2  halves +100/+82  per year +6.4%
+
+=== 6. Cost sensitivity (bp per side, 4 legs) ===
+    0.5 bp/side                                    n 168  mean  +106bp  hit 0.65  t +4.4  halves +116/+96  per year +7.1%
+    1.0 bp/side                                    n 168  mean  +104bp  hit 0.65  t +4.3  halves +114/+94  per year +7.0%
+    2.0 bp/side                                    n 168  mean  +100bp  hit 0.64  t +4.1  halves +110/+90  per year +6.7%
+    3.0 bp/side                                    n 168  mean   +96bp  hit 0.62  t +4.0  halves +106/+86  per year +6.5%
+    5.0 bp/side                                    n 168  mean   +88bp  hit 0.61  t +3.6  halves +98/+78  per year +5.9%
+
+=== 7. Placebo: same rule, random 5-session windows that do not touch the last 5 sessions (1000 draws) ===
+  real gross +108bp | placebo mean -6bp sd 30bp | p(placebo >= real) = 0.000
+  the week BEFORE (sessions -10..-5), same rule: -55bp t -1.6 n 148  (should be ~0 if the flow is month-end specific)
+
+=== 8. Tail ===
+  worst 5: 2020-04 -630, 2009-04 -590, 2019-05 -573, 2015-01 -534, 2008-06 -528
+  best 5: 2011-06 +620, 2011-11 +772, 2015-08 +818, 2008-10 +1524, 2008-11 +1813
+  p5 -412bp  p95 +497bp  worst daily pair move -10.75%  max consecutive losers 3
+
+=== 9. Legs separately (is it the stock leg, the bond leg, or the pair?) ===
+  stock leg alone (side x SPY return)              mean +68bp t +3.5 hit 0.58
+  bond leg alone (-side x TLT return)              mean +36bp t +3.0 hit 0.56
+
+=== 10. Overlap with E v3 (daily) and effect on an E v3 book ===
+  corr(E v3 daily, pair daily) = +0.004 (in-market days only +0.000)
+  E v3 alone Sharpe 0.77 MaxDD -21.1% | pair alone 0.71 | E v3 + pair at 0.5x notional: Sharpe 1.01 MaxDD -16.3% | at 1x: 1.05 MaxDD -18.8%
+  2014-: E v3 0.83 -> E v3 + pair 0.5x 1.05 -> 1x 1.11
+
+=== 11. Sizing on a $25k account (ETF rail; no micro Treasury future exists, ZN is ~$110k) ===
+  pair notional $12,500 per leg: avg +130$/event, ~6.7 events/yr -> +874$/yr; worst event -787$; needs margin for the short leg
+  pair notional $25,000 per leg: avg +260$/event, ~6.7 events/yr -> +1748$/yr; worst event -1574$; needs margin for the short leg
+  the short leg is an ETF short (SPY or TLT) - needs a margin account; the long leg is cash. Hold is 5 sessions, so borrow cost is negligible.
