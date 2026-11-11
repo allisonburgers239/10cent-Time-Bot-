@@ -981,6 +981,21 @@ factor (corr 0.97) and it has to be bought across dozens of names at single-stoc
 it lands at 0.50 (0.55 with the overlay), below E v3 on the ETFs (~1.0). **Not adopted**; recorded so
 the next "overnight on NVDA/TSLA" idea has its answer.
 
+### Play the other players: who is forced to trade, and when? (2026-11-11, third round)
+
+`screen_other_players.py`, output `results/screen_other_players_2026-11-11.txt`. Three forced
+players, each with its own placebo (same rule at random windows / same tickers at random dates).
+
+| player | the forced trade | what the data says |
+|---|---|---|
+| **Pensions & balanced funds, month-end** (SPY vs TLT, 2002-07 ->, 291 month-ends) | after a month where stocks beat bonds by >3% they must sell stocks / buy bonds in the last sessions, and the reverse after stocks lag | **Candidate.** Fade the forced flow over the last 5 sessions as a pair: +104 bp net per event, t 4.3, n 168, both halves; every cell of a 4x3 grid (threshold 2-5% x last 2/3/5 sessions) positive, t 1.9-4.3; walk-forward (cell chosen on 2002-13) test 2014-26 +91 bp t 3.3 n 85; placebo p = 0.00; both sides pay (short-stocks side +64 bp t 2.9, long-stocks side +178 bp t 3.2); the unconditional month-end spread is -8 bp, so it is not a bond month-end effect. ~8 events a year, ~1% each on the pair notional. Quarter-end version: nothing (p 0.16) - the flow is monthly. Lumpy by year (2020 -15%, 2011 +15%). Literature: Etula, Rinne, Suominen, Vaittinen (2020, JFE) month-end institutional flows |
+| **Index funds, S&P 500 changes** (Wikipedia historical components, 200 additions / 85 market-cap deletions with prices, 2005->) | buy the add / dump the delete at the close before the effective date | The +157 bp run-up over the 3 sessions before (t 3.8) is **entirely the announcement-day jump**: 73 events with a >4% single-session move average +435 bp, the other 127 average -3 bp (t -0.1). Without the announcement in hand there is nothing to front-run. Deletions: -91 bp before, no bounce (survivors-only anyway). The one leftover: new members **reverse** after inclusion, short from close(+1) to +20 sessions -143 bp market-adjusted (t -2.1, halves -146/-139) vs +47 bp placebo - a known effect, ~10-17 shorts a year on a $25k book, parked as a candidate |
+| **Fund managers, quarter-end window dressing** (428 survivors and 119 fallen names) | buy the quarter's winners / sell its losers in the last 3 sessions | **Nothing** on either set; the placebo windows look the same |
+
+Next step for the month-end pair if wanted: a full audit through a library implementation (costs on
+the TLT leg, duration-matched sizing, IEF instead of TLT, the micro-futures rail: MES vs ZN has no
+micro, so the ETF rail), then a forward log like the scans. Not adopted yet.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

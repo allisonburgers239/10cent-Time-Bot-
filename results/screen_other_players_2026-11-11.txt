@@ -1,0 +1,88 @@
+=== 1. PENSIONS: quarter-end stock/bond rebalancing (SPY vs TLT, 2002-07 ->) ===
+  97 quarters; corr(QTD stock-bond spread, last-5-session spread) = -0.15; corr with next-5 = -0.03
+     stocks LAGGED bonds by >5% QTD (pensions must buy stocks): last 5 sessions SPY-TLT n   19  mean     +2bp  hit 0.47  t +0.0  halves -96/+89bp
+        ... SPY alone, last 5 sessions                                   n   19  mean    +38bp  hit 0.47  t +0.6  halves -57/+123bp
+        ... first 5 sessions of the next quarter SPY-TLT                 n   19  mean    -32bp  hit 0.58  t -0.2  halves -2/-60bp
+     spread within +-5%: last 5 sessions SPY-TLT                         n   32  mean     -8bp  hit 0.47  t -0.2  halves -115/+100bp
+        ... SPY alone, last 5 sessions                                   n   32  mean     +4bp  hit 0.41  t +0.2  halves -29/+37bp
+        ... first 5 sessions of the next quarter SPY-TLT                 n   32  mean   +106bp  hit 0.69  t +2.3  halves +110/+102bp
+     stocks BEAT bonds by >5% QTD (pensions must sell stocks): last 5 sessions SPY-TLT n   46  mean    -32bp  hit 0.48  t -1.0  halves -75/+12bp
+        ... SPY alone, last 5 sessions                                   n   46  mean     +3bp  hit 0.52  t +0.1  halves -1/+8bp
+        ... first 5 sessions of the next quarter SPY-TLT                 n   46  mean   +122bp  hit 0.70  t +2.4  halves +96/+147bp
+     TRADE: fade the forced flow (pair, last 5 sessions), 1bp/side x 4 legs n   65  mean    +19bp  hit 0.51  t +0.5  halves +42/-3bp
+   by year: 2002:+127 2003:+352 2004:+864 2005:-315 2006:-220 2007:-144 2008:+495 2009:+85 2010:-728 2011:+586 2012:+361 2013:-82 2014:+76 2015:+233 2016:+221 2017:+208 2018:+600 2019:-214 2020:+651 2021:-543 2022:+83 2023:-502 2024:+273 2025:-560 2026:-420
+   placebo (same rule at random mid-quarter windows): mean -25bp, p(placebo >= real +27bp gross) = 0.16
+     month-end version (|MTD spread| > 3%, last 3 sessions), 4 legs      n  163  mean    +46bp  hit 0.56  t +2.3  halves +60/+32bp
+   placebo (same rule, random mid-month 3-session windows): mean -7bp, p(placebo >= real +50bp gross) = 0.01
+   month-end grid (threshold x last-L sessions): mean bp net / t / n
+     |MTD| > 2%: L=2: +32bp t+2.0 n197 | L=3: +49bp t+2.9 n205 | L=5: +85bp t+3.7 n206
+     |MTD| > 3%: L=2: +37bp t+2.0 n164 | L=3: +46bp t+2.3 n163 | L=5: +104bp t+4.3 n168
+     |MTD| > 4%: L=2: +56bp t+2.5 n127 | L=3: +52bp t+2.1 n125 | L=5: +110bp t+3.6 n127
+     |MTD| > 5%: L=2: +54bp t+2.1 n109 | L=3: +54bp t+1.9 n96 | L=5: +123bp t+3.5 n105
+   walk-forward: best cell on 2002-2013 = thr 3%, L=5 (train t +2.9); TEST 2014-2026: +91bp t+3.3 n85 | the 3%/3 cell on test: +32bp t+1.4
+     UNCONDITIONAL last 5 sessions of every month, SPY minus TLT (no signal) n  291  mean     -8bp  hit 0.48  t -0.5  halves -6/-10bp
+     side -1 only: stocks beat bonds MTD -> short SPY / long TLT last 5  n  109  mean    +64bp  hit 0.63  t +2.9  halves +60/+67bp
+     side +1 only: stocks lagged bonds MTD -> long SPY / short TLT last 5 n   59  mean   +178bp  hit 0.68  t +3.2  halves +236/+122bp
+   placebo for the 3%/L=5 cell (random mid-month 5-session windows, same rule): mean +11bp, p(placebo >= real +108bp gross) = 0.00
+   month-end by year: 2002:-431 2003:-197 2004:+192 2005:-201 2006:+36 2007:+808 2008:+1376 2009:+1102 2010:+552 2011:+1501 2012:+228 2013:+197 2014:-135 2015:-239 2016:+1309 2017:+302 2018:+479 2019:+13 2020:-1520 2021:+589 2022:+1232 2023:-182 2024:+1164 2025:+236 2026:-260
+
+=== 2. INDEX FUNDS: S&P 500 additions and deletions, market-adjusted vs SPY ===
+  ADDITIONS: 200 events with prices (of 376 in the table)
+     6 sessions before -> close before effective (the forced flow)       n  200  mean   +192bp  hit 0.54  t +3.8  halves +142/+242bp
+     the last session alone (the day index funds trade at the close)     n  200  mean     -3bp  hit 0.47  t -0.2  halves -3/-3bp
+     close before effective -> +5 sessions (reversal?)                   n  200  mean    -53bp  hit 0.45  t -1.5  halves -11/-94bp
+     -> +20 sessions                                                     n  200  mean   -108bp  hit 0.44  t -1.5  halves -141/-75bp
+     -> +60 sessions                                                     n  200  mean   +108bp  hit 0.48  t +0.6  halves -100/+315bp
+   by year (pre6 / post20): 2005:+775/-379 2007:+902/+299 2008:+893/-1253 2009:+236/-56 2010:-68/-606 2011:+213/-116 2012:+190/-287 2013:+40/+89 2014:+180/-133 2015:+300/-260 2016:-29/+40 2017:-114/+48 2018:-256/-264 2019:+85/+139 2020:+355/+224 2021:+305/-716 2022:+305/+282 2023:+250/-331 2024:+71/-187 2025:+311/-181 2026:+443/+127
+     placebo: the ADDED tickers on random dates 2005-: 524 events with prices (of 1128 in the table)
+     6 sessions before -> close before effective (the forced flow)       n  524  mean     +8bp  hit 0.50  t +0.3  halves +6/+9bp
+     the last session alone (the day index funds trade at the close)     n  524  mean     -1bp  hit 0.50  t -0.1  halves -1/-2bp
+     close before effective -> +5 sessions (reversal?)                   n  524  mean    +18bp  hit 0.51  t +0.8  halves +16/+19bp
+     -> +20 sessions                                                     n  524  mean   +101bp  hit 0.53  t +2.4  halves +25/+178bp
+     -> +60 sessions                                                     n  524  mean   +250bp  hit 0.53  t +2.6  halves +119/+381bp
+   by year (pre6 / post20): 2005:+62/+481 2006:-32/+27 2007:-45/+1 2008:-90/+39 2009:+21/+576 2010:-10/+226 2011:+119/+290 2012:-63/+12 2013:+98/+255 2014:-2/+69 2015:+20/-26 2016:-167/+187 2017:-64/+97 2018:+215/-172 2019:-27/+220 2020:+158/-114 2021:-23/+214 2022:+112/+391 2023:+36/-322 2024:+52/+85 2025:-55/+115 2026:+69/-75
+  DELETIONS for 'market capitalization' (the forced sells; survivors only -> bounce biased up): 85 events with prices (of 141 in the table)
+     6 sessions before -> close before effective (the forced flow)       n   85  mean   -146bp  hit 0.46  t -2.2  halves -208/-85bp
+     the last session alone (the day index funds trade at the close)     n   85  mean    -38bp  hit 0.48  t -1.4  halves -57/-21bp
+     close before effective -> +5 sessions (reversal?)                   n   85  mean    +17bp  hit 0.41  t +0.2  halves +65/-31bp
+     -> +20 sessions                                                     n   85  mean    +23bp  hit 0.52  t +0.2  halves +333/-279bp
+     -> +60 sessions                                                     n   85  mean   +252bp  hit 0.42  t +1.0  halves +741/-225bp
+   by year (pre6 / post20): 2008:-761/+159 2009:-914/+2958 2010:-238/+265 2013:-6/+808 2014:+277/-382 2015:+771/+1342 2016:-57/-763 2017:+51/-451 2018:-710/+422 2019:-287/-374 2020:-373/+766 2021:-50/+19 2022:-363/-500 2023:+101/-1371 2024:-111/+127 2025:-171/+36 2026:+54/+28
+     placebo: the DELETED tickers on random dates 2005-: 238 events with prices (of 423 in the table)
+     6 sessions before -> close before effective (the forced flow)       n  238  mean    +21bp  hit 0.50  t +0.5  halves +23/+18bp
+     the last session alone (the day index funds trade at the close)     n  238  mean    +17bp  hit 0.51  t +1.2  halves +5/+28bp
+     close before effective -> +5 sessions (reversal?)                   n  238  mean    +34bp  hit 0.51  t +0.8  halves +71/-3bp
+     -> +20 sessions                                                     n  238  mean    -30bp  hit 0.48  t -0.4  halves -5/-55bp
+     -> +60 sessions                                                     n  238  mean   -247bp  hit 0.42  t -2.1  halves -248/-247bp
+   by year (pre6 / post20): 2005:+15/+178 2006:-21/+241 2007:-70/-88 2008:-433/+103 2009:+1265/+114 2010:-267/+1161 2011:+133/-454 2012:+381/-99 2013:+6/+134 2014:-36/-283 2015:-471/-524 2016:-172/-165 2017:-219/-207 2018:+114/+527 2019:+105/+95 2020:-177/-92 2021:-30/-139 2022:+244/-18 2023:+220/+173 2024:+257/-108 2025:+50/-189 2026:+153/+317
+  DELETIONS, all reasons: 113 events with prices (of 373 in the table)
+     6 sessions before -> close before effective (the forced flow)       n  113  mean   -139bp  hit 0.45  t -1.7  halves -168/-111bp
+     the last session alone (the day index funds trade at the close)     n  113  mean    -83bp  hit 0.44  t -1.8  halves -128/-38bp
+     close before effective -> +5 sessions (reversal?)                   n  113  mean   +114bp  hit 0.47  t +1.2  halves +324/-93bp
+     -> +20 sessions                                                     n  113  mean   +192bp  hit 0.56  t +1.1  halves +621/-230bp
+     -> +60 sessions                                                     n  113  mean   +423bp  hit 0.44  t +1.3  halves +858/-5bp
+   by year (pre6 / post20): 2005:+58/+135 2008:-761/+159 2009:-881/+2296 2010:-195/+1995 2012:+678/+1551 2013:-49/+753 2014:+195/-512 2015:+53/-1026 2016:+621/-4 2017:+6/-198 2018:-331/+284 2019:-707/+1390 2020:-302/+695 2021:-153/+161 2022:-363/-500 2023:+66/-1375 2024:-111/+127 2025:-171/+36 2026:+54/+28
+  ADDITIONS day-by-day (0 = the close before the effective date): -10:+6 -9:+49 -8:+47* -7:+7 -6:+23 -5:+25 -4:+9 -3:+55* -2:+56* -1:+49* +0:+1 +1:+33 +2:-34 +3:-26 +4:-6 +5:-10 +6:-17 +7:-2 +8:+4 +9:+3 +10:-11
+  DELETIONS (market cap) day-by-day (0 = the close before the effective date): -10:+58 -9:+37 -8:-38 -7:+42 -6:-55 -5:-17 -4:-40 -3:-42 -2:+1 -1:-10 +0:-34 +1:-20 +2:-4 +3:+44 +4:+15 +5:-17 +6:-47 +7:-28 +8:+11 +9:+28 +10:+33
+  TRADABLE windows (market-adjusted, 2 bp/side x 2 legs on the stock; SPY leg ignored):
+     ADD: buy close(-4) -> sell close(-1)  [3 sessions, after the announcement] n  200  mean   +157bp  hit 0.54  t +3.8  halves +97/+218bp
+      by year: 2005:+674(2) 2007:+259(4) 2008:+850(3) 2009:+100(6) 2010:-31(4) 2011:+102(9) 2012:-54(10) 2013:-15(10) 2014:+194(7) 2015:+263(13) 2016:+109(15) 2017:-58(13) 2018:-93(11) 2019:+159(13) 2020:+9(14) 2021:+183(11) 2022:+287(12) 2023:+242(9) 2024:+28(7) 2025:+474(17) 2026:+387(10)
+      median of the 3-session window +48bp; events with a >4% single-session jump inside: 73 (mean +435bp), without: 127 (mean -3bp, t -0.1, hit 0.45)
+     ADD: buy close(-4) -> sell at the effective-eve close (the index funds' print) n  200  mean   +157bp  hit 0.54  t +3.6  halves +99/+216bp
+     ADD: hold on from the effective-eve close -> +20 (the reversal; SHORT it = minus this) n  200  mean   -108bp  hit 0.44  t -1.5  halves -141/-75bp
+     ADD: short from close(+1) -> +20                                    n  200  mean   -143bp  hit 0.41  t -2.1  halves -146/-139bp
+     placebo (added tickers, random dates): close(-4) -> close(-1)       n  521  mean    +18bp  hit 0.52  t +1.3  halves +7/+29bp
+     placebo: close(0) -> +20                                            n  521  mean    +47bp  hit 0.52  t +1.1  halves +108/-13bp
+     DELETE: short close(-4) -> cover at the effective-eve close         n   85  mean    -91bp  hit 0.42  t -1.6  halves -141/-42bp
+     DELETE: buy the effective-eve close -> +20 (bounce; survivors-only) n   85  mean    +23bp  hit 0.52  t +0.2  halves +333/-279bp
+  (* = |t| > 2; S&P announces ~5 sessions before; the announcement jump sits inside -10..-3 and is not separable without announcement dates)
+
+=== 3. FUND MANAGERS: window dressing, 428 survivors ===
+     last 3 sessions of the quarter: winners minus losers (2bp/side x 4 legs) n   99  mean     -9bp  hit 0.47  t -0.4  halves +1/-18bp
+     first 3 sessions of the next quarter: winners minus losers          n   99  mean     +8bp  hit 0.55  t +0.2  halves +11/+4bp
+     placebo: same long-short at random 3-session windows mid-quarter    n   99  mean     -0bp  hit 0.53  t -0.0  halves -5/+4bp
+
+=== 3. FUND MANAGERS: window dressing, 119 fallen names ===
+     last 3 sessions of the quarter: winners minus losers (2bp/side x 4 legs) n   99  mean    -51bp  hit 0.38  t -1.9  halves -71/-30bp
+     first 3 sessions of the next quarter: winners minus losers          n   99  mean    -49bp  hit 0.46  t -1.2  halves -58/-40bp
+     placebo: same long-short at random 3-session windows mid-quarter    n   99  mean    -18bp  hit 0.44  t -0.4  halves +24/-58bp
