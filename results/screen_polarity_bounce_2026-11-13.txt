@@ -1,0 +1,53 @@
+  if h >= np.nanmax(high[i - LOOK:i]) and h >= np.nanmax(high[i + 1:i + K + 1]):
+  if h >= np.nanmax(high[i - LOOK:i]) and h >= np.nanmax(high[i + 1:i + K + 1]):
+=== survivors: 431 stocks ===
+  REAL level, selloff into it, HELD (closed back above)  <- the claim n  2185 | 5d   +70bp t+6.1 | 10d   +74bp t+4.9 | 20d  +134bp t+6.5 hit 0.55 halves(10d) +100/+49
+  REAL level, selloff into it, BROKE (closed below)                  n  2032 | 5d   +33bp t+2.4 | 10d   -23bp t-1.2 | 20d   +90bp t+3.8 hit 0.54 halves(10d) -6/-41
+  REAL level, selloff into it, all                                   n  4217 | 5d   +52bp t+5.9 | 10d   +27bp t+2.3 | 20d  +113bp t+7.2 hit 0.55 halves(10d) +49/+6
+  B placebo level (+-7%), selloff, HELD                              n  4745 | 5d   +65bp t+7.7 | 10d   +69bp t+6.6 | 20d  +111bp t+7.6 hit 0.54 halves(10d) +94/+44
+  B placebo level (+-7%), selloff, all                               n  9139 | 5d   +50bp t+8.0 | 10d   +36bp t+4.6 | 20d  +116bp t+10.6 hit 0.54 halves(10d) +62/+10
+  A same selloff, no level nearby, up-close day                      n  1655 | 5d   +72bp t+3.4 | 10d  +144bp t+4.8 | 20d  +240bp t+5.7 hit 0.56 halves(10d) +218/+70
+  A same selloff, no level nearby, all                               n 11512 | 5d   +78bp t+9.8 | 10d  +137bp t+12.1 | 20d  +255bp t+16.5 hit 0.56 halves(10d) +158/+116
+  C REAL level touched WITHOUT a selloff, HELD                       n  9195 | 5d   +28bp t+6.5 | 10d   +53bp t+8.9 | 20d   +81bp t+9.7 hit 0.53 halves(10d) +66/+40
+  C REAL level touched WITHOUT a selloff, all                        n 10808 | 5d   +27bp t+6.7 | 10d   +52bp t+9.4 | 20d   +83bp t+10.5 hit 0.52 halves(10d) +66/+38
+  REAL, HELD, selloff >= 15% in 5 days (NVDA-sized)                  n   288 | 5d  +107bp t+2.4 | 10d   +82bp t+1.6 | 20d  +219bp t+2.9 hit 0.58 halves(10d) +109/+54
+  A control, selloff >= 15%, up-close day                            n   317 | 5d   +28bp t+0.4 | 10d  +171bp t+1.7 | 20d  +265bp t+2.0 hit 0.53 halves(10d) +353/-9
+  REAL, HELD, closed >= 5% off the low (NVDA: +11.7%)                n   462 | 5d   +32bp t+1.1 | 10d   +35bp t+1.0 | 20d  +129bp t+2.7 hit 0.56 halves(10d) +89/-20
+  A control, closed >= 5% off the low                                n  1109 | 5d  +195bp t+5.5 | 10d  +231bp t+5.1 | 20d  +367bp t+6.0 hit 0.57 halves(10d) +227/+234
+=== fallen: 120 stocks ===
+  REAL level, selloff into it, HELD (closed back above)  <- the claim n   618 | 5d   +89bp t+2.5 | 10d   +71bp t+1.7 | 20d  +189bp t+3.0 hit 0.53 halves(10d) +171/-31
+  REAL level, selloff into it, BROKE (closed below)                  n   542 | 5d  +129bp t+3.4 | 10d  +156bp t+3.1 | 20d  +116bp t+1.6 hit 0.51 halves(10d) +298/+10
+  REAL level, selloff into it, all                                   n  1160 | 5d  +108bp t+4.2 | 10d  +110bp t+3.3 | 20d  +155bp t+3.3 hit 0.52 halves(10d) +231/-13
+  B placebo level (+-7%), selloff, HELD                              n  1272 | 5d   +74bp t+3.3 | 10d   +80bp t+2.3 | 20d  +141bp t+2.5 hit 0.50 halves(10d) +80/+81
+  B placebo level (+-7%), selloff, all                               n  2526 | 5d   +65bp t+4.2 | 10d   +74bp t+3.1 | 20d  +117bp t+2.8 hit 0.49 halves(10d) +105/+43
+  A same selloff, no level nearby, up-close day                      n   813 | 5d   +91bp t+2.0 | 10d  +186bp t+2.7 | 20d  +277bp t+3.0 hit 0.49 halves(10d) +423/-50
+  A same selloff, no level nearby, all                               n  5292 | 5d   +68bp t+4.5 | 10d  +273bp t+1.8 | 20d  +347bp t+2.5 hit 0.51 halves(10d) +186/+360
+  C REAL level touched WITHOUT a selloff, HELD                       n  2209 | 5d   +73bp t+5.2 | 10d  +150bp t+6.1 | 20d  +109bp t+4.0 hit 0.52 halves(10d) +260/+40
+  C REAL level touched WITHOUT a selloff, all                        n  2659 | 5d   +72bp t+5.4 | 10d  +168bp t+6.9 | 20d  +157bp t+3.7 hit 0.52 halves(10d) +290/+45
+  REAL, HELD, selloff >= 15% in 5 days (NVDA-sized)                  n   121 | 5d   +83bp t+0.5 | 10d  +162bp t+1.0 | 20d  +394bp t+1.9 hit 0.50 halves(10d) +437/-108
+  A control, selloff >= 15%, up-close day                            n   211 | 5d  +171bp t+1.2 | 10d  +435bp t+2.1 | 20d  +413bp t+1.6 hit 0.46 halves(10d) +504/+367
+  REAL, HELD, closed >= 5% off the low (NVDA: +11.7%)                n   139 | 5d   +90bp t+0.7 | 10d  -116bp t-0.8 | 20d   -35bp t-0.2 hit 0.45 halves(10d) +285/-518
+  A control, closed >= 5% off the low                                n   614 | 5d  +190bp t+2.9 | 10d +1583bp t+1.2 | 20d +1535bp t+1.3 hit 0.50 halves(10d) +445/+2720
+=== BOTH SETS ===
+  REAL level, selloff into it, HELD (closed back above)  <- the claim n  2803 | 5d   +74bp t+6.3 | 10d   +74bp t+4.9 | 20d  +146bp t+6.9 hit 0.55 halves(10d) +108/+39
+  REAL level, selloff into it, BROKE (closed below)                  n  2574 | 5d   +53bp t+4.0 | 10d   +14bp t+0.8 | 20d   +96bp t+4.0 hit 0.53 halves(10d) +59/-31
+  REAL level, selloff into it, all                                   n  5377 | 5d   +64bp t+7.2 | 10d   +45bp t+3.8 | 20d  +122bp t+7.7 hit 0.54 halves(10d) +84/+6
+  B placebo level (+-7%), selloff, HELD                              n  6017 | 5d   +67bp t+8.1 | 10d   +72bp t+6.5 | 20d  +118bp t+7.0 hit 0.53 halves(10d) +90/+53
+  B placebo level (+-7%), selloff, all                               n 11665 | 5d   +53bp t+9.0 | 10d   +45bp t+5.5 | 20d  +116bp t+9.3 hit 0.53 halves(10d) +71/+18
+  A same selloff, no level nearby, up-close day                      n  2468 | 5d   +78bp t+3.7 | 10d  +158bp t+5.3 | 20d  +253bp t+6.1 hit 0.54 halves(10d) +248/+68
+  A same selloff, no level nearby, all                               n 16804 | 5d   +75bp t+10.3 | 10d  +180bp t+3.6 | 20d  +284bp t+6.4 hit 0.54 halves(10d) +160/+199
+  C REAL level touched WITHOUT a selloff, HELD                       n 11404 | 5d   +37bp t+8.3 | 10d   +72bp t+10.6 | 20d   +86bp t+10.1 hit 0.53 halves(10d) +105/+39
+  C REAL level touched WITHOUT a selloff, all                        n 13467 | 5d   +36bp t+8.6 | 10d   +75bp t+11.4 | 20d   +98bp t+9.2 hit 0.52 halves(10d) +112/+38
+  REAL, HELD, selloff >= 15% in 5 days (NVDA-sized)                  n   409 | 5d  +100bp t+1.8 | 10d  +106bp t+1.7 | 20d  +271bp t+3.3 hit 0.55 halves(10d) +213/-2
+  A control, selloff >= 15%, up-close day                            n   528 | 5d   +85bp t+1.2 | 10d  +277bp t+2.7 | 20d  +324bp t+2.5 hit 0.50 halves(10d) +379/+175
+  REAL, HELD, closed >= 5% off the low (NVDA: +11.7%)                n   601 | 5d   +46bp t+1.2 | 10d    -0bp t-0.0 | 20d   +91bp t+1.6 hit 0.53 halves(10d) +129/-130
+  A control, closed >= 5% off the low                                n  1723 | 5d  +193bp t+6.0 | 10d  +712bp t+1.5 | 20d  +783bp t+1.9 hit 0.54 halves(10d) +260/+1164
+  by year, REAL+selloff+HELD, 10d bp (n): 2002:+331(91) 2003:+178(50) 2004:+54(70) 2005:+11(66) 2006:+174(77) 2007:+277(101) 2008:+79(168) 2009:+848(47) 2010:-177(110) 2011:-11(174) 2012:+138(53) 2013:+129(43) 2014:+78(74) 2015:+132(155) 2016:+48(80) 2017:-124(56) 2018:+125(211) 2019:+6(36) 2020:-75(353) 2021:+139(130) 2022:+35(181) 2023:+28(59) 2024:+177(120) 2025:+189(188) 2026:-299(110)
+  NVDA events since October:
+      set ticker       date     kind  selloff  held        r5  low_vs_level        f5       f10       f20  close_off_low
+survivors   NVDA 2026-11-12     real     True  True -0.084857     -0.024140       NaN       NaN       NaN       0.116868
+survivors   NVDA 2026-11-12     real     True  True -0.084857     -0.025736       NaN       NaN       NaN       0.116868
+survivors   NVDA 2026-11-05 placebo-     True False -0.150051     -0.010399 -0.161098       NaN       NaN       0.000772
+survivors   NVDA 2026-10-14 placebo-    False  True -0.068093      0.007141  0.021653 -0.007937 -0.185075       0.007558
+survivors   NVDA 2026-11-12 placebo+     True  True -0.084857     -0.009303       NaN       NaN       NaN       0.116868
+survivors   NVDA 2026-11-12 placebo+     True  True -0.084857     -0.034493       NaN       NaN       NaN       0.116868

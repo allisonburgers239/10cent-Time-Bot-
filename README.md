@@ -1028,6 +1028,29 @@ October 2026 dry run: signal on Oct 26 (spread -5.1%) = long SPY / short TLT, ex
 **Status: audited, ticket + forward log ready, not yet traded** - installing the launchd job and
 putting it on the book (ETF rail, margin account for the short leg) are Temur's calls.
 
+### Old resistance as new support after a selloff (Temur's NVDA note, 2026-11-13)
+
+NVDA fell from 243 to a 148.80 low on Nov 12 and closed 166 that day, off the "150 area, previous
+resistance". `screen_polarity_bounce.py` defines the level mechanically (a 60-session pivot high,
+later broken by 1% and extended 8%), the event (first return to the level while down >= 8% in 5
+sessions; HELD = close back above it), and buys the next open, market-adjusted, 2 bp/side.
+551 stocks 2002-2026, survivors and fallen names; the rule flags NVDA on Nov 12 by itself
+(level ~152.5, held). Output `results/screen_polarity_bounce_2026-11-13.txt`.
+
+| both sets, next open -> +10 / +20 sessions | n | 10d | 20d |
+|---|---|---|---|
+| real level, selloff into it, held (the claim) | 2,803 | +74 bp | +146 bp |
+| **placebo level** (real level shifted +-7%), held | 6,017 | +72 bp | +118 bp |
+| same selloff, **no level nearby**, up-close day | 2,468 | +158 bp | +253 bp |
+| real level touched without a selloff, held | 11,404 | +72 bp | +86 bp |
+| real level, selloff >= 15% (NVDA-sized), held | 409 | +106 bp | +271 bp (second half -2 bp at 10d) |
+
+The bounce is real but the level is not what causes it: a fake level 7% away gives the same number
+and selloffs that land on no level bounce more. "Closed >= 5% off the low on a level" (NVDA's day)
+is 0 bp at 10 days. What remains is the plain post-selloff bounce in stocks, already examined
+(crash-week reversal, shelved: survivors-inflated, halves decay, 2026 negative). **Shelved**; the
+chart level is a place people look, not a place the odds change.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

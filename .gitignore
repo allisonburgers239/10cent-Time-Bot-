@@ -42,3 +42,4 @@ data/*.log
 .env.local
 *.key
 data/earnings/*.pkl
+data/earnings/ohlc.pkl
