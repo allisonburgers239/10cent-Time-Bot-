@@ -1051,6 +1051,28 @@ is 0 bp at 10 days. What remains is the plain post-selloff bounce in stocks, alr
 (crash-week reversal, shelved: survivors-inflated, halves decay, 2026 negative). **Shelved**; the
 chart level is a place people look, not a place the odds change.
 
+### Two more forced players: the Treasury and tax-loss sellers (2026-11-13)
+
+`screen_auctions_and_taxloss.py`, `audit_preauction_short.py`; auction dates from fiscaldata.treasury.gov
+(`data/treasury_auctions.csv`); outputs `results/screen_auctions_and_taxloss_2026-11-13.txt`,
+`results/audit_preauction_short_2026-11-13.txt`.
+
+**Treasury auctions - a weak candidate.** Dealers make room before 10y/20y/30y auctions. Short TLT
+over the 3 sessions before any of them, one position (no double counting of the 10y/30y pair), 1 bp/side,
+2006-2026: in the market 23% of days, +8.2 bp/day (t 3.0), Sharpe 0.64 vs TLT buy-and-hold 0.25,
+MaxDD -13%. The same calendar shifted by 6-20 sessions never matches it (0 of 30 shifts; mean -0.18),
+and the same days are +7 bp for stocks, so it is not a risk-off window. Zero overlap with Sleeve M
+(1 shared day; M 0.77 + this = 1.00). The post-auction rebound does not exist (2015-: -13 bp).
+**Why only "weak":** first half 0.19 vs second half 1.00; Sharpe 1.31 in years TLT fell and 0.19 in
+years it rose, so much of it is being short bonds in a bond bear market; and the walk-forward cell
+chosen on 2006-15 scored 0.33 on 2016- (the default cell 0.90, which is luck of the default). Parked;
+revisit if yields trend up again or with intraday data around the 13:00 ET result.
+
+**Tax-loss selling - nothing.** October-end YTD bottom decile, survivors and fallen: the losers are
+not sold Nov -> mid-Dec (+3.4% vs SPY), and their mid-Dec -> mid-Jan rebound (+2.1%) is matched by
+the WINNERS (+2.6%) and by the same rule anchored on 9 of the other 11 months. It is equal-weight
+versus SPY, not a January effect. Shelved.
+
 ## TradingView Strategy Tester (forward test without a broker)
 
 `pine/e_v2_overnight.pine` is Sleeve E v2 as a Pine v6 strategy. Load it on

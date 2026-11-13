@@ -1,0 +1,27 @@
+=== Baseline: short TLT over the 3 sessions before any 10y/20y/30y auction (returns of days -3,-2,-1) ===
+  days in the market 1187 (23%), mean +8.2bp/day t +3.0; whole-calendar Sharpe 0.64, CAGR +4.5%, MaxDD -13.3%; TLT buy&hold Sharpe 0.25
+  halves: 0.19 / 1.00; 2006-2012 0.27, 2013-2019 0.42, 2020- 1.07
+  by year (%): 2006:-1.4 2007:+2.5 2008:-2.3 2009:+5.5 2010:+13.1 2011:-8.2 2012:+2.3 2013:+8.3 2014:-5.6 2015:+3.2 2016:+4.9 2017:-0.9 2018:+4.3 2019:+2.3 2020:+14.5 2021:+8.0 2022:+27.3 2023:-5.1 2024:+12.9 2025:+0.9 2026:+7.7
+  in rising-yield years only? TLT down years: 1.31; TLT up years: 0.19
+
+=== Grid: sessions before (N) x which auctions -> Sharpe / bp per active day ===
+  30y only     N=1: 0.05 / +2.3 | N=2: 0.17 / +3.8 | N=3: 0.38 / +6.5 | N=4: 0.47 / +7.1 | N=5: 0.40 / +5.5
+  10y only     N=1: 0.19 / +6.0 | N=2: 0.43 / +8.6 | N=3: 0.48 / +8.3 | N=4: 0.40 / +6.1 | N=5: 0.47 / +6.3
+  10y+30y      N=1: 0.22 / +4.7 | N=2: 0.41 / +6.6 | N=3: 0.47 / +6.8 | N=4: 0.40 / +5.4 | N=5: 0.47 / +5.6
+  10y+20y+30y  N=1: 0.28 / +5.4 | N=2: 0.61 / +8.8 | N=3: 0.64 / +8.2 | N=4: 0.47 / +5.6 | N=5: 0.52 / +5.5
+  +7y          N=1: 0.44 / +7.2 | N=2: 0.46 / +5.6 | N=3: 0.47 / +4.8 | N=4: 0.22 / +2.2 | N=5: 0.27 / +2.3
+
+=== Walk-forward: pick (auctions, N) on 2006-2015 by Sharpe, judge on 2016- ===
+  chosen: ['10y', '30y'] N=5 train 0.63 -> TEST 2016-: 0.33; default (10/20/30y, N=3) test 0.90
+
+=== Placebo: the same auction calendar shifted by k sessions (k=0 is real) -> bp per active day ===
+  -15:-6.1 -12:-2.7 -9:-3.0 -6:-3.3 -3:+1.0 +0:+8.2 +3:-1.1 +6:-3.2 +9:-6.4 +12:-5.6 +15:-0.1
+  Sharpe of 30 shifted calendars: mean -0.18, max 0.44; real 0.64; share of shifts >= real: 0.00
+
+=== Other instruments ===
+  short IEF: Sharpe 0.38, +2.4bp/day t +2.0
+  (same days, short SPY instead: -7.4bp/day - should be about minus the equity drift, i.e. not a general risk-off window)
+
+=== Overlap with Sleeve M (month-end pair) ===
+  days where both are on: 1 of 1187; corr daily -0.002; M alone 0.77, pre-auction alone 0.64, M + pre-auction 1.00 MaxDD -16.2%
+  per $12.5k of TLT short: +10.2$/active day, +566$/yr, worst day -652$
